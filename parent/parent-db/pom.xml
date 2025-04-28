@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.qubership.atp.environments</groupId>
+        <artifactId>parent-db-properties</artifactId>
+        <version>${atp.service.version}</version>
+        <relativePath>../parent-db-properties/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>parent-db</artifactId>
+    <name>parent-db</name>
+    <packaging>pom</packaging>
+
+    <profiles>
+        <!--
+        Thru profiles db-postgresql we control dependencies and properties
+        on build stage.
+        -->
+        <profile>
+            <id>db-postgresql</id>
+            <activation>
+                <property>
+                    <name>stage</name>
+                </property>
+            </activation>
+            <properties>
+                <jdbc.Url>${pg.jdbc.Url}</jdbc.Url>
+                <jdbc.User>${pg.jdbc.User}</jdbc.User>
+                <jdbc.Password>${pg.jdbc.Password}</jdbc.Password>
+                <jdbc.Driver>${pg.jdbc.Driver}</jdbc.Driver>
+                <jdbc.Dialect>${pg.jdbc.Dialect}</jdbc.Dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.qubership.atp.environments</groupId>
+                    <artifactId>env-q-classes-generation</artifactId>
+                    <classifier>pg</classifier>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

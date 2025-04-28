@@ -1,0 +1,49 @@
+{
+  "id": "ae6a5b24-e1d1-4db1-b4cf-291b812591a0",
+  "name": "FlyTXT",
+  "description": null,
+  "created": 1648644166414,
+  "createdBy": null,
+  "modified": 1655218674731,
+  "modifiedBy": null,
+  "environmentIds": [
+    "9ec28f70-046b-4f02-b29f-2c999a7fa4d8"
+  ],
+  "systemCategoryId": "71ce56bd-9dbd-4e7d-afcd-3e6f4f6cc949",
+  "connections": [
+    {
+      "id": "57f31394-37e3-412f-be2c-b36e0a0f7cda",
+      "name": "HTTP",
+      "description": null,
+      "created": 1648644206726,
+      "createdBy": null,
+      "modified": 1648644206726,
+      "modifiedBy": null,
+      "systemId": "ae6a5b24-e1d1-4db1-b4cf-291b812591a0",
+      "parameters": {
+        "url": "https://127.0.0.1/",
+        "login": "",
+        "password": "{ENC}{JXW07OUDsSmd+VPDHFD9Sg==}{m1vat9JqA5tY4dIBHK2wvA==}"
+      },
+      "sourceTemplateId": "2a0eab16-0fe7-4a12-8155-78c0c151abdf",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    }
+  ],
+  "status": "PASS",
+  "dateOfLastCheck": 1655218674731,
+  "version": null,
+  "dateOfCheckVersion": null,
+  "parametersGettingVersion": null,
+  "parentSystemId": null,
+  "mergeByName": null,
+  "linkToSystemId": null,
+  "externalId": null,
+  "serverITF": null
+}

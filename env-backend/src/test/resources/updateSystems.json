@@ -1,0 +1,39 @@
+[
+  {
+    "name": "T_O_M_S",
+    "connections": [
+      {
+        "name": "HTTP",
+        "parameters": {
+          "url": "http://127.0.0.1:9876",
+          "login": "mitya"
+        }
+      },
+      {
+        "name": "SSH",
+        "parameters": {
+          "ssh_host": "127.0.0.1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "portal",
+    "systemCategory": "Simple Server",
+    "connections": [
+      {
+        "name": "HTTP",
+        "parameters": {
+          "url": "http://127.0.0.1:9876",
+          "login": "vitya"
+        }
+      },
+      {
+        "name": "SSH",
+        "parameters": {
+          "ssh_host": "127.0.0.1"
+        }
+      }
+    ]
+  }
+]

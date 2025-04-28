@@ -1,0 +1,476 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: integration-controller
+    description: Integration Controller
+paths:
+  '/catalog/api/v1/integrations/autosync/executionrequest/{uuid}':
+    post:
+      tags:
+        - integration-controller
+      summary: autoSyncExecutionRequestWithJira
+      operationId: autoSyncExecutionRequestWithJira
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: syncTestCases
+          in: query
+          description: syncTestCases
+          required: true
+          style: form
+          schema:
+            type: boolean
+        - name: syncTestRuns
+          in: query
+          description: syncTestRuns
+          required: true
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/propagate/executionrequest/{uuid}':
+    post:
+      tags:
+        - integration-controller
+      summary: propagateTestRunsToJiraByExecutionRequestId
+      operationId: propagateTestRunsToJiraByExecutionRequestId
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/propagate/testcases:
+    post:
+      tags:
+        - integration-controller
+      summary: propagateTestCasesToJira
+      operationId: propagateTestCasesToJira
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/propagate/testcases/comment:
+    post:
+      tags:
+        - integration-controller
+      summary: commentOnE2ETickets
+      operationId: commentOnE2ETickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TestRunToJiraInfo'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/propagate/testplan/{uuid}':
+    post:
+      tags:
+        - integration-controller
+      summary: propagateTestPlanToJira
+      operationId: propagateTestPlanToJira
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/propagate/testruns:
+    post:
+      tags:
+        - integration-controller
+      summary: propagateTestRunsToJira
+      operationId: propagateTestRunsToJira
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/refresh/testcases:
+    post:
+      tags:
+        - integration-controller
+      summary: updateTestCasesFromJira
+      operationId: updateTestCasesFromJira
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/refresh/testplan/{uuid}':
+    post:
+      tags:
+        - integration-controller
+      summary: updateTestPlanFromJira
+      operationId: updateTestPlanFromJira
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/refresh/testruns:
+    post:
+      tags:
+        - integration-controller
+      summary: updateTestRunsFromJira
+      operationId: updateTestRunsFromJira
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/testplan/{uuid}/projects/search':
+    get:
+      tags:
+        - integration-controller
+      summary: searchProjectByTestPlanId
+      operationId: searchProjectByTestPlanId
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IntegrationAbstractResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /catalog/api/v1/integrations/transitions/refresh:
+    post:
+      tags:
+        - integration-controller
+      summary: resetTransitionMap
+      operationId: resetTransitionMap
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/{name}/projects/search':
+    post:
+      tags:
+        - integration-controller
+      summary: searchProjectByKey
+      operationId: searchProjectByKey
+      parameters:
+        - name: name
+          in: path
+          description: name
+          required: true
+          style: simple
+          schema:
+            type: string
+            enum:
+              - JIRA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectSearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IntegrationAbstractResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/create/testruns':
+    post:
+      tags:
+        - integration-controller
+      summary: createJiraTicketForTestRun
+      operationId: createJiraTicketForTestRun
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/jira/ticket':
+    get:
+      tags:
+        - integration-controller
+      summary: getJiraTicketByKey
+      operationId: getJiraTicketByKey
+      parameters:
+        - name: testPlanId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/catalog/api/v1/integrations/jira/ticket/create':
+    post:
+      tags:
+        - integration-controller
+      summary: createJiraTicket
+      operationId: createJiraTicket
+      parameters:
+        - name: testPlanId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JiraIssueCreateRequest'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    IntegrationAbstractResponse:
+      title: IntegrationAbstractResponse
+      type: object
+    ProjectSearchRequest:
+      title: ProjectSearchRequest
+      type: object
+      properties:
+        authorizationKey:
+          type: string
+        projectKey:
+          type: string
+        systemUrl:
+          type: string
+        testPlanId:
+          type: string
+          format: uuid
+    TestRunToJiraInfo:
+      title: TestRunToJiraInfo
+      type: object
+      properties:
+        environmentInfo:
+          type: string
+        executionRequestId:
+          type: string
+          format: uuid
+        jiraTicket:
+          type: string
+        lastRun:
+          type: boolean
+        name:
+          type: string
+        testCaseId:
+          type: string
+          format: uuid
+        testRunAtpLink:
+          type: string
+        testingStatus:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+    JiraIssueCreateRequest:
+      title: JiraIssueCreateRequest
+      type: object
+      properties:
+        fields:
+          type: object

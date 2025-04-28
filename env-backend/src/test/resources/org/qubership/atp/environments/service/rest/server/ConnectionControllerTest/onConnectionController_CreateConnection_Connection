@@ -1,0 +1,1 @@
+{"sourceTemplateId":"2a0eab16-0fe7-4a12-8155-78c0c151abdf","name":"HTTP 1","parameters":{"url":"http://url","login":"adc","password":"{2ENC}YWRj"},"services":["HealthCheck","LogCollector","MIA","TDM"],"systemId":"ddcc5304-7858-47d5-82eb-b5684cb4c403","projectId":"ea2be7c4-b9f2-4d63-a4b1-5d94075fcc9f"}

@@ -1,0 +1,303 @@
+@startuml
+
+title __IMPL's Class Diagram__\n
+
+  namespace org.qubership.atp.environments {
+    namespace model {
+        namespace impl {
+        abstract class org.qubership.atp.environments.model.impl.AbstractCreatedModified {
+            # created : Long
+            # createdBy : UUID
+            # modified : Long
+            # modifiedBy : UUID
+            + getCreated()
+            + getCreatedBy()
+            + getModified()
+            + getModifiedBy()
+            + setCreated()
+            + setCreatedBy()
+            + setModified()
+            + setModifiedBy()
+        }
+
+        class org.qubership.atp.environments.model.impl.AbstractDescribed {
+            # description : String
+            + getDescription()
+            + setDescription()
+        }
+
+        abstract class org.qubership.atp.environments.model.impl.AbstractIdentified {
+            # id : UUID
+            + equals()
+            + getId()
+            + hashCode()
+            + setId()
+            + toString()
+        }
+
+        abstract class org.qubership.atp.environments.model.impl.AbstractNamed {
+            # name : String
+            + getName()
+            + setName()
+            + toString()
+        }
+
+        class org.qubership.atp.environments.model.impl.AlertEventImpl {
+            - alertId : UUID
+            - entityId : UUID
+            - lastUpdated : Long
+            - status : Integer
+            - tagList : String
+            + getAlert()
+            + getAlertId()
+            + getEntityId()
+            + getLastUpdated()
+            + getStatus()
+            + getTagList()
+            + setAlert()
+            + setAlertId()
+            + setEntityId()
+            + setLastUpdated()
+            + setStatus()
+            + setTagList()
+        }
+
+        class org.qubership.atp.environments.model.impl.AlertImpl {
+            - created : Long
+            - parameters : String
+            - shortDescription : String
+            - status : Integer
+            - subscriberId : UUID
+            - tagList : String
+            + AlertImpl()
+            + AlertImpl()
+            + getCreated()
+            + getParameters()
+            + getShortDescription()
+            + getStatus()
+            + getSubscriberId()
+            + getTagList()
+            + setCreated()
+            + setParameters()
+            + setShortDescription()
+            + setStatus()
+            + setSubscriberId()
+            + setTagList()
+        }
+
+        class org.qubership.atp.environments.model.impl.ConnectionImpl {
+            - connectionType : String
+            - sourceTemplateId : UUID
+            - systemId : UUID
+            + ConnectionImpl()
+            + ConnectionImpl()
+            + getConnectionType()
+            + getParameters()
+            + getSourceTemplateId()
+            + getSystemId()
+            + setConnectionType()
+            + setParameters()
+            + setSourceTemplateId()
+            + setSystemId()
+        }
+
+        class org.qubership.atp.environments.model.impl.EnvironmentCategoryImpl {
+            - tagList : String
+            + EnvironmentCategoryImpl()
+            + EnvironmentCategoryImpl()
+            + getTagList()
+            + setTagList()
+        }
+
+        class org.qubership.atp.environments.model.impl.EnvironmentImpl {
+            - categoryId : UUID
+            - projectId : UUID
+            - systemsList : List<System>
+            + EnvironmentImpl()
+            + EnvironmentImpl()
+            + getCategoryId()
+            + getProjectId()
+            + getSystems()
+            + setCategoryId()
+            + setProjectId()
+            + setSystems()
+            + getGraylogName()
+            + setGraylogName()
+        }
+
+        class org.qubership.atp.environments.model.impl.ProjectImpl {
+            - environments : List<Environment>
+            - shortName : String
+            + ProjectImpl()
+            + ProjectImpl()
+            + getEnvironments()
+            + getShortName()
+            + setEnvironments()
+            + setShortName()
+        }
+
+        class org.qubership.atp.environments.model.impl.SubscriberImpl {
+            - host : String
+            - hostStatus : Integer
+            - notificationURL : String
+            - registrationDate : Long
+            - signature : String
+            - subscriberType : Integer
+            - subscriptions : List<Subscription>
+            - tagList : String
+            + getHost()
+            + getHostStatus()
+            + getNotificationURL()
+            + getRegistrationDate()
+            + getSignature()
+            + getSubscriberType()
+            + getSubscriptions()
+            + getTagList()
+            + setHost()
+            + setHostStatus()
+            + setNotificationURL()
+            + setRegistrationDate()
+            + setSignature()
+            + setSubscriberType()
+            + setSubscriptions()
+            + setTagList()
+        }
+
+        class org.qubership.atp.environments.model.impl.SubscriptionImpl {
+            - environmentId : UUID
+            - lastUpdated : Long
+            - projectId : UUID
+            - status : Integer
+            - subscriptionType : Integer
+            - systemId : UUID
+            - updateEvents : List<UpdateEvent>
+            + SubscriptionImpl()
+            + SubscriptionImpl()
+            + getEnvironmentId()
+            + getLastUpdated()
+            + getProjectId()
+            + getStatus()
+            + getSubscriber()
+            + getSubscriptionType()
+            + getSystemId()
+            + getUpdateEvents()
+            + setEnvironmentId()
+            + setLastUpdated()
+            + setProjectId()
+            + setStatus()
+            + setSubscriber()
+            + setSubscriptionType()
+            + setSystemId()
+            + setUpdateEvents()
+        }
+
+        class org.qubership.atp.environments.model.impl.SystemCategoryImpl {
+            + SystemCategoryImpl()
+            + SystemCategoryImpl()
+        }
+
+        class org.qubership.atp.environments.model.impl.SystemImpl {
+            - connectionsList : List<Connection>
+            - dateOfCheckVersion : Long
+            - dateOfLastCheck : Long
+            - environments : List<Environment>
+            - parentSystemId : UUID
+            - version : String
+            + getConnections()
+            + getDateOfCheckVersion()
+            + getDateOfLastCheck()
+            + getEnvironmentIds()
+            + getEnvironments()
+            + getParametersGettingVersion()
+            + getParentSystemId()
+            + getServerItf()
+            + getStatus()
+            + getSystemCategory()
+            + getSystemCategoryId()
+            + getVersion()
+            + setConnections()
+            + setDateOfCheckVersion()
+            + setDateOfLastCheck()
+            + setEnvironmentIds()
+            + setEnvironments()
+            + setParametersGettingVersion()
+            + setParentSystemId()
+            + setServerItf()
+            + setStatus()
+            + setSystemCategory()
+            + setVersion()
+        }
+
+        class org.qubership.atp.environments.model.impl.UpdateEventImpl {
+            - entityId : UUID
+            - entityType : String
+            - lastEventDate : Long
+            - status : Integer
+            - subscriptionId : UUID
+            - tagList : String
+            + getEntityId()
+            + getEntityType()
+            + getLastEventDate()
+            + getStatus()
+            + getSubscription()
+            + getSubscriptionId()
+            + getTagList()
+            + setEntityId()
+            + setEntityType()
+            + setLastEventDate()
+            + setStatus()
+            + setSubscription()
+            + setSubscriptionId()
+            + setTagList()
+        }
+      }
+    }
+  }
+
+  namespace org.qubership.atp.environments.utils {
+
+        namespace enums {
+          enum Status {
+            FAIL
+            NOTHING
+            PASS
+            WARN
+          }
+          enum TypeGettingVersion {
+            BY_HTTP_ENDPOINT
+            BY_SHELL_SCRIPT
+            BY_SQL_QUERY
+          }
+        }
+    }
+
+
+  org.qubership.atp.environments.model.impl.AbstractCreatedModified -up-|> org.qubership.atp.environments.model.impl.AbstractDescribed
+  org.qubership.atp.environments.model.impl.AbstractDescribed -up-|> org.qubership.atp.environments.model.impl.AbstractNamed
+  org.qubership.atp.environments.model.impl.AbstractNamed -up-|> org.qubership.atp.environments.model.impl.AbstractIdentified
+  org.qubership.atp.environments.model.impl.AlertImpl -up-|> org.qubership.atp.environments.model.impl.AbstractNamed
+  org.qubership.atp.environments.model.impl.ConnectionImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.ConnectionImpl o-- org.qubership.atp.environments.model.ConnectionParameters : parameters
+  org.qubership.atp.environments.model.impl.EnvironmentCategoryImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.EnvironmentImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.ProjectImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.SubscriberImpl -up-|> org.qubership.atp.environments.model.impl.AbstractNamed
+  org.qubership.atp.environments.model.impl.SubscriptionImpl -up-|> org.qubership.atp.environments.model.impl.AbstractIdentified
+  org.qubership.atp.environments.model.impl.SystemCategoryImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.SystemImpl -up-|> org.qubership.atp.environments.model.impl.AbstractCreatedModified
+  org.qubership.atp.environments.model.impl.SystemImpl o-- org.qubership.atp.environments.model.ParametersGettingVersion : parametersGettingVersion
+  org.qubership.atp.environments.model.impl.SystemImpl o-- org.qubership.atp.environments.model.ServerItf : serverItf
+  org.qubership.atp.environments.model.impl.SystemImpl o-- org.qubership.atp.environments.model.utils.enums.Status : status
+
+  org.qubership.atp.environments.model.utils.enums.TypeGettingVersion .up.|> org.qubership.atp.environments.model.utils.HasListValueId
+  org.qubership.atp.environments.model.ParametersGettingVersion o-- org.qubership.atp.environments.model.utils.enums.TypeGettingVersion : type
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

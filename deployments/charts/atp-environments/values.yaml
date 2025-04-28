@@ -1,0 +1,212 @@
+PAAS_PLATFORM: "KUBERNETES"
+ATP_NET: ""
+# expression describing the start time of the job
+ATP_ARCHIVE_CRON_EXPRESSION: "0 0 0 * * ?"
+# name of javers archive job
+ATP_ARCHIVE_JOB_NAME: "atp-environments-archive-job"
+ATP_INTERNAL_GATEWAY_ENABLED: "false"
+ATP_LAST_REVISION_COUNT: "200"
+# Cache period for resources< in seconds
+CACHE_PERIOD: "300"
+CATALOGUE_INTEGRATION_ENABLED: "false"
+# CPU core limit
+CPU_LIMIT: "1"
+# CPU core request
+CPU_REQUEST: "0.05"
+# Which docker image should be used to deploy
+DOCKER_TAG: "artifactory-url/path-to-image"
+# Name mongo grid DB
+EI_GRIDFS_DB: ""
+# Password mongo grid DB
+EI_GRIDFS_PASSWORD: ""
+# User mongo grid DB
+EI_GRIDFS_USER: ""
+# Name of db
+ENVIRONMENT_DB: ""
+# Password for db
+ENVIRONMENT_DB_PASSWORD: ""
+# User for db
+ENVIRONMENT_DB_USER: ""
+# Switching-on of Eureka client
+EI_CLEAN_JOB_ENABLED: "true"
+EI_CLEAN_JOB_WORKDIR: "exportimport/node"
+EI_CLEAN_SCHEDULED_JOB_PERIOD_MS: "86400000"
+EI_CLEAN_JOB_FILE_DELETE_AFTER_MS: "172800000"
+EUREKA_CLIENT_ENABLED: "false"
+FEIGN_ATP_CATALOGUE_NAME: "ATP-CATALOGUE"
+FEIGN_ATP_CATALOGUE_ROUTE: "api/atp-catalogue/v1"
+FEIGN_ATP_CATALOGUE_URL: '' # TO_BE_REPLACED
+FEIGN_ATP_EI_NAME: "ATP-EXPORT-IMPORT"
+FEIGN_ATP_EI_ROUTE: "api/atp-export-import/v1"
+FEIGN_ATP_EI_URL: '' # TO_BE_REPLACED
+FEIGN_ATP_HEALTHCHECK_NAME: "ATP-HEALTHCHECK"
+FEIGN_ATP_HEALTHCHECK_ROUTE: "api/atp-healthcheck/v1"
+FEIGN_ATP_HEALTHCHECK_URL: '' # TO_BE_REPLACED
+FEIGN_ATP_INTERNAL_GATEWAY_NAME: "atp-internal-gateway"
+FEIGN_ATP_USERS_NAME: "ATP-USERS-BACKEND"
+FEIGN_ATP_USERS_ROUTE: "api/atp-users-backend/v1"
+FEIGN_ATP_USERS_URL: '' # TO_BE_REPLACED
+# Host of graylog
+GRAYLOG_HOST: "tcp:graylog-machine-address"
+# This option turns on or off logging in graylog
+GRAYLOG_ON: "true"
+# Port of graylog
+GRAYLOG_PORT: "12201"
+# Hist mongo grid DB
+GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
+# Port mongo grid DB
+GRIDFS_DB_PORT: "27017"
+# This option turns Javers on or off.
+JAVERS_ENABLED: "true"
+CACHE_VERSIONS_PERIOD: "21600"
+CACHE_ENVIRONMENTS_BY_SYSTEM_ID_PERIOD : "21600"
+CACHE_SYSTEMS_BY_ENVIRONMENT_ID_PERIOD : "21600"
+HAZELCAST_ENABLE: "false"
+HAZELCAST_ADDRESS: "atp-hazelcast:5701"
+HAZELCAST_CLUSTER_NAME: "atp-hc"
+JMX_ENABLE: "true"
+JMX_PORT: "3000"
+JMX_RMI_PORT: "3001"
+# This option turns on or off kafka enable
+KAFKA_ENABLE: "true"
+# TOPIC of kafka service
+KAFKA_PROJECT_EVENT_CONSUMER_TOPIC_NAME: ""
+KAFKA_ENVIRONMENTS_EVENT_PRODUCER_TOPIC_NAME: ""
+KAFKA_SYSTEMS_EVENT_PRODUCER_TOPIC_NAME: ""
+KAFKA_CONNECTIONS_EVENT_PRODUCER_TOPIC_NAME: ""
+KAFKA_MAX_REQUEST_SIZE: "5000000"
+# URL of kafka service
+KAFKA_SERVERS: "kafka:9092"
+KAFKA_SERVICE_ENTITIES_TOPIC: ""
+KAFKA_SERVICE_ENTITIES_TOPIC_PARTITIONS: "1"
+KAFKA_SERVICE_ENTITIES_TOPIC_REPLICATION_FACTOR: ""
+SERVICE_ENTITIES_MIGRATION_ENABLED: "true"
+# Audit Logging topic
+AUDIT_LOGGING_ENABLE: "false"
+AUDIT_LOGGING_TOPIC_NAME: ""
+KAFKA_REPORTING_SERVERS: "kafka:9092"
+AUDIT_LOGGING_TOPIC_PARTITIONS: '1'
+AUDIT_LOGGING_TOPIC_REPLICAS: ""
+# Url atp-keycloak with auth
+KEYCLOAK_AUTH_URL: "https://keycloak-server-address/auth"
+# Keycloak enabled
+KEYCLOAK_ENABLED: "true"
+# Keycloak realm
+KEYCLOAK_REALM: "atp2"
+# level of logs
+LOG_LEVEL: "INFO"
+# locale resolver
+LOCALE_RESOLVER: "en"
+# Limits memory usage of service in megabytes.
+MAX_RAM: "2048m"
+# Memory limit
+MEMORY_LIMIT: "1.5Gi"
+# Memory request
+MEMORY_REQUEST: "600Mi"
+# IP of db
+PG_DB_ADDR: "pg-common.postgrescluster.svc"
+# PORT of db
+PG_DB_PORT: "5432"
+# enabling profiler option
+PROFILER_ENABLED: "false"
+# Rest end point for projects
+PROJECT_INFO_ENDPOINT: "/api/v1/users/projects"
+# host of profiler collector
+REMOTE_DUMP_HOST: "profiler-collector-service.profiler.svc"
+# port of profiler collector
+REMOTE_DUMP_PORT: "1710"
+# Security Context properties
+# enabled is a flag to enable Security Context
+SECURITY_CONTEXT_ENABLED: false
+# runAsUser is the user ID used to run the container
+SECURITY_RUN_AS_USER: 1000
+# fsGroup is the group ID associated with the container
+SECURITY_FS_GROUP: 1000
+# Deployment Config/Service name.
+SERVICE_NAME: "atp-environments"
+# Deployment Config/Service typa.
+SERVICE_PORT_TYPE: "NodePort"
+# Host of Eureka server
+SERVICE_REGISTRY_URL: "http://atp-registry-service:8761/eureka"
+# Set to ATP2 to enable Prometheus scrapping
+SERVICE_TYPE: "ATP2"
+# Spring profile for security
+SPRING_PROFILES: "default"
+# Vault service URL, required when ENCRYPT = vault
+VAULT_URL: ''
+ZIPKIN_ENABLE: "false"
+ZIPKIN_PROBABILITY: "1.0"
+ZIPKIN_URL: "http://zipkin.zipkin.svc:9411"
+# Custom hostname for Route
+SERVICE_HOSTNAME: "atp-environments-service-address"
+# Placeholder for Public key for ENCRYPT
+ATP_CRYPTO_KEY: ""
+# Placeholder for Private key for ENCRYPT
+ATP_CRYPTO_PRIVATE_KEY: ""
+# Keycloak client name
+KEYCLOAK_CLIENT_NAME: "environments"
+# Keycloak secret
+KEYCLOAK_SECRET: "28b4cf8a-24e6-4fa2-82df-9ef5907560c6"
+# DB connection timeout
+HIKARI_CONNECTION_TIMEOUT: "90000"
+HIKARI_MAX_POOL_SIZE: "100"
+HIKARI_MIN_POOL_SIZE: "10"
+HIKARI_IDLE_TIMEOUT: "300000"
+HIKARI_MAX_LIFETIME: "1200000"
+# Path where will be save heap dumps
+HEAP_DUMP_PATH: "./dumps"
+# Path to Garbage Collector logs
+GC_LOGS_PATH: "gc.log"
+# SSL enabling for ingresses
+TLS_ENABLED: true
+# description: 'Encyption option. One of
+# - dev (default, encrypt inside app);
+# - secrets (encrypt keys in Openshift secrets);
+# - vault (encrypt keys in Openshift secrets). Required also variable VAULT_ADMIN_TOKEN'
+ENCRYPT: 'dev'
+# Enable Vault integration
+VAULT_ENABLE: 'false'
+# Vault service URL, required when ENCRYPT = vault
+VAULT_URI: ''
+# Placeholder for Vault role-id
+VAULT_ROLE_ID: 'atp-environments'
+# Placeholder for Vault namespace
+VAULT_NAMESPACE: 'atp-devci'
+GET_VERSION_HTTP_CLIENT_SOCKET_TIMEOUT: '600'
+GET_VERSION_HTTP_CLIENT_CONNECTION_MAX_TOTAL: '100'
+GET_VERSION_HTTP_CLIENT_CONNECTION_DEFAULT_MAX_PER_ROUTE: '20'
+# Consul
+CONSUL_PREFIX: "devci"
+CONSUL_ENABLED: 'false'
+CONSUL_URL: ""
+CONSUL_PORT: 8500
+CONSUL_TOKEN: ""
+#Replicas count
+NODES_COUNT: "1"
+# Swagger
+SWAGGER_ENABLED: 'false'
+# Common logging
+ATP_HTTP_LOGGING: "true"
+ATP_HTTP_LOGGING_HEADERS: "true"
+# insecure Edge Termination Policy.
+TERMINATION_POLICY: "Redirect"
+ATP_HTTP_LOGGING_HEADERS_IGNORE: "Authorization"
+ATP_HTTP_LOGGING_URI_IGNORE: "/rest/deployment/readiness /rest/deployment/liveness"
+#  kubernetes.io/hostname: worker1-atpkub
+#Example:  "nodeSelector": {"kubernetes.io/hostname": "worker16-atp2k8"}
+nodeSelector: {}
+HEAPDUMP_ENABLED: false
+#Example for CMD: "extraEnvs": [
+#    {
+#      "name": "DISABLE_INSTALL_DEMO_CONFIG",
+#      "value": "true"
+#    },
+#    {
+#      "name": "DISABLE_SECURITY_PLUGIN",
+#      "value": "true"
+#    }
+#  ]
+extraEnvs: []
+keepHookLogs: false
+HELPER_IMAGE: "artifactory-address/path-to-docker-image"
+

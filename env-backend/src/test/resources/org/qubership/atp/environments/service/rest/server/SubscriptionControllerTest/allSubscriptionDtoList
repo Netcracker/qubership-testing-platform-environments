@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1c68d2b5-05da-4404-b702-ed94b2cc871d",
+    "subscriptionType": 1,
+    "status": 1,
+    "lastUpdated": 1542379209141,
+    "projectId": "c20698ae-1781-4a63-8626-9ea28c0cdb19",
+    "environmentId": null,
+    "systemId": null,
+    "subscriberId": null
+  },
+  {
+    "id": "985d8cf9-2aba-4e34-a2aa-56fc69d8cf2a",
+    "subscriptionType": 1,
+    "status": 1,
+    "lastUpdated": 1552890107389,
+    "projectId": null,
+    "environmentId": "93b807bb-2648-4a60-ade5-09d759269485",
+    "systemId": null,
+    "subscriberId": null
+  }
+  ]

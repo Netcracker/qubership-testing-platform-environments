@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: version-controller
+    description: Version Controller
+paths:
+  '/rest/status/versions/{projectId}/{environmentId}':
+    get:
+      tags:
+        - version-controller
+      summary: checkEnvironmentVersion
+      operationId: checkEnvironmentVersion
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVersion'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    ComponentVersion:
+      title: ComponentVersion
+      type: object
+      properties:
+        name:
+          type: string
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Version'
+    ConnectionVersion:
+      title: ConnectionVersion
+      type: object
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentVersion'
+        host:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+    EnvironmentVersion:
+      title: EnvironmentVersion
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        systems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemVersion'
+    SystemVersion:
+      title: SystemVersion
+      type: object
+      properties:
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionVersion'
+        id:
+          type: string
+        name:
+          type: string
+    Version:
+      title: Version
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string

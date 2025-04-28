@@ -1,0 +1,6 @@
+INSERT INTO public.systems
+(id, "name", description, tag_list, created_by, created, modified_by, modified, category_id, status, date_of_last_check, "version", date_of_check_version, parameters_getting_version, parent_system_id, server_itf, merge_by_name, link_to_system_id, external_id, source_id, external_name)
+VALUES('3bdef735-b163-4992-980b-b5e5ebcb77af'::uuid, 'Service system', 'storage of service information', 'service', NULL, CURRENT_TIMESTAMP, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.systems
+(id, "name", description, tag_list, created_by, created, modified_by, modified, category_id, status, date_of_last_check, "version", date_of_check_version, parameters_getting_version, parent_system_id, server_itf, merge_by_name, link_to_system_id, external_id, source_id, external_name)
+VALUES('2c01eb66-63be-4484-9558-f374fe72f520'::uuid, 'TEST', ' ', 'service', NULL, CURRENT_TIMESTAMP, NULL, NULL, NULL, 'NOTHING', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

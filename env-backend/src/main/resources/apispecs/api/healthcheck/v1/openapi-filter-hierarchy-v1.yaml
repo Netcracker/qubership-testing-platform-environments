@@ -1,0 +1,541 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: filter-hierarchy-controller
+    description: Filter Hierarchy Controller
+paths:
+  /api/v1/atp-healthcheck/filters:
+    put:
+      tags:
+        - filter-hierarchy-controller
+      summary: updateFilter
+      operationId: updateFilter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterHierarchy'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - filter-hierarchy-controller
+      summary: saveFilter
+      operationId: saveFilter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterHierarchy'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/allAliases/{projectId}':
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getAllFiltersInProject
+      operationId: getAllFiltersInProject
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/atp-healthcheck/filters/getConnectionTypes:
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getConnectionTypes
+      operationId: getConnectionTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/atp-healthcheck/filters/getSystemCategories:
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getSystemCategories
+      operationId: getSystemCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/root/{projectId}':
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getRootFilters
+      operationId: getRootFilters
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterHierarchy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/{filterId}/file':
+    post:
+      tags:
+        - filter-hierarchy-controller
+      summary: saveFile
+      operationId: saveFile
+      parameters:
+        - name: filterId
+          in: path
+          description: filterId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/{filterId}/files':
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getFiles
+      operationId: getFiles
+      parameters:
+        - name: filterId
+          in: path
+          description: filterId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileSource'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - filter-hierarchy-controller
+      summary: saveFiles
+      operationId: saveFiles
+      parameters:
+        - name: filterId
+          in: path
+          description: filterId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/{filterId}/files/{fileId}':
+    delete:
+      tags:
+        - filter-hierarchy-controller
+      summary: deleteFile
+      operationId: deleteFile
+      parameters:
+        - name: filterId
+          in: path
+          description: filterId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: fileId
+          in: path
+          description: fileId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/atp-healthcheck/filters/{filterId}/saveToFile':
+    post:
+      tags:
+        - filter-hierarchy-controller
+      summary: saveToFile
+      operationId: saveToFile
+      parameters:
+        - name: filterId
+          in: path
+          description: filterId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: fileId
+          in: query
+          description: fileId
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: fileName
+          in: query
+          description: fileName
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: rows
+          in: query
+          description: rows
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: header
+          in: query
+          description: header
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: mapping
+          in: query
+          description: mapping
+          required: true
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/filters/{id}':
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getFilter
+      operationId: getFilter
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/FilterHierarchy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - filter-hierarchy-controller
+      summary: deleteFilter
+      operationId: deleteFilter
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/atp-healthcheck/filters/{parentId}/children':
+    get:
+      tags:
+        - filter-hierarchy-controller
+      summary: getChildren
+      operationId: getChildren
+      parameters:
+        - name: parentId
+          in: path
+          description: parentId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterHierarchy'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Criterion:
+      title: Criterion
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+            - CATEGORY
+            - NAME
+            - NAME_REGEXP
+            - TYPE
+        value:
+          type: string
+    FileSource:
+      title: FileSource
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    FilterHierarchy:
+      title: FilterHierarchy
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        alias:
+          type: string
+        projectId:
+          type: string
+          format: uuid
+        rule:
+          type: string
+          enum:
+            - AT_LEAST_ONE
+            - ALL
+            - NO_ONE
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/Criterion'
+        priority:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+            - PROJECT
+            - ENVIRONMENT
+            - SYSTEM
+            - CONNECTION
+        behavior:
+          type: string
+          enum:
+            - MERGE_ALL_BY_PRIORITY
+        parent:
+          type: string
+          format: uuid
+        children:
+          type: array
+          items:
+            type: string
+            format: uuid
+        json:
+          type: string
+        files:
+          type: array
+          items:
+            type: string
+            format: uuid

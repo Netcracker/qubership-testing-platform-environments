@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <property name="crypto.enabled" value="${atp.crypto.enabled}"/>
+    <changeSet author="env-team" id="v1-encrypt_connection_parameters" failOnError="false">
+        <validCheckSum>8:77c3147dc7db2ba1bd49695d452f7168</validCheckSum>
+        <preConditions onFail="CONTINUE">
+            <and>
+                <changeLogPropertyDefined property="crypto.enabled" value="true"/>
+                <tableExists tableName="connections" />
+            </and>
+        </preConditions>
+        <customChange class="org.qubership.atp.environments.db.changes.v1.encrypting.EncryptingCustomChange"/>
+    </changeSet>
+</databaseChangeLog>

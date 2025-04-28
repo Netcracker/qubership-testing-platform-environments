@@ -1,0 +1,104 @@
+{
+  "id": "ddcc5304-7858-47d5-82eb-b5684cb4c403",
+  "name": "T_O_M_S",
+  "description": null,
+  "created": 1639493315642,
+  "createdBy": null,
+  "modified": 1655218682281,
+  "modifiedBy": null,
+  "environmentIds": [
+    "9ec28f70-046b-4f02-b29f-2c999a7fa4d8"
+  ],
+  "systemCategoryId": "89252951-b248-4e80-a91d-42eb915ab54a",
+  "connections": [
+    {
+      "id": "3c392539-4f93-4b61-b125-d08475f8a178",
+      "name": "DB",
+      "description": null,
+      "created": 1639493315712,
+      "createdBy": null,
+      "modified": null,
+      "modifiedBy": null,
+      "systemId": "ddcc5304-7858-47d5-82eb-b5684cb4c403",
+      "parameters": {
+        "db_type": "oracle",
+        "db_login": "U32_C5_6900",
+        "db_name": "some_db",
+        "R_B_M_HOST": "127.0.0.1",
+        "db_port": "1526",
+        "db_host": "127.0.0.1",
+        "jdbc_url": "jdbc:oracle:thin:@127.0.0.1:1526/some_db"
+      },
+      "sourceTemplateId": "46ca25d6-058e-471a-9b5e-c13e4b481227",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    },
+    {
+      "id": "51c8cefd-f6f8-4972-b31d-59cebe97c1b6",
+      "name": "HTTP",
+      "description": null,
+      "created": 1639493315721,
+      "createdBy": null,
+      "modified": null,
+      "modifiedBy": null,
+      "systemId": "ddcc5304-7858-47d5-82eb-b5684cb4c403",
+      "parameters": {
+        "login": "some_user",
+        "url": "http://127.0.0.1:9876"
+      },
+      "sourceTemplateId": "2a0eab16-0fe7-4a12-8155-78c0c151abdf",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    },
+    {
+      "id": "4c9d9b27-fd7b-490b-9047-cfa74d0ed974",
+      "name": "SSH",
+      "description": null,
+      "created": 1639493315729,
+      "createdBy": null,
+      "modified": null,
+      "modifiedBy": null,
+      "systemId": "ddcc5304-7858-47d5-82eb-b5684cb4c403",
+      "parameters": {
+        "ssh_host": "127.0.0.1:2222",
+        "ssh_key": "",
+        "passphrase": "",
+        "ssh_login": "some_user"
+      },
+      "sourceTemplateId": "24136d83-5ffb-487f-9bb4-e73be3a89aa2",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    }
+  ],
+  "status": "WARN",
+  "dateOfLastCheck": 1655218682281,
+  "version": null,
+  "dateOfCheckVersion": null,
+  "parametersGettingVersion": null,
+  "parentSystemId": null,
+  "mergeByName": false,
+  "linkToSystemId": null,
+  "externalId": null,
+  "serverITF": {
+    "name": null,
+    "url": null
+  }
+}

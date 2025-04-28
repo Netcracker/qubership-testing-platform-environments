@@ -1,0 +1,8 @@
+@startuml
+
+Jenkins -> ATP_Environments : Request to create temporary environment
+ATP_Environments --> Jenkins : Response with temporary environment
+Jenkins -> ATP_1.0_jenkinsPlugin : Set variable with Json structure temporary environment
+note right: ATP_1.0 runs test scenario
+
+@enduml

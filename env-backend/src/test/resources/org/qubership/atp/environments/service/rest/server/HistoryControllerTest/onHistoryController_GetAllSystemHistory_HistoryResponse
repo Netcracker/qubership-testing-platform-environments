@@ -1,0 +1,107 @@
+{
+  "pageInfo": {
+    "offset": 0,
+    "limit": 10,
+    "itemsTotalCount": 8
+  },
+  "historyItems": [
+    {
+      "type": "system",
+      "version": 8,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "modified",
+        "connections"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 7,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "modified",
+        "connections"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 6,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "modified",
+        "connections"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 5,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "modified",
+        "connections"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 4,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "modified"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 3,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": [
+        "connections"
+      ],
+      "deleted": null,
+      "changed": [
+        "modified"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 2,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": [
+        "connections"
+      ],
+      "deleted": null,
+      "changed": [
+        "modified"
+      ]
+    },
+    {
+      "type": "system",
+      "version": 1,
+      "modifiedWhen": null,
+      "modifiedBy": "Firstname Lastname",
+      "added": null,
+      "deleted": null,
+      "changed": [
+        "name",
+        "modified",
+        "id"
+      ]
+    }
+  ]
+}

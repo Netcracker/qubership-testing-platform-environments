@@ -1,0 +1,80 @@
+{
+  "id": "94dbfb93-7931-48ff-85b6-0da7ca5b6608",
+  "name": "R_B_M-BE",
+  "description": null,
+  "created": 1639493315528,
+  "createdBy": null,
+  "modified": 1655218679404,
+  "modifiedBy": null,
+  "environmentIds": [
+    "9ec28f70-046b-4f02-b29f-2c999a7fa4d8"
+  ],
+  "systemCategoryId": "39790c1e-db81-46d5-bf75-713801c3ca6b",
+  "connections": [
+    {
+      "id": "35381416-5a80-4e33-ba02-816f7686d8d5",
+      "name": "DB",
+      "description": null,
+      "created": 1639493315611,
+      "createdBy": null,
+      "modified": null,
+      "modifiedBy": null,
+      "systemId": "94dbfb93-7931-48ff-85b6-0da7ca5b6608",
+      "parameters": {
+        "db_type": "oracle",
+        "db_login": "geneva_admin",
+        "db_name": "R_B_MBE01",
+        "db_port": "1521",
+        "db_host": "127.0.0.1",
+        "jdbc_url": "jdbc:oracle:thin:@127.0.0.1:1521/R_B_MBE01"
+      },
+      "sourceTemplateId": "46ca25d6-058e-471a-9b5e-c13e4b481227",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    },
+    {
+      "id": "441d4692-6cbf-4c50-aa57-bd54effc06df",
+      "name": "SSH",
+      "description": null,
+      "created": 1639493315627,
+      "createdBy": null,
+      "modified": null,
+      "modifiedBy": null,
+      "systemId": "94dbfb93-7931-48ff-85b6-0da7ca5b6608",
+      "parameters": {
+        "ssh_host": "127.0.0.1",
+        "ssh_key": "",
+        "passphrase": "",
+        "ssh_login": "some-user"
+      },
+      "sourceTemplateId": "24136d83-5ffb-487f-9bb4-e73be3a89aa2",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck",
+        "LogCollector",
+        "MIA",
+        "TDM"
+      ]
+    }
+  ],
+  "status": "FAIL",
+  "dateOfLastCheck": 1655218679404,
+  "version": null,
+  "dateOfCheckVersion": null,
+  "parametersGettingVersion": null,
+  "parentSystemId": null,
+  "mergeByName": false,
+  "linkToSystemId": null,
+  "externalId": null,
+  "serverITF": {
+    "name": null,
+    "url": null
+  }
+}

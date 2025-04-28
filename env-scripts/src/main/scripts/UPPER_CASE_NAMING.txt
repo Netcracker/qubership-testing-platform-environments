@@ -1,0 +1,1 @@
+Tables should be in CAPITAL letters due to Liquibase issue CORE-1976.

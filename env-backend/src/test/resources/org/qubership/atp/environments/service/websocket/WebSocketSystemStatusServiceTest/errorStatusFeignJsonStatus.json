@@ -1,0 +1,8 @@
+{
+  "status": 500,
+  "path": "/rest/status/system/dfea6d54-ef2f-4a4b-9793-5712ba3e736e/02456511-bcc9-467c-99c8-a6a97f968d6e/73d55763-c12f-4f93-9812-d8ad5707d869",
+  "timestamp": "2022-02-18T11:26:04.543+0000",
+  "trace": null,
+  "message": "Not found object with ID:[df8d9634-3ad5-4457-9ecc-ae03bdc1fbe1].",
+  "details": null
+}

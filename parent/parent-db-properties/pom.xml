@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.qubership.atp.environments</groupId>
+        <artifactId>parent-java</artifactId>
+        <version>${atp.service.version}</version>
+        <relativePath>../parent-java/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>parent-db-properties</artifactId>
+    <name>parent-db-properties</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <querydslPackageName>org.qubership.atp.environments.db.generated</querydslPackageName>
+
+        <pg.jdbc.Url>jdbc:postgresql://localhost:5432/envconf?preferQueryMode=simple</pg.jdbc.Url>
+        <pg.jdbc.Driver>org.postgresql.Driver</pg.jdbc.Driver>
+        <pg.jdbc.User>envconf</pg.jdbc.User>
+        <pg.jdbc.Password>envconf</pg.jdbc.Password>
+        <pg.jdbc.Dialect>com.querydsl.sql.PostgreSQLTemplates</pg.jdbc.Dialect>
+
+        <drop.database.for.tests>false</drop.database.for.tests>
+
+        <qclass.jar.name>env-q-classes-generation</qclass.jar.name>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+    </dependencies>
+</project>

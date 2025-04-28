@@ -1,0 +1,71 @@
+{
+  "id": "73d55763-c12f-4f93-9812-d8ad5707d869",
+  "name": "Cloud_Admin",
+  "description": null,
+  "created": 1637915201512,
+  "createdBy": null,
+  "modified": 1645440816376,
+  "modifiedBy": null,
+  "environmentIds": [
+    "02456511-bcc9-467c-99c8-a6a97f968d6e"
+  ],
+  "systemCategoryId": "71ce56bd-9dbd-4e7d-afcd-3e6f4f6cc949",
+  "connections": [
+    {
+      "id": "dbc5b3ab-d17c-48b4-a168-b5468bd7b036",
+      "name": "HTTP",
+      "description": null,
+      "created": 1637915201580,
+      "createdBy": null,
+      "modified": 1642784024987,
+      "modifiedBy": null,
+      "systemId": "73d55763-c12f-4f93-9812-d8ad5707d869",
+      "parameters": {
+        "url": "https://some-cloud-url",
+        "cloudAdminLogin": "some-admin-login",
+        "cloudAdminPassword": "some-pass",
+        "domain": "222",
+        "productManagerLogin": "some-login",
+        "productManagerPassword": "some-other-pass"
+      },
+      "sourceTemplateId": "2a0eab16-0fe7-4a12-8155-78c0c151abdf",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck"
+      ]
+    },
+    {
+      "id": "70e4c4c4-eec3-4105-933c-05ca52c691c3",
+      "name": "HTTP-OpenShiftRout",
+      "description": null,
+      "created": 1637915201587,
+      "createdBy": null,
+      "modified": 1642784024987,
+      "modifiedBy": null,
+      "systemId": "73d55763-c12f-4f93-9812-d8ad5707d869",
+      "parameters": {
+        "url": "https://some-service-address"
+      },
+      "sourceTemplateId": "2cb3b9e0-0067-46af-8f18-b103fbc19a73",
+      "connectionType": null,
+      "projectId": null,
+      "services": [
+        "HealthCheck"
+      ]
+    }
+  ],
+  "status": "NOTHING",
+  "dateOfLastCheck": 1645440816376,
+  "version": null,
+  "dateOfCheckVersion": null,
+  "parametersGettingVersion": null,
+  "parentSystemId": null,
+  "mergeByName": false,
+  "linkToSystemId": null,
+  "externalId": null,
+  "serverITF": {
+    "name": null,
+    "url": null
+  }
+}

@@ -1,0 +1,1139 @@
+{
+  "provider": {
+    "name": "atp-environments"
+  },
+  "consumer": {
+    "name": "atp-catalogue"
+  },
+  "interactions": [
+    {
+      "description": "GET /api/connections/{connectionId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/connections/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "systemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "created": 100,
+          "name": "string",
+          "sourceTemplateId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "description": "string",
+          "modified": 100,
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "services": [
+
+          ],
+          "connectionType": "string",
+          "parameters": {
+
+          }
+        },
+        "matchingRules": {
+          "body": {
+            "$.connectionType": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.sourceTemplateId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.systemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.connectionType": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.sourceTemplateId": {
+              "type": "Uuid"
+            },
+            "$.systemId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/environments/{environmentId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/environments/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "created": 100,
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "description": "string",
+          "graylogName": "string",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "modified": 100,
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "name": "string",
+          "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "systems": [
+            {
+
+            }
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.graylogName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.graylogName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.projectId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects/{projectId}/environments OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701/environments",
+        "query": {
+          "full": [
+            "true"
+          ]
+        },
+        "matchingRules": {
+          "query": {
+            "full": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "true|false"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "created": 100,
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "description": "string",
+            "graylogName": "string",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "systems": [
+              {
+
+              }
+            ]
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].graylogName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].graylogName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].projectId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects/{projectId}/tools OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701/tools",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "created": 100,
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "description": "string",
+            "graylogName": "string",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "systems": [
+              {
+
+              }
+            ]
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].graylogName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].graylogName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].projectId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/v2/environments/{environmentId}/systems OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/environments/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701/systems",
+        "query": {
+          "system_type": [
+            "type"
+          ],
+          "full": [
+            "true"
+          ]
+        },
+        "matchingRules": {
+          "query": {
+            "system_type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w*"
+                }
+              ],
+              "combine": "AND"
+            },
+            "full": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "true|false"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "connections": [
+              {
+
+              }
+            ],
+            "created": 100,
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "dateOfCheckVersion": 100,
+            "dateOfLastCheck": 100,
+            "description": "string",
+            "environments": [
+              {
+
+              }
+            ],
+            "externalId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "externalName": "string",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "linkToSystemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "mergeByName": true,
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "parametersGettingVersion": {
+
+            },
+            "parentSystemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "serverITF": {
+
+            },
+            "status": "FAIL",
+            "systemCategory": {
+
+            },
+            "version": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dateOfCheckVersion": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dateOfLastCheck": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].externalName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].externalId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].linkToSystemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].mergeByName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].parentSystemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].status": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].version": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].dateOfCheckVersion": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].dateOfLastCheck": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].externalName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].externalId": {
+              "type": "Uuid"
+            },
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].linkToSystemId": {
+              "type": "Uuid"
+            },
+            "$[0].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].parentSystemId": {
+              "type": "Uuid"
+            },
+            "$[0].version": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /api/connections/getAllBy OK",
+      "request": {
+        "method": "POST",
+        "path": "/api/connections/getAllBy",
+        "query": {
+          "full": [
+            "true"
+          ]
+        },
+        "body": {
+          "systemCategoryId": "7c9dafe9-2cd1-4ffc-ae54-45867f2b9702",
+          "environmentIds": [
+            "7c9dafe9-2cd1-4ffc-ae54-45867f2b9703"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "systemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "created": 100,
+            "name": "string",
+            "sourceTemplateId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "description": "string",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "services": [
+
+            ],
+            "connectionType": "string",
+            "parameters": {
+
+            }
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].connectionType": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].sourceTemplateId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].systemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].connectionType": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].sourceTemplateId": {
+              "type": "Uuid"
+            },
+            "$[0].systemId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

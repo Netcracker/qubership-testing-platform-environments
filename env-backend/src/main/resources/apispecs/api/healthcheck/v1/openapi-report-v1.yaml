@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: report-controller
+    description: Report Controller
+paths:
+  /rest/files/report/fromJson:
+    post:
+      tags:
+        - report-controller
+      summary: convertToReport
+      operationId: convertToReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentStatus'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/files/report/projectReportToExcel/{projectName}':
+    post:
+      tags:
+        - report-controller
+      summary: projectReportToExcel
+      operationId: projectReportToExcel
+      parameters:
+        - name: projectName
+          in: path
+          description: projectName
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EnvironmentStatus'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: string
+                format: binary
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/files/report/timeZoneCheckerEnabled':
+    get:
+      tags:
+        - report-controller
+      summary: getTimeZoneCheckerEnabled
+      operationId: getTimeZoneCheckerEnabled
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Attachment:
+      title: Attachment
+      type: object
+      properties:
+        link:
+          type: string
+        name:
+          type: string
+    ConnectionStatus:
+      title: ConnectionStatus
+      type: object
+      properties:
+        configurationStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        connectionId:
+          type: string
+        host:
+          type: string
+        name:
+          type: string
+        processStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        status:
+          $ref: '#/components/schemas/Status'
+    Status:
+      type: string
+      enum:
+        - NOTHING
+        - PASS
+        - WARN
+        - FAIL
+        - MANDATORY_FAIL
+    EnvironmentStatus:
+      title: EnvironmentStatus
+      type: object
+      properties:
+        endCheckDate:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        startCheckDate:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        systemStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemStatus'
+    ProcessStatus:
+      title: ProcessStatus
+      type: object
+      properties:
+        actual:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        expected:
+          type: string
+        notAffectStatus:
+          type: boolean
+        process:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+    SystemStatus:
+      title: SystemStatus
+      type: object
+      properties:
+        configurationStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        connectionStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionStatus'
+        name:
+          type: string
+        processStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        status:
+          $ref: '#/components/schemas/Status'
+        systemId:
+          type: string

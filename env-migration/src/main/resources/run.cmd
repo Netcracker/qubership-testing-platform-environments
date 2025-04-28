@@ -1,0 +1,13 @@
+::Choose which type of DB you would like to use:
+::pg - postgresql database
+::Example: SET jdbc_type=pg
+SET jdbc_type=pg
+
+::-Dlb.libs.path="scripts"
+java  -Djdbc_type=%jdbc_type% -cp ".\config\;.\lib\*" org.qubership.atp.environments.db.migration.Main
+
+@echo off
+if NOT ["%errorlevel%"]==["0"] (
+    pause
+    exit /b %errorlevel%
+)

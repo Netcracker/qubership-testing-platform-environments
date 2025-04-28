@@ -1,0 +1,374 @@
+{
+  "provider": {
+    "name": "atp-environments"
+  },
+  "consumer": {
+    "name": "atp-logcollector"
+  },
+  "interactions": [
+    {
+      "description": "GET /api/connections/templates/short OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/connections/templates/short"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/environments/{environmentId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/environments/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "description": "string",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "name": "string",
+          "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+        },
+        "matchingRules": {
+          "body": {
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.projectId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/environments/{environmentId}/systems/short OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/environments/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/systems/short"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "description": "string",
+            "name": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/system-categories OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/system-categories"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "description": "string",
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

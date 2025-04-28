@@ -1,0 +1,62 @@
+[
+  {
+    "id": "AC",
+    "abbreviation": "AC",
+    "name": "access-control",
+    "msDomainName": "Platform",
+    "msDomainAbbreviation": "Platform",
+    "type": "ui app bundle",
+    "dnsName": "access-control",
+    "description": "",
+    "framework": "Quarkus 2.11.2.Final",
+    "designTimeVersion": "info_not_available",
+    "runTimeVersion": "0.0.1",
+    "deploymentStatus": "unknown",
+    "lastDeployDate": "info_not_available",
+    "status": {
+      "readinessStatus": "UNKNOWN",
+      "totalHealthStatus": "UNKNOWN",
+      "ragKPIs": [],
+      "readinessStatusLastUpdate": "2023-02-17T08:43:36"
+    },
+    "msNamespace": "",
+    "snapshot": {
+      "abbreviation": "AC",
+      "designTimeVersion": "info_not_available",
+      "runTimeVersion": "info_not_available"
+    },
+    "msApplicationAbbreviation": "D_Platform",
+    "msApplicationName": "Platform",
+    "isDtRtDiscrepancy": true
+  },
+  {
+    "id": "ACMC",
+    "abbreviation": "ACM",
+    "name": "Account Management Core",
+    "msDomainName": "some business solution",
+    "msDomainAbbreviation": "some abbreviation",
+    "type": "backend",
+    "dnsName": "account-mgmt-core",
+    "description": "Main part of ACM, storing account data using TMF SID complaint data model as basis.",
+    "framework": "SpringBoot 2.7.2",
+    "designTimeVersion": "info_not_available",
+    "runTimeVersion": "info_not_available",
+    "deploymentStatus": "unknown",
+    "lastDeployDate": "info_not_available",
+    "status": {
+      "readinessStatus": "UNKNOWN",
+      "totalHealthStatus": "UNKNOWN",
+      "ragKPIs": [],
+      "readinessStatusLastUpdate": "2023-02-17T08:43:36"
+    },
+    "msNamespace": "",
+    "snapshot": {
+      "abbreviation": "ACM",
+      "designTimeVersion": "info_not_available",
+      "runTimeVersion": "info_not_available"
+    },
+    "msApplicationAbbreviation": "D_ACM",
+    "msApplicationName": "Account Management",
+    "isDtRtDiscrepancy": true
+  }
+]

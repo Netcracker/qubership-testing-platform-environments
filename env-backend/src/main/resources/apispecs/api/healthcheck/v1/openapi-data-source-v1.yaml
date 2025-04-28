@@ -1,0 +1,460 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: data-source-controller
+    description: Data Source Controller
+paths:
+  /rest/datasource/projects/environments:
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyProjectsWithEnvironments
+      operationId: getLazyProjectsWithEnvironments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: true
+  /rest/datasource/projects/lazy:
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyProjects
+      operationId: getLazyProjects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LazyProject'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/environments/lazy':
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyEnvironments
+      operationId: getLazyEnvironments
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LazyEnvironment'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/environments/lazyWithShortSystems':
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyEnvironmentsWithShortSystems
+      operationId: getLazyEnvironmentsWithShortSystems
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/environments/{environmentId}/full':
+    get:
+      tags:
+        - data-source-controller
+      summary: getFullEnvironment
+      operationId: getFullEnvironment
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/environments/{environmentId}/lazy':
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyEnvironment
+      operationId: getLazyEnvironment
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LazyEnvironment'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/environments/{environmentId}/systems/full':
+    get:
+      tags:
+        - data-source-controller
+      summary: getFullSystems
+      operationId: getFullSystems
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/System'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/projects/{projectId}/lazy':
+    get:
+      tags:
+        - data-source-controller
+      summary: getLazyProject
+      operationId: getLazyProject
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LazyProject'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/datasource/environments/{environmentId}/systems/short':
+    get:
+      tags:
+        - data-source-controller
+      summary: getShortSystems
+      operationId: getShortSystems
+      parameters:
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortSystem'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Connection:
+      title: Connection
+      type: object
+      properties:
+        connectionType:
+          type: string
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        environmentName:
+          type: string
+        id:
+          type: string
+        info:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+        services:
+          type: array
+          items:
+            type: string
+        sourceTemplateId:
+          type: string
+        systemId:
+          type: string
+        systemName:
+          type: string
+    Environment:
+      title: Environment
+      type: object
+      properties:
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        info:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        notEmptySystems:
+          type: boolean
+        projectId:
+          type: string
+        systems:
+          type: array
+          items:
+            $ref: '#/components/schemas/System'
+    LazyEnvironment:
+      title: LazyEnvironment
+      type: object
+      properties:
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: string
+        systems:
+          type: array
+          items:
+            type: string
+    LazyProject:
+      title: LazyProject
+      type: object
+      properties:
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        environments:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        shortName:
+          type: string
+    ShortSystem:
+      title: ShortSystem
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Project:
+      title: Project
+      type: object
+      properties:
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Environment'
+        id:
+          type: string
+        info:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        notEmptyEnvironments:
+          type: boolean
+        shortName:
+          type: string
+    System:
+      title: System
+      type: object
+      properties:
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        created:
+          type: string
+        createdBy:
+          type: string
+        description:
+          type: string
+        emptyConnections:
+          type: boolean
+        environmentId:
+          type: string
+        environmentName:
+          type: string
+        id:
+          type: string
+        info:
+          type: string
+        modified:
+          type: string
+        modifiedBy:
+          type: string
+        name:
+          type: string
+        notEmptyConnections:
+          type: boolean
+        systemCategoryId:
+          type: string

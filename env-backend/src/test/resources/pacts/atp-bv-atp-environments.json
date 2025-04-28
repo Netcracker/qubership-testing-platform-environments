@@ -1,0 +1,1107 @@
+{
+  "provider": {
+    "name": "atp-environments"
+  },
+  "consumer": {
+    "name": "atp-bv"
+  },
+  "interactions": [
+    {
+      "description": "GET /api/connections/{connectionId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/connections/d0cd4437-22d5-47b8-8718-63ffd7ee9b96",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "connectionType": "string",
+          "created": 100,
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "description": "string",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "modified": 100,
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "name": "string",
+          "parameters": null,
+          "services": [
+            "str"
+          ],
+          "sourceTemplateId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "systemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+        },
+        "matchingRules": {
+          "body": {
+            "$.connectionType": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.created": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modified": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.services[0]": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.sourceTemplateId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.systemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.connectionType": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.sourceTemplateId": {
+              "type": "Uuid"
+            },
+            "$.systemId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/environments/{environmentId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/environments/c8763fce-aa31-41a3-b3a3-eb41f0cef0b9",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "created": 100,
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "description": "string",
+          "graylogName": "string",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "modified": 100,
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "name": "string",
+          "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "systems": [
+            {
+              "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+              "name": "string"
+            }
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.graylogName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.systems": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.systems[*].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.systems[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.projectId": {
+              "type": "Uuid"
+            },
+            "$.graylogName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.systems[*].id": {
+              "type": "Uuid"
+            },
+            "$.systems[*].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/ping OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/ping"
+      },
+      "response": {
+        "status": 200
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects",
+        "query": {
+          "full": [
+            "false"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "environments": [
+              {
+
+              }
+            ],
+            "created": 100,
+            "name": "string",
+            "description": "string",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "shortName": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].shortName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].environments": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[*].id": {
+              "type": "Uuid"
+            },
+            "$[*].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[*].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[*].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[*].createdBy": {
+              "type": "Uuid"
+            },
+            "$[*].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[*].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[*].shortName": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects/{projectId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/55bd13ba-30ab-42f8-88e4-73dfc501172a",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "environments": [
+            {
+              "name": "string",
+              "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+            }
+          ],
+          "created": 100,
+          "name": "string",
+          "description": "string",
+          "modified": 100,
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "shortName": "string"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.shortName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.environments": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.environments[*].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.environments[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.shortName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.environments[*].id": {
+              "type": "Uuid"
+            },
+            "$.environments[*].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/projects/{projectId}/environments OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/projects/55bd13ba-30ab-42f8-88e4-73dfc501172a/environments",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "graylogName": "string",
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "systems": [
+              {
+                "name": "string",
+                "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+              }
+            ],
+            "created": 100,
+            "name": "string",
+            "description": "string",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].graylogName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].systems": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].systems[*].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].systems[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].projectId": {
+              "type": "Uuid"
+            },
+            "$[0].graylogName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].systems[*].id": {
+              "type": "Uuid"
+            },
+            "$[0].systems[*].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /api/systems/{systemId}/connections OK",
+      "request": {
+        "method": "GET",
+        "path": "/api/systems/ba610643-fea2-4009-af9f-2999e92a6f3e/connections",
+        "query": {
+          "full": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "connectionType": "string",
+            "created": 100,
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "description": "string",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "modified": 100,
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "parameters": null,
+            "sourceTemplateId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "systemId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].created": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].modified": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].sourceTemplateId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].connectionType": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].systemId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[*].id": {
+              "type": "Uuid"
+            },
+            "$[*].name": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[*].description": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[*].created": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[*].createdBy": {
+              "type": "Uuid"
+            },
+            "$[*].modified": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$[*].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[*].sourceTemplateId": {
+              "type": "Uuid"
+            },
+            "$[*].connectionType": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[*].systemId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

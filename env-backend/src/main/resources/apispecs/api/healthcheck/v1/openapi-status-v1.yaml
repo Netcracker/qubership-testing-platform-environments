@@ -1,0 +1,713 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: status-controller
+    description: Status Controller
+paths:
+  '/rest/status/byNames/sentTo/{subscribers}/{projectName}/{environmentName}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironmentByNamesAndSendNotifications
+      operationId: checkEnvironmentByNamesAndSendNotifications
+      parameters:
+        - name: projectName
+          in: path
+          description: projectName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentName
+          in: path
+          description: environmentName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: subscribers
+          in: path
+          description: subscribers
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: reportSubject
+          in: query
+          description: reportSubject
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: fail
+          in: query
+          description: fail
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: warn
+          in: query
+          description: warn
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: pass
+          in: query
+          description: pass
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/byNames/sentTo/{subscribers}/{projectName}/{environmentName}/{systemNames}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironmentWithSpecifiedSystemsByNamesAndSendNotifications
+      operationId: checkEnvironmentWithSpecifiedSystemsByNamesAndSendNotifications
+      parameters:
+        - name: projectName
+          in: path
+          description: projectName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentName
+          in: path
+          description: environmentName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: systemNames
+          in: path
+          description: systemNames
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: subscribers
+          in: path
+          description: subscribers
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: reportSubject
+          in: query
+          description: reportSubject
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: fail
+          in: query
+          description: fail
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: warn
+          in: query
+          description: warn
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: pass
+          in: query
+          description: pass
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/byNames/{projectName}/{environmentName}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironmentByNames
+      operationId: checkEnvironmentByNames
+      parameters:
+        - name: projectName
+          in: path
+          description: projectName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentName
+          in: path
+          description: environmentName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/byNames/{projectName}/{environmentName}/{systemNames}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironmentWithSpecifiedSystemsByNames
+      operationId: checkEnvironmentWithSpecifiedSystemsByNames
+      parameters:
+        - name: projectName
+          in: path
+          description: projectName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentName
+          in: path
+          description: environmentName
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: systemNames
+          in: path
+          description: systemNames
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/system/{projectId}/{environmentId}/{systemId}':
+    get:
+      tags:
+        - status-controller
+      summary: checkSystem
+      operationId: checkSystem
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: systemId
+          in: path
+          description: systemId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/timezones/{projectId}':
+    get:
+      tags:
+        - status-controller
+      summary: checkProject
+      operationId: checkProject
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/{projectId}/{environmentId}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironment
+      operationId: checkEnvironment
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/report/{projectId}/{environmentIds}/{executionRequestId}':
+    get:
+      tags:
+        - status-controller
+      summary: mandatoryCheckEnvironments
+      operationId: mandatoryCheckEnvironments
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: environmentIds
+          in: path
+          description: environmentIds
+          required: true
+          style: simple
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+        - name: executionRequestId
+          in: path
+          description: executionRequestId
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MandatoryStatusesResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/rest/status/{projectId}/{environmentId}/{systemIds}':
+    get:
+      tags:
+        - status-controller
+      summary: checkEnvironmentWithSpecifiedSystems
+      operationId: checkEnvironmentWithSpecifiedSystems
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: environmentId
+          in: path
+          description: environmentId
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: systemIds
+          in: path
+          description: systemIds
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: configuration
+          in: query
+          description: configuration
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: onlyMandatory
+          in: query
+          description: status
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Attachment:
+      title: Attachment
+      type: object
+      properties:
+        name:
+          type: string
+        link:
+          type: string
+    ConnectionStatus:
+      title: ConnectionStatus
+      type: object
+      properties:
+        connectionId:
+          type: string
+        name:
+          type: string
+        host:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        processStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        configurationStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+    Status:
+      type: string
+      enum:
+        - NOTHING
+        - PASS
+        - WARN
+        - FAIL
+        - MANDATORY_FAIL
+    EnvironmentStatus:
+      title: EnvironmentStatus
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        systemStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemStatus'
+        status:
+          $ref: '#/components/schemas/Status'
+        startCheckDate:
+          type: string
+        endCheckDate:
+          type: string
+    MandatoryStatusesResponse:
+      title: MandatoryStatusesResponse
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStatus'
+    ProcessStatus:
+      title: ProcessStatus
+      type: object
+      properties:
+        process:
+          type: string
+        actual:
+          type: string
+        expected:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+        isHtml:
+          type: boolean
+        notAffectStatus:
+          type: boolean
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        isMandatory:
+          type: boolean
+    SystemStatus:
+      title: SystemStatus
+      type: object
+      properties:
+        systemId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        processStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        configurationStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStatus'
+        connectionStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionStatus'
+        status:
+          $ref: '#/components/schemas/Status'

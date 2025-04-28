@@ -1,0 +1,29 @@
+{
+  "id" : "794abcd6-7f93-4ddf-aedd-613143b4b030",
+  "name" : "env",
+  "description" : null,
+  "projectId" : "9f052227-79d7-4f3f-bd55-aeb2efbcb103",
+  "categoryId" : "ccaf6f9b-902a-42f7-bc11-3b1f0557919c",
+  "systems" : [ {
+    "id" : "be964954-829b-4a6c-9db9-97961759fdb9",
+    "name" : "MIA",
+    "description" : null,
+    "status" : "NOTHING",
+    "parentSystemId" : null,
+    "connections" : [ {
+      "id" : "b02108b5-b1d3-49d8-ab8c-2091751c0219",
+      "name" : "HTTP",
+      "description" : null,
+      "sourceTemplateId" : "2a0eab16-0fe7-4a12-8155-78c0c151abdf",
+      "connectionType" : null,
+      "parameters" : {
+        "password" : "",
+        "login" : "",
+        "url" : "some url"
+      },
+      "systemId" : "be964954-829b-4a6c-9db9-97961759fdb9"
+    } ],
+    "systemCategoryId" : null,
+    "serverItf" : null
+  } ]
+}

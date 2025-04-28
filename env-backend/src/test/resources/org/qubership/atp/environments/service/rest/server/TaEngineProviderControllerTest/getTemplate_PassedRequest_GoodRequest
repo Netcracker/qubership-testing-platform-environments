@@ -1,0 +1,298 @@
+{
+  "taEngineProviderParams": [
+    {
+      "businessName": "Provider_URL",
+      "name": "Provider_URL",
+      "value": "",
+      "section": null,
+      "defaultValue": "http://atp-dealer-address",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Provider_Engine_Type",
+      "name": "Provider_Engine_Type",
+      "value": "",
+      "section": null,
+      "defaultValue": "NTT",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Acquire_Create_Tool_Path",
+      "name": "Acquire_Create_Tool_Path",
+      "value": "",
+      "section": null,
+      "defaultValue": "/ntt",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Acquire_Create_Tool_HTTP_Method",
+      "name": "Acquire_Create_Tool_HTTP_Method",
+      "value": "",
+      "section": null,
+      "defaultValue": "Post",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Acquire_Content_Type",
+      "name": "Acquire_Content_Type",
+      "value": "",
+      "section": null,
+      "defaultValue": "application/json",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Acquire_Create_Tool_Request_Body",
+      "name": "Acquire_Create_Tool_Request_Body",
+      "value": "",
+      "section": null,
+      "defaultValue": "",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Engine_Service_URL_JSON_Path",
+      "name": "Engine_Service_URL_JSON_Path",
+      "value": "",
+      "section": null,
+      "defaultValue": "$.url",
+      "mandatory": true,
+      "displayed": false
+    },
+    {
+      "businessName": "Release_Tool_Path",
+      "name": "Release_Tool_Path",
+      "value": "",
+      "section": null,
+      "defaultValue": "/${$.id}",
+      "mandatory": false,
+      "displayed": false
+    },
+    {
+      "businessName": "Release_Tool_HTTP_Method",
+      "name": "Release_Tool_HTTP_Method",
+      "value": "",
+      "section": null,
+      "defaultValue": "Delete",
+      "mandatory": false,
+      "displayed": false
+    }
+  ],
+  "taEngineParams": [
+    {
+      "businessName": "Image",
+      "name": "image",
+      "value": "",
+      "section": null,
+      "defaultValue": "",
+      "mandatory": true,
+      "displayed": true
+    },
+    {
+      "businessName": "Name",
+      "name": "name",
+      "value": "",
+      "section": null,
+      "defaultValue": "",
+      "mandatory": true,
+      "displayed": true
+    },
+    {
+      "businessName": "Version",
+      "name": "-version",
+      "value": "",
+      "section": "ARGS",
+      "defaultValue": "",
+      "mandatory": true,
+      "displayed": true
+    }
+  ],
+  "additionalParams": [
+    {
+      "businessName": "Nexus",
+      "name": "nexus",
+      "value": "",
+      "section": "ARGS"
+    },
+    {
+      "businessName": "SVN",
+      "name": "svn",
+      "value": "",
+      "section": "ARGS"
+    },
+    {
+      "businessName": "Git",
+      "name": "git",
+      "value": "",
+      "section": "ARGS"
+    },
+    {
+      "businessName": "CP",
+      "name": "cp",
+      "value": "",
+      "section": "ARGS"
+    },
+    {
+      "businessName": "Webdriver Name",
+      "name": "webdriver.capabilities.name",
+      "value": "",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Hub URL",
+      "name": "webdriver.hub.url",
+      "value": "",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Webdriver Version",
+      "name": "webdriver.capabilities.version",
+      "value": "",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Webdriver Timezone",
+      "name": "webdriver.capabilities.timeZone",
+      "value": "",
+      "section": "ARG_LINE"
+    }
+  ],
+  "defaultParams": [
+    {
+      "businessName": "Log",
+      "name": "log",
+      "value": "debug",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Webdriver Name",
+      "name": "webdriver.capabilities.name",
+      "value": "DEBUG-05CPU2RAM",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "ATP Log",
+      "name": "atp.log",
+      "value": "true",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "RAM Mode",
+      "name": "ram.mode",
+      "value": "atp",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Hub URL",
+      "name": "webdriver.hub.url",
+      "value": "http://selenoid-address/wd/hub",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Browser Option.1",
+      "name": "chrome.option.1",
+      "value": "--no-sandbox",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Browser Option.2",
+      "name": "chrome.option.2",
+      "value": "--disable-gpu=true",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Browser Option.3",
+      "name": "chrome.option.3",
+      "value": "--ignore-certificate-errors",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Browser Option.4",
+      "name": "chrome.option.4",
+      "value": "--reduce-security-for-testing",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Webdriver Version",
+      "name": "webdriver.capabilities.version",
+      "value": "73.0",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "NTT Service Port",
+      "name": "ntt.web.service.port",
+      "value": "3211",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Enabled NTT Service",
+      "name": "ntt.web.service.enabled",
+      "value": "true",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "ITF",
+      "name": "itf.url",
+      "value": "http://atp-itf-service-address",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "TDM",
+      "name": "tdm.url",
+      "value": "https://atp-tdm-service-address",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "MIA",
+      "name": "mia.url",
+      "value": "",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Environments URL",
+      "name": "environments.url",
+      "value": "https://atp-environments-service-address",
+      "section": "ARG_LINE"
+    },
+    {
+      "businessName": "Enable RAM",
+      "name": "Datp2.ram.enabled",
+      "value": "true",
+      "section": "ENV"
+    },
+    {
+      "businessName": "RAM URL",
+      "name": "Datp.ram.url",
+      "value": "http://atp-ram-service-address",
+      "section": "ENV"
+    },
+    {
+      "businessName": "Adatpter",
+      "name": "Dram.adapter.type",
+      "value": "kafka",
+      "section": "ENV"
+    },
+    {
+      "businessName": "Booststrap Servers",
+      "name": "Dbootstrap.servers",
+      "value": "kafka.kafka-cluster.svc:9092",
+      "section": "ENV"
+    },
+    {
+      "businessName": "Topic",
+      "name": "Dkafka.topic.name",
+      "value": "uat02_orch_logrecord_topic",
+      "section": "ENV"
+    },
+    {
+      "businessName": "JAVA_OPTS",
+      "name": "JAVA_OPTS",
+      "value": "-XX:MaxRAM=2G -Xms512m -Xmx1800m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005",
+      "section": "ENV"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="initial_data" author="envconf">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM public.database_directory
+            </sqlCheck>
+        </preConditions>
+
+        <sqlFile path="v000/initial_data_for_database_directory.sql"/>
+        <sqlFile path="v000/initial_data_for_projects.sql"/>
+        <sqlFile path="v000/initial_data_for_environment_categories.sql"/>
+        <sqlFile path="v000/initial_data_for_environments.sql"/>
+        <sqlFile path="v000/initial_data_for_system_categories.sql"/>
+        <sqlFile path="v000/initial_data_for_systems.sql"/>
+        <sqlFile path="v000/initial_data_for_connections.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

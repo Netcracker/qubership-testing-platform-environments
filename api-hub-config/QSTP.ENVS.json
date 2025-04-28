@@ -1,0 +1,78 @@
+{
+ "projectId": "QSTP.ENVS",
+ "files": [
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-alert-event-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-alert-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-catalog-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-connection-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-database-directory-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-environment-category-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-environments-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-history-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-openshift-deployment-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-ping-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-project-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-subscribers-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-subscription-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-system-category-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-system-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-tool-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-update-event-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "env-rest-openapi-specifications/v1/openapi-version-v1.yaml",
+   "publish": true
+  }
+ ],
+ "refs": []
+}

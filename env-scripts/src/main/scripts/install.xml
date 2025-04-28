@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
+
+    <changeSet id="1" author="envconf">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+    <changeSet id="initial_db_structure" author="envconf">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="projects"/>
+            </not>
+        </preConditions>
+        <comment>
+            The script creates a structure in the database if it is necessary. (if projects does not exist)
+        </comment>
+        <sqlFile path="install/envconf_schemaonly_plain.sql"
+                 splitStatements="false"
+                 endDelimiter=";"/>
+    </changeSet>
+</databaseChangeLog>

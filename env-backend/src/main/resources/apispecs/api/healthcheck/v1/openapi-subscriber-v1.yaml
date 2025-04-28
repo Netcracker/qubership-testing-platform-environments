@@ -1,0 +1,674 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+  contact:
+    name: OurCompany
+    url: https://www.ourcompany.com/company/about-ourcompany/contact-us.html
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: subscriber-controller
+    description: Subscriber Controller
+paths:
+  /api/v1/atp-healthcheck/subscribers:
+    post:
+      tags:
+        - subscriber-controller
+      summary: create
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: string
+                format: uuid
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/atp-healthcheck/subscribers/bulk:
+    put:
+      tags:
+        - subscriber-controller
+      summary: updateBulk
+      operationId: updateBulk
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberBulkUpdateRequest'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - subscriber-controller
+      summary: createBulk
+      operationId: createBulk
+      requestBody:
+        description: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriberBulkCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/subscribers/{projectId}':
+    get:
+      tags:
+        - subscriber-controller
+      summary: findAllByProjectId
+      operationId: findAllByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriberGetResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/subscribers/{projectId}/emails':
+    get:
+      tags:
+        - subscriber-controller
+      summary: findAllEmailsByProjectId
+      operationId: findAllEmailsByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/subscribers/{projectId}/subjects':
+    get:
+      tags:
+        - subscriber-controller
+      summary: getSubjects
+      operationId: getSubjects
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/subscribers/{projectId}/filtering':
+    post:
+      tags:
+        - subscriber-controller
+      summary: getSubscribersPageByProjectIdWithFilters
+      operationId: getSubscribersPageByProjectIdWithFilters
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: paged
+          in: query
+          schema:
+            type: boolean
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: sort.sorted
+          in: query
+          schema:
+            type: boolean
+        - name: sort.unsorted
+          in: query
+          schema:
+            type: boolean
+        - name: unpaged
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        description: filters
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PaginatedResponseSubscriberGetResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/atp-healthcheck/subscribers/{subscriberId}/{projectId}':
+    delete:
+      tags:
+        - subscriber-controller
+      summary: deleteByIdAndProjectId
+      operationId: deleteByIdAndProjectId
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: subscriberId
+          in: path
+          description: subscriberId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/atp-healthcheck/subscribers/{subscriberId}/{projectId}/bulk':
+    get:
+      tags:
+        - subscriber-controller
+      summary: getBulk
+      operationId: getBulk
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: subscriberId
+          in: path
+          description: subscriberId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SubscriberGetResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    EnvironmentSubscription:
+      title: EnvironmentSubscription
+      type: object
+      properties:
+        environmentId:
+          type: string
+          format: uuid
+        id:
+          type: string
+          format: uuid
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        systemSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemSubscription'
+    EnvironmentSubscriptionBulkCreateRequest:
+      title: EnvironmentSubscriptionBulkCreateRequest
+      type: object
+      properties:
+        environmentId:
+          type: string
+          format: uuid
+        systemSubscriptionsIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemSubscriptionBulkCreateRequest'
+    EnvironmentSubscriptionGetResponse:
+      title: EnvironmentSubscriptionGetResponse
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        subscriberId:
+          type: string
+          format: uuid
+        environmentId:
+          type: string
+          format: uuid
+        environmentName:
+          type: string
+        systemSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortSystem'
+    Filter:
+      title: Filter
+      type: object
+      properties:
+        columnName:
+          type: string
+        columnValues:
+          type: array
+          items:
+            type: string
+    PaginatedResponseSubscriberGetResponse:
+      title: PaginatedResponseSubscriberGetResponse
+      type: object
+      properties:
+        entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriberGetResponse'
+        totalCount:
+          type: integer
+          format: int64
+    Periodicity:
+      title: Periodicity
+      type: object
+      properties:
+        endDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        every:
+          type: integer
+          format: int32
+        everyUnit:
+          type: string
+        excludeWeekends:
+          type: boolean
+        from:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+        id:
+          type: string
+          format: uuid
+        startDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        to:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+    PeriodicityRequest:
+      title: PeriodicityRequest
+      type: object
+      properties:
+        endDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        every:
+          type: integer
+          format: int32
+        everyUnit:
+          type: string
+        excludeWeekends:
+          type: boolean
+        from:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+        startDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        subscriberId:
+          type: string
+          format: uuid
+        to:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+    PeriodicityResponse:
+      title: PeriodicityResponse
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        subscriber:
+          type: string
+          format: uuid
+        startDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        endDate:
+          type: string
+          format: 'date-time'
+          example: '2019-11-17T10:10:05.698Z'
+        every:
+          type: integer
+          format: int32
+        everyUnit:
+          type: string
+        from:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+        to:
+          type: string
+          format: 'time'
+          example: '10:10:05'
+        excludeWeekends:
+          type: boolean
+        utc:
+          type: integer
+          format: int32
+    ReportCustomization:
+      title: ReportCustomization
+      type: object
+      properties:
+        fail:
+          type: boolean
+        id:
+          type: string
+          format: uuid
+        pass:
+          type: boolean
+        singleReport:
+          type: boolean
+        subjectReport:
+          type: string
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        warn:
+          type: boolean
+    ReportCustomizationBulkCreateRequest:
+      title: ReportCustomizationBulkCreateRequest
+      type: object
+      properties:
+        fail:
+          type: boolean
+        pass:
+          type: boolean
+        singleReport:
+          type: boolean
+        subjectReport:
+          type: string
+        warn:
+          type: boolean
+    ReportCustomizationBulkGetResponse:
+      title: ReportCustomizationBulkGetResponse
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        subscriber:
+          type: string
+          format: uuid
+        singleReport:
+          type: boolean
+        sendInCsv:
+          type: boolean
+        subjectReport:
+          type: string
+        pass:
+          type: boolean
+        warn:
+          type: boolean
+        fail:
+          type: boolean
+    ShortSystem:
+      title: ShortSystem
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Subscriber:
+      title: Subscriber
+      type: object
+      properties:
+        disabled:
+          type: boolean
+        email:
+          type: string
+        environmentSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSubscription'
+        id:
+          type: string
+          format: uuid
+        periodicity:
+          $ref: '#/components/schemas/Periodicity'
+        projectId:
+          type: string
+          format: uuid
+        reportCustomization:
+          $ref: '#/components/schemas/ReportCustomization'
+    SubscriberBulkCreateRequest:
+      title: SubscriberBulkCreateRequest
+      type: object
+      properties:
+        disabled:
+          type: boolean
+        emails:
+          type: array
+          items:
+            type: string
+        environmentSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSubscriptionBulkCreateRequest'
+        periodicity:
+          $ref: '#/components/schemas/PeriodicityRequest'
+        projectId:
+          type: string
+          format: uuid
+        reportCustomization:
+          $ref: '#/components/schemas/ReportCustomizationBulkCreateRequest'
+        subscriberCreateRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriber'
+    SubscriberBulkUpdateRequest:
+      title: SubscriberBulkUpdateRequest
+      type: object
+      properties:
+        disabled:
+          type: boolean
+        email:
+          type: string
+        environmentSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSubscriptionBulkCreateRequest'
+        id:
+          type: string
+          format: uuid
+        periodicity:
+          $ref: '#/components/schemas/PeriodicityRequest'
+        projectId:
+          type: string
+          format: uuid
+        reportCustomization:
+          $ref: '#/components/schemas/ReportCustomizationBulkCreateRequest'
+    SubscriberCreateRequest:
+      title: SubscriberCreateRequest
+      type: object
+      properties:
+        disabled:
+          type: boolean
+        email:
+          type: string
+        environmentSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSubscriptionBulkCreateRequest'
+        periodicity:
+          $ref: '#/components/schemas/PeriodicityRequest'
+        projectId:
+          type: string
+          format: uuid
+        reportCustomization:
+          $ref: '#/components/schemas/ReportCustomizationBulkCreateRequest'
+    SubscriberGetResponse:
+      title: SubscriberGetResponse
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        disabled:
+          type: boolean
+        reportCustomization:
+          $ref: '#/components/schemas/ReportCustomizationBulkGetResponse'
+        periodicity:
+          $ref: '#/components/schemas/PeriodicityResponse'
+        environmentSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSubscriptionGetResponse'
+    SystemSubscription:
+      title: SystemSubscription
+      type: object
+      properties:
+        environmentSubscription:
+          $ref: '#/components/schemas/EnvironmentSubscription'
+        id:
+          type: string
+          format: uuid
+        systemId:
+          type: string
+          format: uuid
+    SystemSubscriptionBulkCreateRequest:
+      title: SystemSubscriptionBulkCreateRequest
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid

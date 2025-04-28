@@ -1,0 +1,8 @@
+{
+  "MEMORY_REQUEST": "512Mi",
+  "MEMORY_LIMIT": "2000Mi",
+  "CPU_REQUEST": "0.05",
+  "CPU_LIMIT": "1",
+  "MAX_RAM": "2000m",
+  "NODES_COUNT": "1"
+}

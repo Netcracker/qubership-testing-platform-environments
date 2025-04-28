@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="update_business_value_data" author="envconf">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM public.system_categories WHERE id='89252951-b248-4e80-a91d-42eb915ab54a' AND name='Business Solution'
+            </sqlCheck>
+        </preConditions>
+
+        <sqlFile path="v001/update_business_value_for_system_categories.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

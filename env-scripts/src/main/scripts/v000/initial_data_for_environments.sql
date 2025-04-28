@@ -1,0 +1,3 @@
+INSERT INTO public.environments
+(id, "name", description, tag_list, created_by, created, modified_by, modified, project_id, category_id, graylog_name, source_id, ssm_solution_alias, ssm_instance_alias, consul_egress_config_path, tags)
+VALUES('f2e938a8-3f11-4d50-ab2f-269985a4fa85'::uuid, 'Service environment', 'storage of service information', 'service', NULL, CURRENT_TIMESTAMP, NULL, NULL, 'f38dd8d0-fffc-465c-a369-81c3d15a316c'::uuid, 'ccaf6f9b-902a-42f7-bc11-3b1f0557919c'::uuid, NULL, NULL, NULL, NULL, NULL, '[]'::jsonb);
