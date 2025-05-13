@@ -1034,8 +1034,9 @@
     </build>
     <profiles>
         <profile>
-            <id>with-analyzers</id>
+            <id>central</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>enable-analyzers</name>
                     <value>true</value>
