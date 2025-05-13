@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-dependencies</artifactId>
-        <version>${atp.service.version}</version>
+        <version>${revision}</version>
         <relativePath>../parent-dependencies/pom.xml</relativePath>
     </parent>
 
@@ -27,14 +27,9 @@
 
     <profiles>
         <profile>
-            <id>default</id>
+            <id>central</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>with-analyzers</id>
-            <activation>
                 <property>
                     <name>enable-analyzers</name>
                     <value>true</value>
