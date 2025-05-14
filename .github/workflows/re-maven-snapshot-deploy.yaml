@@ -126,7 +126,7 @@ jobs:
       - name: Create uuid-ossp extension
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=envconf psql -h localhost -U envconf -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
       - name: Cache local Maven repository
         uses: actions/cache@v4
@@ -155,11 +155,11 @@ jobs:
           gpg-private-key: ${{ secrets.gpg-private-key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-#      - name: "Deploy to Maven Central"
-#        if: ${{ inputs.target-store == 'maven-central' }}
-#        run: |
-#          mvn --batch-mode ${{ env.MVN_COMMAND }} ${ADDITIONAL_MVN_ARGS}
-#        env:
-#          MAVEN_USERNAME: ${{ secrets.maven-username }}
-#          MAVEN_PASSWORD: ${{ secrets.maven-token }}
-#          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+      - name: "Deploy to Maven Central"
+        if: ${{ inputs.target-store == 'maven-central' }}
+        run: |
+          mvn --batch-mode ${{ env.MVN_COMMAND }} ${ADDITIONAL_MVN_ARGS}
+        env:
+          MAVEN_USERNAME: ${{ secrets.maven-username }}
+          MAVEN_PASSWORD: ${{ secrets.maven-token }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
