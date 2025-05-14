@@ -45,6 +45,7 @@ jobs:
           POSTGRESQL_USER: envconf
           POSTGRESQL_PASSWORD: envconf
           POSTGRESQL_DATABASE: envconf
+          POSTGRESQL_ADMIN_PASSWORD: envconf
         options: >-
           --health-cmd="pg_isready -U envconf -d envconf"
           --health-interval=10s
