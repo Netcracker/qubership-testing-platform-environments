@@ -58,6 +58,7 @@
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments/tree/main</url>
     </scm>
 
+
     <profiles>
         <profile>
             <id>central</id>
