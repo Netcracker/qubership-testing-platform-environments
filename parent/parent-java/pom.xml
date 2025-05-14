@@ -27,9 +27,14 @@
 
     <profiles>
         <profile>
-            <id>central</id>
+            <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>with-analyzers</id>
+            <activation>
                 <property>
                     <name>enable-analyzers</name>
                     <value>true</value>

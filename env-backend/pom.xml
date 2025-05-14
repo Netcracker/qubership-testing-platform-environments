@@ -973,7 +973,7 @@
                         </configuration>
                     </execution>
 
-<!--                    generated healchcheck-->
+                    <!--                    generated healchcheck-->
                     <execution>
                         <id>openapi-status-v1.yaml</id>
                         <phase>generate-sources</phase>
@@ -1034,9 +1034,8 @@
     </build>
     <profiles>
         <profile>
-            <id>central</id>
+            <id>with-analyzers</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>enable-analyzers</name>
                     <value>true</value>
