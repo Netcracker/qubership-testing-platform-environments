@@ -10,9 +10,8 @@
         <relativePath>../parent/parent-java/pom.xml</relativePath>
     </parent>
 
-
     <artifactId>env-rest-openapi-specifications</artifactId>
-    <version>${atp.service.version}</version>
+    <version>${revision}</version>
     <packaging>jar</packaging>
 
     <build>
