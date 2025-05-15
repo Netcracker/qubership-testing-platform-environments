@@ -39,7 +39,7 @@ jobs:
 
   perform-version:
     runs-on: ubuntu-latest
-    needs: dev-build
+    needs: mvn-snapshot-deploy
     outputs:
       metadata: "${{ steps.metadata.outputs.result }}"
       tags: "${{ steps.prepare_tags.outputs.tags }}"
