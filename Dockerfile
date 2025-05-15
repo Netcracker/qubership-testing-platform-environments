@@ -15,7 +15,7 @@ WORKDIR $HOME_EX
 RUN mkdir -p dist/atp deployments/update
 
 RUN cp -r deployments/install/* deployments/update/ && \
-    find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} + \
+    find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} +
 
 RUN unzip /tmp/qubership-testing-platform-environments.zip -d $HOME_EX/
 RUN cp -r dist/atp /atp/ && chmod -R 775 /atp/
