@@ -36,3 +36,44 @@ jobs:
       maven-token: ${{ secrets.MAVEN_PASSWORD }}
       gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+
+  perform-version:
+    runs-on: ubuntu-latest
+    needs: dev-build
+    outputs:
+      metadata: "${{ steps.metadata.outputs.result }}"
+      tags: "${{ steps.prepare_tags.outputs.tags }}"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create name
+        uses: netcracker/qubership-workflow-hub/actions/metadata-action@main
+        id: metadata
+
+      - name: Prepare tags
+        id: prepare_tags
+        run: |
+          BASE_TAG="${{ steps.metadata.outputs.result }}"
+          EXTRA_TAG="${{ github.event.inputs.tags }}"
+          if [ -n "$EXTRA_TAG" ]; then
+            TAGS="${BASE_TAG}, ${EXTRA_TAG}"
+          else
+            TAGS="${BASE_TAG}"
+          fi
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+
+      - name: Summary step
+        run: |
+          echo "**Metadata:** ${{ steps.metadata.outputs.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Tags:** ${{ steps.prepare_tags.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+
+  docker-build:
+    uses: netcracker/qubership-workflow-hub/.github/workflows/docker-publish.yml@main
+    needs: perform-version
+    with:
+      ref: ${{ github.event.ref }}
+      artifact-id: ${{ github.event.inputs.artifact-name || github.event.repository.name }}
+      dry-run: true
+      download-artifact: true
+      tags: ${{ needs.perform-version.outputs.tags }}

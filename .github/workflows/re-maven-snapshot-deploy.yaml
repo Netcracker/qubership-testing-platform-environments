@@ -23,6 +23,10 @@ on:
         description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=true')"
         required: false
         default: ""
+      artifact-id:
+        default: artifact
+        required: false
+        type: string
     secrets:
       maven-username:
         required: false
@@ -164,3 +168,10 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.maven-username }}
           MAVEN_PASSWORD: ${{ secrets.maven-token }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+
+      - name: Upload all Maven target directories
+        if: ${{ inputs.upload-artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-id }}
+          path: '**/target'
