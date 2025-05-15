@@ -12,6 +12,8 @@ ENV HOME_LINK=/
 
 WORKDIR $HOME_EX
 
+RUN mkdir -p dist/atp deployments/update
+
 RUN cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} + \
 
@@ -20,7 +22,7 @@ COPY env-distribution/target/env-distribution-*.zip /tmp
 COPY --chmod=775 dist/atp /atp/
 COPY --chown=atp:root build $HOME_EX/
 
-RUN unzip /tmp/env-distribution-0.0.1.LOCAL.zip -d $HOME_EX/ && \
+RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
     cp -r dist/atp /atp/ && chmod -R 775 /atp/ && \
     chown -R atp:root $HOME_EX/ && \
     find $HOME_EX -type f -name '*.sh' -exec chmod a+x {} + && \
