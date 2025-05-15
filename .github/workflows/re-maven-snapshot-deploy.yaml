@@ -170,8 +170,8 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
 
       - name: Upload all Maven target directories
-        if: ${{ inputs.upload-artifact }}
+        if: ${{ inputs.target-store == 'maven-central' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact-id }}
+          name: qubership-testing-platform-environments
           path: '**/target'

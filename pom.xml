@@ -127,7 +127,6 @@
             </distributionManagement>
         </profile>
 
-
         <profile>
             <id>github</id>
             <activation>
