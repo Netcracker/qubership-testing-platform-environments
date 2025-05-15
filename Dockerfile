@@ -17,9 +17,7 @@ RUN mkdir -p dist/atp deployments/update
 RUN cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} + \
 
-COPY env-distribution/target/env-distribution-*.zip /tmp
-
-RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
+RUN unzip /tmp/qubership-testing-platform-environments.zip -d $HOME_EX/ && \
     cp -r dist/atp /atp/ && chmod -R 775 /atp/ && \
     chown -R atp:root $HOME_EX/ && \
     find $HOME_EX -type f -name '*.sh' -exec chmod a+x {} + && \
