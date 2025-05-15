@@ -19,9 +19,6 @@ RUN cp -r deployments/install/* deployments/update/ && \
 
 COPY env-distribution/target/env-distribution-*.zip /tmp
 
-COPY --chmod=775 dist/atp /atp/
-COPY --chown=atp:root build $HOME_EX/
-
 RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
     cp -r dist/atp /atp/ && chmod -R 775 /atp/ && \
     chown -R atp:root $HOME_EX/ && \
@@ -30,6 +27,6 @@ RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
 
 EXPOSE 8080 9000
 
-USER 1000
+USER 1007
 
 CMD ["./run.sh"]
