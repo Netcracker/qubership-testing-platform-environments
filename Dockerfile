@@ -19,7 +19,7 @@ COPY deployments/install/* deployments/install/
 RUN cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} +
 
-COPY build-context/env-distribution-1.5.85-SNAPSHOT-custom-build.zip /tmp/
+COPY build-context/env-distribution/target/env-distribution-1.5.85-SNAPSHOT-custom-build.zip /tmp/
 
 RUN unzip /tmp/env-distribution-1.5.85-SNAPSHOT-custom-build.zip -d $HOME_EX/
 RUN cp -r dist/atp /atp/ && chmod -R 775 /atp/
