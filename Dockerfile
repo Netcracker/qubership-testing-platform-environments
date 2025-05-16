@@ -19,6 +19,8 @@ COPY deployments/install/* deployments/install/
 RUN cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} +
 
+COPY build-context/qubership-testing-platform-environments.zip /tmp/
+
 RUN unzip /tmp/qubership-testing-platform-environments.zip -d $HOME_EX/
 RUN cp -r dist/atp /atp/ && chmod -R 775 /atp/
 RUN chown -R atp:root $HOME_EX/
