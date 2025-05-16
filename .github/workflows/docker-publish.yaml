@@ -122,6 +122,9 @@ jobs:
           echo "labels ${{ steps.meta.outputs.labels }}"
           echo "repository ${{ github.repository }}"
 
+      - name: List build-context contents
+        run: ls -R ./build-context
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
