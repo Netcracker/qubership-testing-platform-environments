@@ -14,6 +14,8 @@ WORKDIR $HOME_EX
 
 RUN mkdir -p dist/atp deployments/update
 
+COPY deployments/install/* deployments/install/
+
 RUN cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} +
 
