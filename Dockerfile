@@ -59,6 +59,6 @@ RUN unzip /tmp/env-distribution-1.5.85-SNAPSHOT-custom-build.zip -d $HOME_EX/ &&
 
 EXPOSE 8080 9000
 
-USER 1007
+USER atp
 
-CMD ["./run.sh"]
+CMD ["/atp-environments/run.sh"]
