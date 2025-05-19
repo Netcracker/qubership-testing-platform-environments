@@ -27,7 +27,7 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repo
           tcpdump=4.99.5-r0 \
           wget=1.25.0-r0 \
           zip=3.0-r13 && \
-        rm -rf /var/cache/apk/* \
+        rm -rf /var/cache/apk/*
 
 RUN mkdir -p dist/atp deployments/update
 
@@ -55,6 +55,4 @@ EXPOSE 8080 9000
 
 USER atp
 
-WORKDIR /atp-environments
-
-CMD ["/atp-environments/run.sh"]
+CMD ["./run.sh"]
