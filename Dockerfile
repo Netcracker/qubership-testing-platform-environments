@@ -4,11 +4,7 @@ LABEL maintainer="our-team@qubership.org"
 LABEL qubership.atp.service="atp-environments"
 
 ENV HOME_EX=/atp-environments
-ENV JDBC_URL=jdbc:postgresql://localhost:5432/envconf
-ENV ENVIRONMENT_DB_USER=envconf
-ENV ENVIRONMENT_DB_PASSWORD=envconf
-ENV REGISTERED_CLIENT=
-ENV HOME_LINK=/
+WORKDIR $HOME_EX
 
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repositories && \
     echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main/" >>/etc/apk/repositories && \
@@ -32,8 +28,6 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repo
           wget=1.25.0-r0 \
           zip=3.0-r13 && \
         rm -rf /var/cache/apk/* \
-
-WORKDIR $HOME_EX
 
 RUN mkdir -p dist/atp deployments/update
 
@@ -60,5 +54,7 @@ RUN unzip /tmp/env-distribution-1.5.85-SNAPSHOT-custom-build.zip -d $HOME_EX/ &&
 EXPOSE 8080 9000
 
 USER atp
+
+WORKDIR /atp-environments
 
 CMD ["/atp-environments/run.sh"]
