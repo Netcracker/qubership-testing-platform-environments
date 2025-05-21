@@ -80,5 +80,5 @@ jobs:
       artifact-id: ${{ github.event.inputs.artifact-name || github.event.repository.name }}
       dry-run: false
       download-artifact: true
-      tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ env.TAG_NAME }}
+      tags: ghcr.io/Netcracker/${{ matrix.component.name }}:latest
       component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."},{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
