@@ -78,3 +78,4 @@ jobs:
       dry-run: false
       download-artifact: true
       tags: ${{ needs.perform-version.outputs.tags }}
+      component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."},{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'

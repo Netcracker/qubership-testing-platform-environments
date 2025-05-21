@@ -1,9 +1,10 @@
 FROM bellsoft/liberica-openjdk-alpine-musl:21.0.6
 
-LABEL maintainer="our-team@qubership.org"
-LABEL qubership.atp.service="atp-environments"
+LABEL maintainer="our-team@qubership.org" \
+      qubership.atp.service="atp-environments"
 
 ENV HOME_EX=/atp-environments
+
 WORKDIR $HOME_EX
 
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repositories && \
@@ -29,12 +30,12 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repo
           zip=3.0-r13 && \
         rm -rf /var/cache/apk/*
 
-RUN mkdir -p dist/atp deployments/update
-
 COPY deployments/install/* deployments/install/
 COPY deployments/atp-common-scripts/* deployments/atp-common-scripts/
+COPY build-context/env-distribution/target/ /tmp/
 
-RUN cp -r deployments/install/* deployments/update/ && \
+RUN mkdir -p dist/atp deployments/update && \
+    cp -r deployments/install/* deployments/update/ && \
     find deployments -maxdepth 1 -regex '.*/\(install\|update\|atp-common-scripts\)$' -exec mv -t dist/atp {} +
 
 RUN adduser -D -H -h /atp -s /bin/bash -u 1007 atp && \
@@ -43,9 +44,7 @@ RUN adduser -D -H -h /atp -s /bin/bash -u 1007 atp && \
     echo "${JAVA_HOME}/bin/java \$@" >/usr/bin/java && \
     chmod a+x /usr/bin/java
 
-COPY build-context/env-distribution/target/env-distribution-1.5.85-SNAPSHOT-custom-build.zip /tmp/
-
-RUN unzip /tmp/env-distribution-1.5.85-SNAPSHOT-custom-build.zip -d $HOME_EX/ && \
+RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
     cp -r dist/atp /atp/ && chmod -R 775 /atp/ && \
     chown -R atp:root $HOME_EX/ && \
     find $HOME_EX -type f -name '*.sh' -exec chmod a+x {} + && \
