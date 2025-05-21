@@ -91,7 +91,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           context: ${{ inputs.context }}
-          images: ghcr.io/${{ github.repository_owner }}/${{ inputs.artifact-id || matrix.component.name }}
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
@@ -107,9 +107,9 @@ jobs:
           for TAG in "${TAGS[@]}"; do
             TAG=$(echo "$TAG" | xargs)
             if [ -z "$TAGS_OUTPUT" ]; then
-              TAGS_OUTPUT="ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}:${TAG}"
+              TAGS_OUTPUT="ghcr.io/${{ github.repository_owner }}/${{ inputs.artifact-id || matrix.component.name }}:${TAG}"
             else
-              TAGS_OUTPUT="${TAGS_OUTPUT}, ghcr.io/${{ github.repository_owner }}/${{ matrix.component.name }}:${TAG}"
+              TAGS_OUTPUT="${TAGS_OUTPUT}, ghcr.io/${{ github.repository_owner }}/${{ inputs.artifact-id || matrix.component.name }}:${TAG}"
             fi
           done
           TAGS_OUTPUT=${TAGS_OUTPUT,,}
