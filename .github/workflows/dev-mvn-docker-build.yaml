@@ -27,7 +27,6 @@ permissions:
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name || github.ref }}
-  GITHUB_GROUP: ${{ github.repository_owner }}
 
 jobs:
   mvn-snapshot-deploy:
@@ -81,5 +80,5 @@ jobs:
       artifact-id: ${{ github.event.inputs.artifact-name || github.event.repository.name }}
       dry-run: false
       download-artifact: true
-      tags: ghcr.io/${{ env.GITHUB_GROUP }}/${{ matrix.component.name }}:${{ env.TAG_NAME }}
+      tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ env.TAG_NAME }}
       component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."},{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
