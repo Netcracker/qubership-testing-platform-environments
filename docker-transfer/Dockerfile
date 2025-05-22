@@ -1,3 +1,3 @@
-FROM scratch
+FROM alphine:latest
 
 COPY deployments /deployments
