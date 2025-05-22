@@ -1,3 +1,3 @@
-FROM alphine:latest
+FROM alpine:latest
 
 COPY deployments /deployments
