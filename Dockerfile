@@ -30,8 +30,8 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community/" >/etc/apk/repo
           zip=3.0-r13 && \
         rm -rf /var/cache/apk/*
 
-COPY deployments/install/* deployments/install/
-COPY deployments/atp-common-scripts/* deployments/atp-common-scripts/
+COPY deployments/install deployments/install
+COPY deployments/atp-common-scripts deployments/atp-common-scripts
 COPY build-context/env-distribution/target/ /tmp/
 
 RUN mkdir -p dist/atp deployments/update && \
