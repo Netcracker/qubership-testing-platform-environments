@@ -49,19 +49,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: List build-context contents
-        run: ls -R ./build-context
-
-      - name: List build-context contents2
-        run: ls -R /build-context
-
       - name: Build and Publish Docker Image
         uses: netcracker/qubership-workflow-hub/actions/docker-action@main
         with:
           ref: ${{ github.ref }}
           dry-run: true
           download-artifact: true
-          download-artifact-path: ./build-context
+          custom-image-name: qubership-testing-platform-environments
+          download-artifact-path: build-context
           component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."},{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
