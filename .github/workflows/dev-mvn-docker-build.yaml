@@ -53,7 +53,7 @@ jobs:
         id: metadata
         uses: netcracker/qubership-workflow-hub/actions/metadata-action@main
         with:
-          default-template: '{{ref-name}}-{{timestamp}}-{{runNumber}}'
+          default-template: '{{ref-name}}-{{timestamp}}'
 
       - name: Build and Publish Docker Image For Environments
         uses: netcracker/qubership-workflow-hub/actions/docker-action@main
