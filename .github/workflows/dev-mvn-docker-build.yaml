@@ -55,7 +55,6 @@ jobs:
           ref: ${{ github.ref }}
           dry-run: true
           download-artifact: true
-          custom-image-name: qubership-testing-platform-environments
           download-artifact-path: build-context
           component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."},{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
