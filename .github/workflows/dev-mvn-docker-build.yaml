@@ -49,11 +49,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Metadata
+        id: metadata
+        uses: netcracker/qubership-workflow-hub/actions/metadata-action@main
+        with:
+          default-template: '{{ref-name}}-{{timestamp}}-{{runNumber}}'
+
       - name: Build and Publish Docker Image For Environments
         uses: netcracker/qubership-workflow-hub/actions/docker-action@main
         with:
           ref: ${{ github.ref }}
           dry-run: true
+          tags: ${{steps.metadata.outputs.result}}
           download-artifact: true
           custom-image-name: qubership-testing-platform-environments
           download-artifact-path: build-context
@@ -66,6 +73,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: true
+          tags: ${{steps.metadata.outputs.result}}
           download-artifact: false
           custom-image-name: qubership-testing-platform-environments-transfer
           component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
