@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-dependencies</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.5.85-SNAPSHOT</version>
         <relativePath>../parent/parent-dependencies/pom.xml</relativePath>
     </parent>
 

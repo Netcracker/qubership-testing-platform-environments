@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>atp-environments</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.5.85-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -32,10 +32,10 @@
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
 
-        <atp.common.version>0.0.42-SNAPSHOT</atp.common.version>
-        <atp.auth.version>1.2.59-SNAPSHOT</atp.auth.version>
-        <atp.crypt.version>0.0.19-SNAPSHOT</atp.crypt.version>
-        <atp.intergration.spring.boot.starter.version>0.2.38-SNAPSHOT</atp.intergration.spring.boot.starter.version>
+        <atp.common.version>0.0.43</atp.common.version>
+        <atp.auth.version>1.2.60</atp.auth.version>
+        <atp.crypt.version>0.0.20</atp.crypt.version>
+        <atp.intergration.spring.boot.starter.version>0.2.38</atp.intergration.spring.boot.starter.version>
         <ei.version>0.2.38-SNAPSHOT</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>

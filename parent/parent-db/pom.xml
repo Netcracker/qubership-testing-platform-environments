@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db-properties</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.5.85-SNAPSHOT</version>
         <relativePath>../parent-db-properties/pom.xml</relativePath>
     </parent>
 
