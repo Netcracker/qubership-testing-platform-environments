@@ -51,7 +51,6 @@ RUN unzip /tmp/env-distribution-*.zip -d $HOME_EX/ && \
     find $HOME_EX -type d -exec chmod 777 {} \;
 
 EXPOSE 8080 9000
-
 USER atp
 
 CMD ["./run.sh"]
