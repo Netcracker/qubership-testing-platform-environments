@@ -112,8 +112,8 @@ jobs:
 #          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 #          dry-run: 'true'
   deploy:
-    needs: dry-run-build
-    if: ${{ needs.dry-run-build.result == 'success' }}
+#    needs: dry-run-build
+#    if: ${{ needs.dry-run-build.result == 'success' }}
     outputs:
       release-version: ${{ steps.build-and-publish.outputs.release-version }}
     runs-on: ubuntu-latest
