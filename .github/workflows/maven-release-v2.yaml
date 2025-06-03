@@ -90,14 +90,17 @@ jobs:
             echo "Waiting for Postgres..."
             sleep 5
           done
+
       - name: Create uuid-ossp extension
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
       - name: "Build and Publish current SNAPSHOT (dry run)"
         uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
         with:
           version-type: ${{ github.event.inputs.version-type }}
+          ref: ${{ github.ref }}
           module: ${{ github.event.repository.name }}
           maven-args: ${{ inputs.mvn-args }}
           profile: ${{ inputs.profile }}
@@ -108,126 +111,137 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           dry-run: 'true'
+  deploy:
+    needs: dry-run-build
+    if: ${{ needs.dry-run-build.result == 'success' }}
+    outputs:
+      release-version: ${{ steps.build-and-publish.outputs.release-version }}
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: centos/postgresql-96-centos7:9.6
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USER: envconf
+          POSTGRESQL_PASSWORD: envconf
+          POSTGRESQL_DATABASE: envconf
+          POSTGRESQL_ADMIN_PASSWORD: envconf
+        options: >-
+          --health-cmd="pg_isready -U envconf -d envconf"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      # This step is needed if there is a GitHub App used for authentication to bypass the protected branch rule
+      - name: Wait for Postgres to be ready
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h localhost -U envconf -d envconf; then
+              echo "Postgres is ready"
+              break
+            fi
+            echo "Waiting for Postgres..."
+            sleep 5
+          done
+
+      - name: Create uuid-ossp extension
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+      - name: "Prepare app token"
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.GH_BUMP_VERSION_APP_ID }}
+          private-key: ${{ secrets.GH_BUMP_VERSION_APP_KEY }}
+      - name: "Build and Publish"
+        id: build-and-publish
+
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
+        with:
+          version-type: ${{ github.event.inputs.version-type }}
+          ref: ${{ github.ref }}
+          module: ${{ github.event.repository.name }}
+          maven-args: ${{ inputs.mvn-args }}
+          profile: ${{ inputs.profile }}
+          server-id: ${{ inputs.profile }}
+          token: ${{ steps.app-token.outputs.token }} # It can be ${{ secrets.GITHUB_TOKEN }} if default branch isn't protected
+          maven-user: ${{ inputs.profile == 'github' && github.actor || secrets.MAVEN_USER }}
+          maven-password: ${{ inputs.profile == 'github' && secrets.GITHUB_TOKEN || secrets.MAVEN_PASSWORD }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          dry-run: 'false'
+
       - name: Upload all Maven target directories
         uses: actions/upload-artifact@v4
         with:
           name: qubership-testing-platform-environments
           path: '**/target'
-#  deploy:
-#    needs: dry-run-build
-#    if: ${{ needs.dry-run-build.result == 'success' }}
-#    outputs:
-#      release-version: ${{ steps.build-and-publish.outputs.release-version }}
-#    runs-on: ubuntu-latest
-#    services:
-#      postgres:
-#        image: centos/postgresql-96-centos7:9.6
-#        ports:
-#          - 5432:5432
-#        env:
-#          POSTGRESQL_USER: envconf
-#          POSTGRESQL_PASSWORD: envconf
-#          POSTGRESQL_DATABASE: envconf
-#          POSTGRESQL_ADMIN_PASSWORD: envconf
-#        options: >-
-#          --health-cmd="pg_isready -U envconf -d envconf"
-#          --health-interval=10s
-#          --health-timeout=5s
-#          --health-retries=10
-#    steps:
-#      # This step is needed if there is a GitHub App used for authentication to bypass the protected branch rule
-#      - name: "Prepare app token"
-#        uses: actions/create-github-app-token@v1
-#        id: app-token
-#        with:
-#          app-id: ${{ vars.GH_BUMP_VERSION_APP_ID }}
-#          private-key: ${{ secrets.GH_BUMP_VERSION_APP_KEY }}
-#      - name: Wait for Postgres to be ready
-#        run: |
-#          for i in {1..30}; do
-#            if pg_isready -h localhost -U envconf -d envconf; then
-#              echo "Postgres is ready"
-#              break
-#            fi
-#            echo "Waiting for Postgres..."
-#            sleep 5
-#          done
-#      - name: Create uuid-ossp extension
-#        run: |
-#          sudo apt-get update && sudo apt-get install -y postgresql-client
-#          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-#
-#      - name: "Build and Publish"
-#        id: build-and-publish
-#
-#        uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
-#        with:
-#          version-type: ${{ github.event.inputs.version-type }}
-#          module: ${{ github.event.repository.name }}
-#          maven-args: ${{ inputs.mvn-args }}
-#          profile: ${{ inputs.profile }}
-#          server-id: ${{ inputs.profile }}
-#          token: ${{ steps.app-token.outputs.token }} # It can be ${{ secrets.GITHUB_TOKEN }} if default branch isn't protected
-#          maven-user: ${{ inputs.profile == 'github' && github.actor || secrets.MAVEN_USER }}
-#          maven-password: ${{ inputs.profile == 'github' && secrets.GITHUB_TOKEN || secrets.MAVEN_PASSWORD }}
-#          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-#          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-#          dry-run: 'false'
-#      - name: Upload all Maven target directories
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: ${{ needs.update-pom-version.outputs.artifact_id }}
-#          path: '**/target'
-  check-dockerfile:
-    if: ${{ github.event.inputs.build-docker == 'true' }}
+
+  load-docker-build-components:
+    needs: [deploy]
     runs-on: ubuntu-latest
-#    needs: [deploy]
-    needs: [dry-run-build]
     outputs:
-      dockerfile_exists: ${{ steps.check_dockerfile.outputs.df_exists }}
+      component: ${{ steps.load_component.outputs.components }}
+      platforms: ${{ steps.load_component.outputs.platforms }}
     steps:
-      - uses: actions/checkout@v4
-      - name: "Check Dockerfile existence"
-        id: check_dockerfile
-        shell: bash
-        run: |
-          if [[ -f Dockerfile ]]; then
-            echo "df_exists=exists" >> "$GITHUB_OUTPUT"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Load Docker Configuration
+        id: load_component
+        run:  |
+          verify=$(cat "$GITHUB_WORKSPACE/.github/docker-build-config.json" | jq '
+          def verify_structure:
+          .components as $components
+          | .platforms as $platforms
+          | ($components | type == "array")
+          and (all($components[]; has("name") and has("file") and has("context")))
+          and ($platforms | type == "string");
+          verify_structure
+          | if . then true else false end
+          ')
+          if [ ${verify} == 'true' ]; then
+            echo "✅ $GITHUB_WORKSPACE/.github/docker-build-config.json file is valid"
+            components=$(jq -c ".components" "$GITHUB_WORKSPACE/.github/docker-build-config.json")
+            platforms=$(jq -c ".platforms" "$GITHUB_WORKSPACE/.github/docker-build-config.json")
           else
-            echo "Dockerfile does not exist. Docker build stage will be skipped"
-            echo "df_exists=notexists" >> "$GITHUB_OUTPUT"
+            echo "❗ $GITHUB_WORKSPACE/.github/docker-build-config.json file is invalid"
+            echo "❗ $GITHUB_WORKSPACE/.github/docker-build-config.json file is invalid" >> $GITHUB_STEP_SUMMARY
+            exit 1
           fi
-          echo "GITHUB_OUTPUT:"
-          cat "$GITHUB_OUTPUT"
+          echo "components=${components}" >> $GITHUB_OUTPUT
+          echo "platforms=${platforms}" >> $GITHUB_OUTPUT
 
-  docker-build-publish:
-#    needs: [deploy, check-dockerfile]
-    needs: [check-dockerfile]
-    if: ${{ github.event.inputs.build-docker == 'true' && needs.check-dockerfile.outputs.dockerfile_exists == 'exists' }}
-    uses: netcracker/qubership-workflow-hub/.github/workflows/docker-publish.yml@v1.0.1
+  docker-build:
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        component: ${{ fromJson(needs.load-docker-build-coponents.outputs.component) }}
+    needs: [ load-docker-build-components, deploy ]
+    steps:
+      - name: "Docker Build"
+        id: docker_build
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@main
+        with:
+          ref: v${{ needs.deploy.outputs.release-version }}
+          download-artifact: true
+          dry-run: false
+          component: ${{ toJson(matrix.component) }}
+          platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  github-release:
+    needs: [deploy]
+    if: ${{ needs.deploy.result == 'success' }}
+    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@v1.0.1
     with:
-      ref: "v${{ needs.deploy.outputs.release-version }}"
-      artifact-id: ${{ needs.update-pom-version.outputs.artifact_id }}
-      download-artifact: true
-      component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
-      tags: release-2025.2-1.5.85
-
-  docker-build-publish-transfer:
-#    needs: [deploy, check-dockerfile]
-    needs: [check-dockerfile]
-    if: ${{ github.event.inputs.build-docker == 'true' && needs.check-dockerfile.outputs.dockerfile_exists == 'exists' }}
-    uses: netcracker/qubership-workflow-hub/.github/workflows/docker-publish.yml@v1.0.1
-    with:
-      ref: "v${{ needs.deploy.outputs.release-version }}"
-      artifact-id: "${{ needs.update-pom-version.outputs.artifact_id }}-transfer"
-      download-artifact: false
-      component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
-      tags: release-2025.2-1.5.85
-
-#  github-release:
-#    needs: [deploy]
-#    if: ${{ needs.deploy.result == 'success' }}
-#    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@v1.0.1
-#    with:
-#      version: ${{ needs.deploy.outputs.release-version }}
-#      publish: true
+      version: ${{ needs.deploy.outputs.release-version }}
+      publish: true
