@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.qubership.atp.environments</groupId>
             <artifactId>env-scripts</artifactId>
-            <version>${project.parent.version}</version>
+            <version>1.5.85-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.qubership.atp.environments</groupId>
             <artifactId>env-model</artifactId>
-            <version>${project.parent.version}</version>
+            <version>1.5.85-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
