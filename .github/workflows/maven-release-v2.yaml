@@ -181,6 +181,7 @@ jobs:
   check-dockerfile:
     if: ${{ github.event.inputs.build-docker == 'true' }}
     runs-on: ubuntu-latest
+#    needs: [deploy]
     needs: [dry-run-build]
     outputs:
       dockerfile_exists: ${{ steps.check_dockerfile.outputs.df_exists }}
@@ -200,7 +201,8 @@ jobs:
           cat "$GITHUB_OUTPUT"
 
   docker-build-publish:
-    needs: [deploy, check-dockerfile]
+#    needs: [deploy, check-dockerfile]
+    needs: [check-dockerfile]
     if: ${{ github.event.inputs.build-docker == 'true' && needs.check-dockerfile.outputs.dockerfile_exists == 'exists' }}
     uses: netcracker/qubership-workflow-hub/.github/workflows/docker-publish.yml@v1.0.1
     with:
@@ -210,7 +212,8 @@ jobs:
       component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
 
   docker-build-publish-transfer:
-    needs: [deploy, check-dockerfile]
+#    needs: [deploy, check-dockerfile]
+    needs: [check-dockerfile]
     if: ${{ github.event.inputs.build-docker == 'true' && needs.check-dockerfile.outputs.dockerfile_exists == 'exists' }}
     uses: netcracker/qubership-workflow-hub/.github/workflows/docker-publish.yml@v1.0.1
     with:
