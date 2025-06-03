@@ -61,56 +61,56 @@ permissions:
   packages: write
 
 jobs:
-  dry-run-build:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: envconf
-          POSTGRESQL_PASSWORD: envconf
-          POSTGRESQL_DATABASE: envconf
-          POSTGRESQL_ADMIN_PASSWORD: envconf
-        options: >-
-          --health-cmd="pg_isready -U envconf -d envconf"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
-    steps:
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U envconf -d envconf; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
-
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-
-      - name: "Build and Publish current SNAPSHOT (dry run)"
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
-        with:
-          version-type: ${{ github.event.inputs.version-type }}
-          ref: ${{ github.ref }}
-          module: ${{ github.event.repository.name }}
-          maven-args: ${{ inputs.mvn-args }}
-          profile: ${{ inputs.profile }}
-          server-id: ${{ inputs.profile }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          maven-user: ${{ inputs.profile == 'github' && github.actor || secrets.MAVEN_USER }}
-          maven-password: ${{ inputs.profile == 'github' && secrets.GITHUB_TOKEN || secrets.MAVEN_PASSWORD }}
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-          dry-run: 'true'
+#  dry-run-build:
+#    runs-on: ubuntu-latest
+#    services:
+#      postgres:
+#        image: centos/postgresql-96-centos7:9.6
+#        ports:
+#          - 5432:5432
+#        env:
+#          POSTGRESQL_USER: envconf
+#          POSTGRESQL_PASSWORD: envconf
+#          POSTGRESQL_DATABASE: envconf
+#          POSTGRESQL_ADMIN_PASSWORD: envconf
+#        options: >-
+#          --health-cmd="pg_isready -U envconf -d envconf"
+#          --health-interval=10s
+#          --health-timeout=5s
+#          --health-retries=10
+#
+#    steps:
+#      - name: Wait for Postgres to be ready
+#        run: |
+#          for i in {1..30}; do
+#            if pg_isready -h localhost -U envconf -d envconf; then
+#              echo "Postgres is ready"
+#              break
+#            fi
+#            echo "Waiting for Postgres..."
+#            sleep 5
+#          done
+#
+#      - name: Create uuid-ossp extension
+#        run: |
+#          sudo apt-get update && sudo apt-get install -y postgresql-client
+#          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+#
+#      - name: "Build and Publish current SNAPSHOT (dry run)"
+#        uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
+#        with:
+#          version-type: ${{ github.event.inputs.version-type }}
+#          ref: ${{ github.ref }}
+#          module: ${{ github.event.repository.name }}
+#          maven-args: ${{ inputs.mvn-args }}
+#          profile: ${{ inputs.profile }}
+#          server-id: ${{ inputs.profile }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          maven-user: ${{ inputs.profile == 'github' && github.actor || secrets.MAVEN_USER }}
+#          maven-password: ${{ inputs.profile == 'github' && secrets.GITHUB_TOKEN || secrets.MAVEN_PASSWORD }}
+#          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+#          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+#          dry-run: 'true'
   deploy:
     needs: dry-run-build
     if: ${{ needs.dry-run-build.result == 'success' }}
