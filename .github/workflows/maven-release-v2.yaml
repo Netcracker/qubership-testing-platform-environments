@@ -111,7 +111,7 @@ jobs:
       - name: Upload all Maven target directories
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ needs.update-pom-version.outputs.artifact_id }}
+          name: qubership-testing-platform-environments
           path: '**/target'
 #  deploy:
 #    needs: dry-run-build
@@ -210,6 +210,7 @@ jobs:
       artifact-id: ${{ needs.update-pom-version.outputs.artifact_id }}
       download-artifact: true
       component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
+      tags: release-2025.2-1.5.85
 
   docker-build-publish-transfer:
 #    needs: [deploy, check-dockerfile]
@@ -221,6 +222,7 @@ jobs:
       artifact-id: "${{ needs.update-pom-version.outputs.artifact_id }}-transfer"
       download-artifact: false
       component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
+      tags: release-2025.2-1.5.85
 
 #  github-release:
 #    needs: [deploy]
