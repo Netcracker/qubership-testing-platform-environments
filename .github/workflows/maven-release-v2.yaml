@@ -159,7 +159,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@fix/maven-release-patch-2
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@main
         with:
           version-type: ${{ github.event.inputs.version-type }}
           ref: ${{ github.ref }}
@@ -238,6 +238,22 @@ jobs:
           platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+  test-atrifact:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    if: ${{ needs.deploy.result == 'success' }}
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ""
+          path: build-context
+      - name: List contents of build-context
+        run: |
+          echo "Listing build-context recursively:"
+          pwd
+          ls -R build-context    
 
   github-release:
     needs: [deploy]
