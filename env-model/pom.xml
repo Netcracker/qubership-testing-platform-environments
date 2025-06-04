@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-java</artifactId>
-        <version>1.5.91-SNAPSHOT</version>
+        <version>1.5.91</version>
         <relativePath>../parent/parent-java/pom.xml</relativePath>
     </parent>
     <name>env-model</name>
