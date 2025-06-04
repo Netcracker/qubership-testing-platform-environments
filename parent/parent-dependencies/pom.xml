@@ -36,7 +36,7 @@
         <atp.auth.version>1.2.60</atp.auth.version>
         <atp.crypt.version>0.0.20</atp.crypt.version>
         <atp.intergration.spring.boot.starter.version>0.2.38</atp.intergration.spring.boot.starter.version>
-        <ei.version>0.2.38-SNAPSHOT</ei.version>
+        <ei.version>0.2.40</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>
