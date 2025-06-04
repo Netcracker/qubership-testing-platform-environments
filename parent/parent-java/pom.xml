@@ -40,6 +40,12 @@
                     <value>true</value>
                 </property>
             </activation>
+            <distributionManagement>
+                <repository>
+                    <id>central</id>
+                    <name>Central Maven Repository</name>
+                </repository>
+            </distributionManagement>
             <build>
                 <plugins>
                     <plugin>
