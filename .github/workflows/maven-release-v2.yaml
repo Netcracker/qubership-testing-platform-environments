@@ -159,7 +159,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@fix/maven-release-patch-2
         with:
           version-type: ${{ github.event.inputs.version-type }}
           ref: ${{ github.ref }}
