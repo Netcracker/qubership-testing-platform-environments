@@ -164,7 +164,7 @@ jobs:
           version-type: ${{ github.event.inputs.version-type }}
           ref: ${{ github.ref }}
           module: ${{ github.event.repository.name }}
-          maven-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
+          maven-args: "-Pdb-postgresql -Pmigration-on-build-pg -Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
           profile: ${{ inputs.profile }}
           server-id: ${{ inputs.profile }}
           token: ${{ steps.app-token.outputs.token }} # It can be ${{ secrets.GITHUB_TOKEN }} if default branch isn't protected
