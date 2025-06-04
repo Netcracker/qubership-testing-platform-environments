@@ -34,7 +34,7 @@
     </modules>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>ATP Crypt Library</description>
+    <description>ATP Environments</description>
     <url>https://github.com/Netcracker/qubership-testing-platform-environments</url>
     <licenses>
         <license>

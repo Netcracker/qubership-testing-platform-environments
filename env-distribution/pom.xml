@@ -11,7 +11,7 @@
         <relativePath>../parent/parent-dependencies/pom.xml</relativePath>
     </parent>
 
-
+    <name>env-distribution</name>
     <artifactId>env-distribution</artifactId>
 
     <dependencies>

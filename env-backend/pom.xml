@@ -9,7 +9,7 @@
         <version>1.5.90-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
-
+    <name>env-backend</name>
     <artifactId>env-backend</artifactId>
     <properties>
         <tool.config.keys.prefix>atp-environments</tool.config.keys.prefix>

@@ -8,7 +8,7 @@
         <version>1.5.90-SNAPSHOT</version>
         <relativePath>../parent/parent-java/pom.xml</relativePath>
     </parent>
-
+    <name>env-model</name>
     <artifactId>env-model</artifactId>
 
     <build>
