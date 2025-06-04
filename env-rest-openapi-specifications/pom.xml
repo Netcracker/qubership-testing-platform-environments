@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-java</artifactId>
-        <version>1.5.85-SNAPSHOT</version>
+        <version>1.5.90-SNAPSHOT</version>
         <relativePath>../parent/parent-java/pom.xml</relativePath>
     </parent>
 
 
     <artifactId>env-rest-openapi-specifications</artifactId>
-    <version>1.5.85-SNAPSHOT</version>
+    <version>1.5.90-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <build>

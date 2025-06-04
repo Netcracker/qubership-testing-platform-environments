@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db</artifactId>
-        <version>1.5.85-SNAPSHOT</version>
+        <version>1.5.90-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
 
