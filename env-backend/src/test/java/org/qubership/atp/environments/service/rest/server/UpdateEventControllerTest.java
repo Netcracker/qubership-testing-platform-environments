@@ -73,49 +73,36 @@ public class UpdateEventControllerTest {
     @Test
     public void getEventByEntityIdAndSubscriptionId_PassedRequest_GoodRequest() throws Exception {
         when(updateEventService.get(any(UUID.class), any(UUID.class))).thenReturn(updateEventList.get(0));
-        mockMvc.perform(MockMvcRequestBuilders.
-                get("/api/updateEvents/subscription/" + UUID.randomUUID() + "/entity/" + UUID.randomUUID())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.entityId").value(updateEventList.get(0).getEntityId().toString().trim()))
-                .andExpect(jsonPath("$.subscription.id").value(updateEventList.get(0).getSubscriptionId().toString().trim()));
+        mockMvcPerformGet("$", "/api/updateEvents/subscription/" + UUID.randomUUID() + "/entity/"
+                + UUID.randomUUID());
     }
 
     @Test
     public void getEventBySubscriptionId_PassedRequest_GoodRequest() throws Exception {
         when(updateEventService.getSubscriptionUpdateEvents(any(UUID.class))).thenReturn(updateEventList.get(0));
-        mockMvc.perform(MockMvcRequestBuilders.
-                get("/api/updateEvents/subscription/" + UUID.randomUUID())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.entityId").value(updateEventList.get(0).getEntityId().toString().trim()))
-                .andExpect(jsonPath("$.subscription.id").value(updateEventList.get(0).getSubscriptionId().toString().trim()));
+        mockMvcPerformGet("$", "/api/updateEvents/subscription/" + UUID.randomUUID());
     }
 
     @Test
     public void getEventByEntityId_PassedRequest_GoodRequest() throws Exception {
         when(updateEventService.getEntityUpdateEvents(any(UUID.class))).thenReturn(updateEventList.get(0));
-        mockMvc.perform(MockMvcRequestBuilders.
-                get("/api/updateEvents/entity/" + UUID.randomUUID())
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvcPerformGet("$", "/api/updateEvents/entity/" + UUID.randomUUID());
+    }
+
+    private void mockMvcPerformGet(String jsonPath, String endpoint) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(endpoint).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.entityId").value(updateEventList.get(0).getEntityId().toString().trim()))
-                .andExpect(jsonPath("$.subscription.id").value(updateEventList.get(0).getSubscriptionId().toString().trim()));
+                .andExpect(jsonPath(jsonPath).exists())
+                .andExpect(jsonPath(jsonPath + ".entityId").value(
+                        updateEventList.get(0).getEntityId().toString().trim()))
+                .andExpect(jsonPath(jsonPath + ".subscription.id").value(
+                        updateEventList.get(0).getSubscriptionId().toString().trim()));
     }
 
     @Test
     public void getAllEvents_PassedRequest_GoodRequest() throws Exception {
         when(updateEventService.getAll()).thenReturn(updateEventList);
-        mockMvc.perform(MockMvcRequestBuilders.
-                get("/api/updateEvents")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].entityId").value(updateEventList.get(0).getEntityId().toString().trim()))
-                .andExpect(jsonPath("$[0].subscription.id").value(updateEventList.get(0).getSubscriptionId().toString().trim()));
+        mockMvcPerformGet("$[0]", "/api/updateEvents");
     }
 
     @Test

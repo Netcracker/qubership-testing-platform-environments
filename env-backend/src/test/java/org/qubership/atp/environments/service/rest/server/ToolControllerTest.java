@@ -53,6 +53,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,8 +81,8 @@ public class ToolControllerTest {
 
     private Environment environmentTool;
     private System system;
-    private List<Environment> toolsList = new ArrayList<>();
-    private List<System> systemList = new ArrayList<>();
+    private final List<Environment> toolsList = new ArrayList<>();
+    private final List<System> systemList = new ArrayList<>();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -129,72 +130,62 @@ public class ToolControllerTest {
     @Test
     public void getToolSystems_PassedRequest_SystemTypePopulated() throws Exception {
         when(environmentService.getSystems(any(), any())).thenReturn(systemList);
-
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/tools/{toolGroupId}/systems", UUID.randomUUID())
-                        .param("system_type", "TestType")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].id").value(system.getId().toString()))
-                .andExpect(jsonPath("$[0].name").value(system.getName()))
-                .andExpect(jsonPath("$[0].description").value(system.getDescription()))
-                .andExpect(jsonPath("$[0].version").value(system.getVersion()))
-                .andExpect(jsonPath("$[0].environmentIds[0]").value(environmentTool.getId().toString()));
+        mockMvcPerformGetSystems(
+                "/api/tools/{toolGroupId}/systems",
+                true,
+                "environmentIds");
     }
 
     @Test
     public void getToolSystems_PassedRequest_SystemTypeEmpty() throws Exception {
         when(environmentService.getSystems(any())).thenReturn(systemList);
+        mockMvcPerformGetSystems(
+                "/api/tools/{toolGroupId}/systems",
+                false,
+                "environmentIds");
+    }
 
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/tools/{toolGroupId}/systems", UUID.randomUUID())
-                        .accept(MediaType.APPLICATION_JSON))
+    private void mockMvcPerformGetSystems(String endpoint,
+                                          boolean withParameter,
+                                          String environmentsJsonPath) throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(endpoint, UUID.randomUUID())
+                .accept(MediaType.APPLICATION_JSON);
+        if (withParameter) {
+            requestBuilder.param("system_type", "TestType");
+        }
+        mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0]").exists())
                 .andExpect(jsonPath("$[0].id").value(system.getId().toString()))
                 .andExpect(jsonPath("$[0].name").value(system.getName()))
                 .andExpect(jsonPath("$[0].description").value(system.getDescription()))
                 .andExpect(jsonPath("$[0].version").value(system.getVersion()))
-                .andExpect(jsonPath("$[0].environmentIds[0]").value(environmentTool.getId().toString()));
+                .andExpect(jsonPath("$[0]." + environmentsJsonPath + "[0]")
+                        .value(environmentTool.getId().toString()));
     }
 
     @Test
     public void getSystemV2_PassedRequest_SystemTypePopulated() throws Exception {
         when(environmentService.getSystemsV2(any(), any())).thenReturn(systemList);
-
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/v2/tools/{toolGroupId}/systems", UUID.randomUUID())
-                        .param("system_type", "TestType")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].id").value(system.getId().toString()))
-                .andExpect(jsonPath("$[0].name").value(system.getName()))
-                .andExpect(jsonPath("$[0].description").value(system.getDescription()))
-                .andExpect(jsonPath("$[0].version").value(system.getVersion()))
-                .andExpect(jsonPath("$[0].environments[0]").value(environmentTool.getId().toString()));
+        mockMvcPerformGetSystems(
+                "/api/v2/tools/{toolGroupId}/systems",
+                true,
+                "environments");
     }
 
     @Test
     public void getSystemV2_PassedRequest_SystemTypeEmpty() throws Exception {
         when(environmentService.getSystemsV2(any())).thenReturn(systemList);
-
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/v2/tools/{toolGroupId}/systems", UUID.randomUUID())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].id").value(system.getId().toString()))
-                .andExpect(jsonPath("$[0].name").value(system.getName()))
-                .andExpect(jsonPath("$[0].description").value(system.getDescription()))
-                .andExpect(jsonPath("$[0].version").value(system.getVersion()))
-                .andExpect(jsonPath("$[0].environments[0]").value(environmentTool.getId().toString()));
+        mockMvcPerformGetSystems(
+                "/api/v2/tools/{toolGroupId}/systems",
+                false,
+                "environments");
     }
 
     @Test
     public void createTool_PassedRequest_GoodRequest() throws Exception {
-        when(environmentService.create(any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(environmentTool);
+        when(environmentService.create(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(environmentTool);
         EnvironmentDto environmentDto = new EnvironmentDto();
         environmentDto.setName("Test Environment");
         environmentDto.setDescription("Test Description");
@@ -214,7 +205,8 @@ public class ToolControllerTest {
 
     @Test
     public void copyTool_PassedRequest_GoodRequest() throws Exception {
-        when(environmentService.copy(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(environmentTool);
+        when(environmentService.copy(any(), any(), any(), any(), any(), any(), any(), any(), any(), any()))
+                .thenReturn(environmentTool);
         EnvironmentDto environmentDto = new EnvironmentDto();
         environmentDto.setName("Test Environment");
         environmentDto.setDescription("Test Description");
@@ -236,17 +228,10 @@ public class ToolControllerTest {
     @Test
     public void updateVersion_PassedRequest_GoodRequest() throws Exception {
         when(systemService.updateVersionByEnvironmentId(any())).thenReturn(systemList);
-
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/tools/{toolGroupId}/version", UUID.randomUUID())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].id").value(system.getId().toString()))
-                .andExpect(jsonPath("$[0].name").value(system.getName()))
-                .andExpect(jsonPath("$[0].description").value(system.getDescription()))
-                .andExpect(jsonPath("$[0].version").value(system.getVersion()))
-                .andExpect(jsonPath("$[0].environments[0]").value(environmentTool.getId().toString()));
+        mockMvcPerformGetSystems(
+                "/api/tools/{toolGroupId}/version",
+                false,
+                "environments");
     }
 
     @Test

@@ -145,20 +145,7 @@ public class SystemControllerTest {
     @Test
     public void getCachedVersion_RequestPassed_GoodRequest() throws Exception {
         when(systemService.getCachedVersionById(any())).thenReturn(system);
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/public/v1/systems/{systemId}/version", system.getId())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.id").value(system.getId().toString()))
-                .andExpect(jsonPath("$.name").value(system.getName()))
-                .andExpect(jsonPath("$.description").value(system.getDescription()))
-                .andExpect(jsonPath("$.status").value(system.getStatus().toString()))
-                .andExpect(jsonPath("$.version").value(system.getVersion()))
-                .andExpect(jsonPath("$.dateOfCheckVersion").value(system.getDateOfCheckVersion()))
-                .andExpect(jsonPath("$.externalId").value(system.getExternalId().toString()))
-                .andExpect(jsonPath("$.connections[0]").value(connection.getId().toString()))
-                .andExpect(jsonPath("$.environmentIds[0]").value(environment.getId().toString()));
+        mockMvcPerformGetVersion("/api/public/v1/systems/{systemId}/version");
     }
 
     @Test
@@ -173,20 +160,7 @@ public class SystemControllerTest {
     @Test
     public void getSystem_RequestPassed_GoodRequest() throws Exception {
         when(systemService.get(any())).thenReturn(system);
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/systems/{systemId}", system.getId())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.id").value(system.getId().toString()))
-                .andExpect(jsonPath("$.name").value(system.getName()))
-                .andExpect(jsonPath("$.description").value(system.getDescription()))
-                .andExpect(jsonPath("$.status").value(system.getStatus().toString()))
-                .andExpect(jsonPath("$.version").value(system.getVersion()))
-                .andExpect(jsonPath("$.dateOfCheckVersion").value(system.getDateOfCheckVersion()))
-                .andExpect(jsonPath("$.externalId").value(system.getExternalId().toString()))
-                .andExpect(jsonPath("$.connections[0]").value(connection.getId().toString()))
-                .andExpect(jsonPath("$.environmentIds[0]").value(environment.getId().toString()));
+        mockMvcPerformGetVersion("/api/systems/{systemId}");
     }
 
     @Test
@@ -624,9 +598,11 @@ public class SystemControllerTest {
     @Test
     public void updateVersion_PassedRequest_GoodRequest() throws Exception {
         when(systemService.updateVersionBySystemId(any(), anyBoolean())).thenReturn(system);
-        mockMvc.perform(MockMvcRequestBuilders.
-                        get("/api/systems/{systemId}/version", system.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvcPerformGetVersion("/api/systems/{systemId}/version");
+    }
+
+    private void mockMvcPerformGetVersion(String endpoint) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(endpoint, system.getId()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
                 .andExpect(jsonPath("$.id").value(system.getId().toString()))
