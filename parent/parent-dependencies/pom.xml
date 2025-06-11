@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>atp-environments</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.5.93-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -32,11 +31,11 @@
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
 
-        <atp.common.version>0.0.42</atp.common.version>
-        <atp.auth.version>1.2.59</atp.auth.version>
-        <atp.crypt.version>0.0.19</atp.crypt.version>
+        <atp.common.version>0.0.43</atp.common.version>
+        <atp.auth.version>1.2.60</atp.auth.version>
+        <atp.crypt.version>0.0.20</atp.crypt.version>
         <atp.intergration.spring.boot.starter.version>0.2.38</atp.intergration.spring.boot.starter.version>
-        <ei.version>0.2.38</ei.version>
+        <ei.version>0.2.40</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>

@@ -42,6 +42,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -91,29 +92,31 @@ class UserSettingControllerTest {
 
     @Test
     void create_WithFilledBody_createdInfo() throws Exception {
-        UserSetting userSetting = new UserSettingImpl(UUID.randomUUID(), "TAGS");
-        when(userSettingService.create(any(UUID.class), any())).thenReturn(userSetting);
-        mockMvc.perform(MockMvcRequestBuilders.
-                post("/api/usersettings")
-                .content(objectMapper.writeValueAsString(userSetting))
-                .characterEncoding("utf-8")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.view").value("TAGS"));
+        mockMvcPerform("TAGS", "/api/usersettings", "POST");
     }
 
     @Test
     void update_WithFilledBody_updatedInfo() throws Exception {
-        UserSetting userSetting = new UserSettingImpl(UUID.randomUUID(), "TAGS");
-        when(userSettingService.update(any(UUID.class), any())).thenReturn(userSetting);
-        mockMvc.perform(MockMvcRequestBuilders.
-                put("/api/usersettings")
+        mockMvcPerform("TAGS", "/api/usersettings", "PUT");
+    }
+
+    private void mockMvcPerform(String view, String endpoint, String requestMethod) throws Exception {
+        UserSetting userSetting = new UserSettingImpl(UUID.randomUUID(), view);
+        MockHttpServletRequestBuilder requestBuilder;
+        if ("POST".equals(requestMethod)) {
+            when(userSettingService.create(any(UUID.class), any())).thenReturn(userSetting);
+            requestBuilder = MockMvcRequestBuilders.post(endpoint);
+        } else {
+            when(userSettingService.update(any(UUID.class), any())).thenReturn(userSetting);
+            requestBuilder = MockMvcRequestBuilders.put(endpoint);
+        }
+        requestBuilder
                 .content(objectMapper.writeValueAsString(userSetting))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON);
+        mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.view").value("TAGS"));
+                .andExpect(jsonPath("$.view").value(view));
     }
 }

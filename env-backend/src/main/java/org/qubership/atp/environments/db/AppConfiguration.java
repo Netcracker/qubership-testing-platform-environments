@@ -81,7 +81,7 @@ public class AppConfiguration implements WebMvcConfigurer {
     /**
      * Add path to static recources.
      * Enable version strategy got resources
-     * Set cache period for resources< in seconds
+     * Set cache period for resources in seconds
      *
      * @param registry for registration resources
      */
