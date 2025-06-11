@@ -32,7 +32,7 @@
     </modules>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>QSTP Environments Service</description>
+    <description>Qubership Testing Platform Environments Service</description>
     <url>https://github.com/Netcracker/qubership-testing-platform-environments</url>
     <licenses>
         <license>
