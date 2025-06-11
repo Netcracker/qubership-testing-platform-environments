@@ -1,31 +1,31 @@
 # Qubership Testing Platform Environments Service
 
-QSTP Environments is a microservice. It is designed to configure and store information about project environments 
+QSTP Environments is a microservice. It is designed to configure and store information about project environments
 and to provide this information to other services during test scenarios execution.
 
-# How to install and run the database
+## How to install and run the database
 
 For local DB in Docker deployment, see the following instructions - [DB in Docker](./docker-compose/readme.md)
 
-# How to start Backend
+## How to start Backend
 
-This project use [Lombok](https://projectlombok.org). This means that the project has a code that is generated before compilation. 
-To develop you need to install a plugin for your **IDE**. 
+This project use [Lombok](https://projectlombok.org). This means that the project has a code that is generated before compilation.
+To develop you need to install a plugin for your **IDE**.
 * [Intellij IDEA](http://plugins.jetbrains.com/plugin/6317-lombok-plugin)
 
 Probably you would need running Hazelcast instance. You can find information like "How to run Hazelcast locally"
 
-## Build project: mvn clean package
+### Build project: mvn clean package
 1. In some case with flag -DskipTests
 2. If you have not compiled q-classes:
-    * check db-postgresql, migration-on-build-pg in profiles; 
+    * check db-postgresql, migration-on-build-pg in profiles;
     * set settings for DB - jdbc.url, jdbc.user, jdbc.password in parent-db-properties (like in the step bellow)
     * and create extensions in db if not
 3. Check and enable maven profiles `db-postgresql` and `migration-on-build-pg`
 
-## Create run configuration
+### Create run configuration
 1. Main class: org.qubership.atp.environments.Main
-2. VM options: 
+2. VM options:
  -Djavax.net.ssl.keyStore=src/main/config/keystore.p12
  -Djavax.net.ssl.keyStorePassword=123456
  -Dspring.datasource.url=jdbc:postgresql://localhost:5432/dev_env?preferQueryMode=simple
@@ -38,13 +38,13 @@ Probably you would need running Hazelcast instance. You can find information lik
 -Dlogback.configurationFile=src/main/config/logback.xml
 -Dlog.graylog.on=false
 
-## Run Main
+### Run Main
 Just run Main#main with args from step above
 
 ## How to create dump on production and restore it to local DB
 [Create and restore dump]
 
-# Local build without local PostgreSQL installation
+## Local build without local PostgreSQL installation
 Example for **dev04** openshift server connection. For another project use correspond server and credentials.
 
 1. Go to [ATP Cloud]
