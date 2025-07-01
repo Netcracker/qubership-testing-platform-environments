@@ -1,0 +1,13 @@
+---
+
+# Charts release configuration file example
+# This file is used to update the version of the helm charts and images in the values.yaml file
+# It is used in the helm-charts-release action
+# ${release} is replaced with the release version provided in the workflow
+
+charts:
+  - name: qubership-testing-platform-environments
+    chart_file: charts/atp-environments/Chart.yaml
+    values_file: charts/atp-environments/values.yaml
+    image:
+      - ghcr.io/netcracker/qubership-testing-platform-environments:${release}
