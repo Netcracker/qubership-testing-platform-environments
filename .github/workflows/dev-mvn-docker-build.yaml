@@ -80,9 +80,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  Environments-Pipeline:
-    uses: Netcracker/qubership-test-pipelines/.github/workflows/test.yaml@test_pipeline
-    with:
-      service_branch: '${{ github.head_ref || github.ref_name }}'
-      versions_file: '.github/versions.yaml'
-      pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
+      - name: Run Environments Pipeline
+        uses: Netcracker/qubership-workflow-hub/actions/docker-action@main
+        with:
+          service_branch: '${{ github.head_ref || github.ref_name }}'
+          versions_file: '.github/versions.yaml'
+          pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
