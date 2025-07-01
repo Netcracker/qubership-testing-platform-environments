@@ -133,6 +133,14 @@ jobs:
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
+
+      - name: Run Environments Pipeline
+        uses: Netcracker/qubership-workflow-hub/actions/docker-action@main
+        with:
+          service_branch: '${{ github.head_ref || github.ref_name }}'
+          versions_file: '.github/versions.yaml'
+          pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
+
       - name: Cache local Maven repository
         uses: actions/cache@v4
         with:

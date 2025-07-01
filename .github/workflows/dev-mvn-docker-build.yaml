@@ -79,10 +79,3 @@ jobs:
           component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Environments Pipeline
-        uses: Netcracker/qubership-workflow-hub/actions/docker-action@main
-        with:
-          service_branch: '${{ github.head_ref || github.ref_name }}'
-          versions_file: '.github/versions.yaml'
-          pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
