@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  Consul-Pipeline:
+  Environments-Pipeline:
     uses: Netcracker/qubership-test-pipelines/.github/workflows/test.yaml@test_pipeline
     with:
       service_branch: '${{ github.head_ref || github.ref_name }}'
