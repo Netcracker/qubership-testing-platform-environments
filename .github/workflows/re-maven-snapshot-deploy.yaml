@@ -177,9 +177,9 @@ jobs:
           path: '**/target'
 
   reusable-job:
-    uses: Netcracker/qubership-testing-platform-environments/.github/workflows/test.yaml@3adc32ba1f957bde8b142e18e8f0fb7943934eee
+    uses: Netcracker/qubership-testing-platform-environments/.github/workflows/test.yaml@test_pipeline
     needs: mvn-deploy
     with:
       service_branch: '${{ github.head_ref || github.ref_name }}'
       versions_file: '.github/versions.yaml'
-      pipeline_branch: '3adc32ba1f957bde8b142e18e8f0fb7943934eee' #this value must match the value after '@' in 'uses'
+      pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
