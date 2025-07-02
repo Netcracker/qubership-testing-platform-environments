@@ -61,7 +61,7 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@v4
         with:
-          ref: '${{inputs.pipeline_branch}}'
+          ref: 'main'
           repository: 'Netcracker/qubership-test-pipelines'
           path: 'qubership-test-pipelines'
       - name: Create cluster
