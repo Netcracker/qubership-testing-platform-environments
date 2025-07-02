@@ -41,7 +41,7 @@ jobs:
       - name: Process versions file
         id: process-versions
         run: |
-          versions_str=$(cat qubership-consul/${{inputs.versions_file}})
+          versions_str=$(cat qubership-qubership-testing-platform-environments/${{inputs.versions_file}})
           versions_json=$(echo $versions_str | jq -R -s -c 'split(" ")')
           echo "versions=$versions_json" >> $GITHUB_OUTPUT
           previous_version=$(echo "$versions_json" | jq -r '.[-1]')
