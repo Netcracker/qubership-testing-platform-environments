@@ -135,7 +135,7 @@ jobs:
 
 
       - name: Run Environments Pipeline
-        uses: Netcracker/qubership-workflow-hub/actions/docker-action@main
+        uses: Netcracker/qubership-test-pipelines/.github/workflows/test.yaml@test_pipeline
         with:
           service_branch: '${{ github.head_ref || github.ref_name }}'
           versions_file: '.github/versions.yaml'
