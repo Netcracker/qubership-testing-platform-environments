@@ -72,7 +72,15 @@ jobs:
         uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
         with:
           path_to_template: 'templates/consul-service/consul_clean_all_on_sc.yml'
-          service_branch: '${{inputs.service_branch}}'
+          service_branch: 'test_pipeline'
+          deploy_mode: 'install'
+          restricted: 'false'
+          service_name: 'qubership-testing-platform-environments'
+          repository_name: 'qubership-testing-platform-environments'
+          path_to_chart: 'deployment/chart/atp-environments'
+          namespace: 'environment'
+          helm_charts_release_config: '.github/helm-charts-release-config.yaml'
+
       - name: Verify Consul installation
         uses: ./qubership-test-pipelines/actions/consul/verify_installation_consul
       - name: Update to [LATEST] Version With Diff Params
