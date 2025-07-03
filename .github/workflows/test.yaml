@@ -77,7 +77,7 @@ jobs:
           restricted: 'false'
           service_name: 'qubership-testing-platform-environments'
           repository_name: 'qubership-testing-platform-environments'
-          path_to_chart: 'deployment/charts/atp-environments'
+          path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'environment'
           helm_charts_release_config: '.github/helm-charts-release-config.yaml'
 
