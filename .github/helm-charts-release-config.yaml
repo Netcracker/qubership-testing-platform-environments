@@ -7,7 +7,7 @@
 
 charts:
   - name: qubership-testing-platform-environments
-    chart_file: charts/atp-environments/Chart.yaml
-    values_file: charts/atp-environments/values.yaml
+    chart_file: deployments/charts/atp-environments/Chart.yaml
+    values_file: deployments/charts/atp-environments/values.yaml
     image:
       - ghcr.io/netcracker/qubership-testing-platform-environments:${release}
