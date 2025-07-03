@@ -75,7 +75,7 @@ jobs:
           service_branch: 'test_pipeline'
           deploy_mode: 'install'
           restricted: 'false'
-          service_name: 'qubership-testing-platform-environments'
+          service_name: 'atp-environments'
           repository_name: 'qubership-testing-platform-environments'
           path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'environment'
