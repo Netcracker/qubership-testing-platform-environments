@@ -107,7 +107,7 @@ runs:
       shell: bash
       # language=bash
       run: |
-        cp qubership-test-pipelines/${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
+        cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
 
     - name: Check helm_charts_release_config file
       shell: bash

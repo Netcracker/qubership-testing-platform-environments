@@ -69,7 +69,7 @@ jobs:
         #- name: Install Monitoring
         #uses: ./qubership-test-pipelines/actions/monitoring/helm_deploy_monitoring
       - name: Clean Install Consul [LATEST]
-        uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
+        uses: ./qubership-testing-platform-environments/actions/shared/helm_deploy
         with:
           path_to_template: './qubership-testing-platform-environments/templates/consul_clean_all_on_sc.yml'
           service_branch: 'test_pipeline'
