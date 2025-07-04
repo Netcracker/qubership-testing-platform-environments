@@ -71,7 +71,7 @@ jobs:
       - name: Clean Install Consul [LATEST]
         uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
         with:
-          path_to_template: 'templates/consul-service/consul_clean_all_on_sc.yml'
+          path_to_template: 'templates/consul_clean_all_on_sc.yml'
           service_branch: 'test_pipeline'
           deploy_mode: 'install'
           restricted: 'false'
