@@ -68,6 +68,12 @@ jobs:
         uses: ./qubership-test-pipelines/actions/shared/create_cluster
         #- name: Install Monitoring
         #uses: ./qubership-test-pipelines/actions/monitoring/helm_deploy_monitoring
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: '${{inputs.service_branch}}'
+          repository: 'Netcracker/qubership-testing-platform-environments'
+          path: 'qubership-testing-platform-environments'
       - name: Clean Install Consul [LATEST]
         uses: ./qubership-testing-platform-environments/actions/shared/helm_deploy/action.yml
         with:
