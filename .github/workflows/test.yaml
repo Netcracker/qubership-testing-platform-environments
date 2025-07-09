@@ -71,14 +71,14 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@v4
         with:
-          ref: 'test_pipeline'
+          ref: '${{inputs.service_branch}}'
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
       - name: Clean Install Consul [LATEST]
-        uses: ./actions/consul/helm_deploy_consul
+        uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
         with:
           path_to_template: '/templates/consul_clean_all_on_sc.yml'
-          service_branch: 'test_pipeline'
+          service_branch: '${{inputs.service_branch}}'
 
       - name: Verify Consul installation
         uses: ./qubership-test-pipelines/actions/consul/verify_installation_consul
