@@ -87,7 +87,7 @@ jobs:
           ls -la
 
       - name: Clean Install Consul [LATEST]
-        uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul/action.yaml
+        uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul/action.yaml
         with:
           path_to_template: '/templates/consul_clean_all_on_sc.yml'
           service_branch: 'test_pipeline'
