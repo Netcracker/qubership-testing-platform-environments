@@ -80,12 +80,7 @@ jobs:
           ls -la
           cd qubership-testing-platform-environments
           ls -la
-          cd actions
-          ls -la
-          pwd
-          cd consul
-          ls -la
-          cd helm_deploy_consul
+          cd templates
           ls -la
           pwd
 
