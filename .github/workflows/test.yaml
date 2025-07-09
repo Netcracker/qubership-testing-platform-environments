@@ -68,12 +68,16 @@ jobs:
         uses: ./qubership-test-pipelines/actions/shared/create_cluster
         #- name: Install Monitoring
         #uses: ./qubership-test-pipelines/actions/monitoring/helm_deploy_monitoring
-      - name: Checkout pipeline
-        uses: actions/checkout@v4
-        with:
-          ref: 'test_pipeline'
-          repository: 'Netcracker/qubership-testing-platform-environments'
-          path: 'qubership-testing-platform-environments'
+      #- name: Checkout pipeline
+      #  uses: actions/checkout@v4
+      #  with:
+      #    ref: 'test_pipeline'
+      #    repository: 'Netcracker/qubership-testing-platform-environments'
+      #    path: 'qubership-testing-platform-environments'
+      - name: Structure
+        run: |
+          tree qubership-testing-platform-environments || sudo apt update && sudo apt install tree -y && tree qubership-testing-platform-environments
+
       - name: Clean Install Consul [LATEST]
         uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
         with:
