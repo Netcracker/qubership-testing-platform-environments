@@ -74,12 +74,13 @@ jobs:
       #    ref: 'test_pipeline'
       #    repository: 'Netcracker/qubership-testing-platform-environments'
       #    path: 'qubership-testing-platform-environments'
-      - name: Structure
+      - name: Checkout folder
         run: |
-          tree qubership-testing-platform-environments || sudo apt update && sudo apt install tree -y && tree qubership-testing-platform-environments
+          echo "qubership-testing-platform-environments:"
+          ls -la qubership-testing-platform-environments
 
       - name: Clean Install Consul [LATEST]
-        uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
+        uses: ./actions/consul/helm_deploy_consul/action.yaml
         with:
           path_to_template: '/templates/consul_clean_all_on_sc.yml'
           service_branch: 'test_pipeline'
