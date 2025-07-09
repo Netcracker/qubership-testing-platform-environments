@@ -78,6 +78,8 @@ jobs:
         run: |
           pwd
           ls -la
+          cd qubership-test-pipelines
+          ls -la
 
       - name: Clean Install Consul [LATEST]
         uses: ./actions/consul/helm_deploy_consul/action.yaml
