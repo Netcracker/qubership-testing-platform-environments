@@ -76,8 +76,8 @@ jobs:
       #    path: 'qubership-testing-platform-environments'
       - name: Checkout folder
         run: |
-          echo "qubership-testing-platform-environments:"
-          ls -la qubership-testing-platform-environments
+          pwd
+          ls -la
 
       - name: Clean Install Consul [LATEST]
         uses: ./actions/consul/helm_deploy_consul/action.yaml
