@@ -96,7 +96,7 @@ runs:
 
     - name: Create restricted resources
       if: inputs.restricted == 'true'  && inputs.deploy_mode == 'install'
-      uses: ./qubership-test-pipelines/actions/shared/create_restricted_resources
+      uses: ./qubershipqubership-testing-platform-environments-test-pipelines/actions/shared/create_restricted_resources
       with:
         service_name: ${{inputs.service_name}}
         repository_name: ${{inputs.repository_name}}
@@ -120,7 +120,7 @@ runs:
         if [ -f "$file_path" ]; then
             echo "$file_path" exists in service repository
         else
-            if cp "qubership-test-pipelines/$config_source" "$file_path"; then
+            if cp "qubership-testing-platform-environments/$config_source" "$file_path"; then
                 echo "Config file is missing in ${{inputs.service_name}} repository. Using config file from pipeline repository"
             else
                 echo "File $config_source is not found in pipeline repository" >&2
@@ -162,10 +162,10 @@ runs:
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         if [[ ${{inputs.restricted}} == 'false' ]]; then
-          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f ${{template_name}} -n ${{inputs.namespace}} --timeout 10m --debug
           helm list -A
         else
-          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f ${{template_name}} -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
           helm list -A
         fi
 
