@@ -14,7 +14,7 @@ CPU_LIMIT: "1"
 # CPU core request
 CPU_REQUEST: "0.05"
 # Which docker image should be used to deploy
-DOCKER_TAG: "artifactory-url/path-to-image"
+DOCKER_TAG: "ghcr.io/netcracker/qubership-testing-platform-environments:main-20250708160959"
 # Name mongo grid DB
 EI_GRIDFS_DB: ""
 # Password mongo grid DB
@@ -208,5 +208,5 @@ HEAPDUMP_ENABLED: false
 #  ]
 extraEnvs: []
 keepHookLogs: false
-HELPER_IMAGE: "artifactory-address/path-to-docker-image"
+HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:main-20250710120209"
 
