@@ -107,6 +107,8 @@ runs:
       shell: bash
       # language=bash
       run: |
+        pwd
+        ls -la
         cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
 
     - name: Check helm_charts_release_config file
