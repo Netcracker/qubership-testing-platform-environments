@@ -29,21 +29,21 @@ env:
   TAG_NAME: ${{ github.event.release.tag_name || github.ref }}
 
 jobs:
-  mvn-snapshot-deploy:
-    uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
-    with:
-      java-version: "21"
-      additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
-      target-store: "maven-central"
-    secrets:
-      maven-username: ${{ secrets.MAVEN_USER }}
-      maven-token: ${{ secrets.MAVEN_PASSWORD }}
-      gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-      gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+  #mvn-snapshot-deploy:
+  #  uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
+  #  with:
+  #    java-version: "21"
+  #    additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
+  #    target-store: "maven-central"
+  #  secrets:
+  #    maven-username: ${{ secrets.MAVEN_USER }}
+  #    maven-token: ${{ secrets.MAVEN_PASSWORD }}
+  #    gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+  #    gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
   build-and-push:
     runs-on: ubuntu-latest
-    needs: mvn-snapshot-deploy
+    #needs: mvn-snapshot-deploy
 
     steps:
       - name: Checkout Repository
@@ -79,3 +79,11 @@ jobs:
           component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  reusable-job:
+    uses: Netcracker/qubership-testing-platform-environments/.github/workflows/test.yaml@test_pipeline
+    needs: mvn-deploy
+    with:
+      service_branch: '${{ github.head_ref || github.ref_name }}'
+      versions_file: '.github/versions.yaml'
+      pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'

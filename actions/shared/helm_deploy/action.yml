@@ -170,6 +170,7 @@ runs:
         fi
 
     - name: Debug
+      shell: bash
       if: always()
       run: |
         kubectl get pods -n ${{inputs.namespace}}
