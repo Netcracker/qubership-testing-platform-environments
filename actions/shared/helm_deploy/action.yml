@@ -164,12 +164,16 @@ runs:
         ls -la
         pwd
         if [[ ${{inputs.restricted}} == 'false' ]]; then
-          helm list -A
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
         else
-          helm list -A
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
         fi
+
+    - name: Debug
+      if: always()
+      run: |
+        kubectl get pods -n ${{inputs.namespace}}
+        kubectl get events -n ${{inputs.namespace}} --sort-by=.metadata.creationTimestamp
 
     - name: Get docker images
       shell: bash
