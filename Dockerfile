@@ -54,4 +54,3 @@ EXPOSE 8080 9000
 USER atp
 
 CMD ["./run.sh"]
-
