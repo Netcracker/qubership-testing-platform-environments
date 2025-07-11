@@ -1,3 +1,5 @@
+atp-environments:
+  image: ghcr.io/netcracker/qubership-testing-platform-environments:1.5.92
 PAAS_PLATFORM: "KUBERNETES"
 ATP_NET: ""
 # expression describing the start time of the job

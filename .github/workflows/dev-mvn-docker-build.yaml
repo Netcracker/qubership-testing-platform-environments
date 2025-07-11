@@ -29,17 +29,17 @@ env:
   TAG_NAME: ${{ github.event.release.tag_name || github.ref }}
 
 jobs:
-  mvn-snapshot-deploy:
-    uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
-    with:
-      java-version: "21"
-      additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
-      target-store: "maven-central"
-    secrets:
-      maven-username: ${{ secrets.MAVEN_USER }}
-      maven-token: ${{ secrets.MAVEN_PASSWORD }}
-      gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-      gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+  #mvn-snapshot-deploy:
+  #  uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
+  #  with:
+  #    java-version: "21"
+  #    additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
+  #    target-store: "maven-central"
+  #  secrets:
+  #    maven-username: ${{ secrets.MAVEN_USER }}
+  #    maven-token: ${{ secrets.MAVEN_PASSWORD }}
+  #    gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+  #    gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
   build-and-push:
     runs-on: ubuntu-latest
