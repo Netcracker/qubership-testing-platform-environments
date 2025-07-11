@@ -175,6 +175,7 @@ runs:
       run: |
         kubectl get pods -n ${{inputs.namespace}}
         kubectl get events -n ${{inputs.namespace}} --sort-by=.metadata.creationTimestamp
+        kubectl logs $(kubectl get pods --no-headers | grep atp-environments-predeploy-install- | awk '{print $1}')
 
     - name: Get docker images
       shell: bash
