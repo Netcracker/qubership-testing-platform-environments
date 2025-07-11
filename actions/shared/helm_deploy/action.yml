@@ -22,7 +22,7 @@ inputs:
       Path to template file in qubership-test-pipelines repository
       Example: 'templates/consul-service/consul_clean_infra_passport.yml'
     required: true
-    default: 'deployments/charts/atp-environments/values.yaml'
+    default: 'values.yaml'
 
   service_branch:
     description: |
@@ -159,9 +159,11 @@ runs:
       # language=bash
       run: |
         # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
-        #template_name=$(basename "${{inputs.values_file}}")
+        #template_name=$(basename "${{inputs.path_to_template}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
+        ls -la
+        pwd
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm list -A
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
