@@ -88,7 +88,7 @@ jobs:
         uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
-          service_branch: 'main'
+          service_branch: 'test_pipeline'
           service_name: 'atp-environments'
           repository_name: 'qubership-testing-platform-environments'
           path_to_chart: 'deployments/charts/atp-environments'
