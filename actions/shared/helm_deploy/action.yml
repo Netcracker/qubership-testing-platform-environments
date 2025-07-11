@@ -158,15 +158,15 @@ runs:
       # language=bash
       run: |
         # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
-        template_name=$(basename "${{inputs.path_to_template}}")
+        template_name=$(basename "${{inputs.values_file}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         if [[ ${{inputs.restricted}} == 'false' ]]; then
+          helm list -A
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
-          helm list -A
         else
-          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
           helm list -A
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
         fi
 
     - name: Get docker images
