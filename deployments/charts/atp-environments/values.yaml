@@ -209,5 +209,5 @@ HEAPDUMP_ENABLED: false
 #  ]
 extraEnvs: []
 keepHookLogs: false
-HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:main-20250714064438"
+HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:main-20250714085543"
 
