@@ -247,11 +247,24 @@ runs:
         
         sleep 35
         
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
           echo "📦 Logs from pod: $pod"
-            kubectl logs "$pod" -n ${{inputs.namespace}} || echo "⚠️ Could not fetch logs for $pod"
-            echo -e "\n---\n"
+          
+          if ! kubectl logs "$pod" -n ${{inputs.namespace}}; then
+            echo "⚠️ Could not fetch current logs for $pod"
+          fi
+      
+          restart_count=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].restartCount}")
+          
+          if [[ "$restart_count" -gt 0 ]]; then
+            echo "🔁 Previous logs (before restart) for pod: $pod"
+            if ! kubectl logs "$pod" -n ${{inputs.namespace}} --previous; then
+              echo "⚠️ Could not fetch previous logs for $pod"
+            fi
+          fi
+      
         done
+  
         
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
