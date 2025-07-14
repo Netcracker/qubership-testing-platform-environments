@@ -163,6 +163,13 @@ runs:
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         ls -la
         pwd
+        
+        helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
+          --set image.tag=14.9.0-debian-11-r0 \
+          --set auth.username=atp-envconf \
+          --set auth.password=atp-envconf \
+          --set auth.database=atp-envconf
+        
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
         else
