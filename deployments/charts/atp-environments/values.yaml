@@ -1,4 +1,4 @@
-image: ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714054521
+image: ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714065909
 PAAS_PLATFORM: "KUBERNETES"
 ATP_NET: ""
 # expression describing the start time of the job
@@ -15,7 +15,7 @@ CPU_LIMIT: "1"
 # CPU core request
 CPU_REQUEST: "0.05"
 # Which docker image should be used to deploy
-DOCKER_TAG: "ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714054521"
+DOCKER_TAG: "ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714065909"
 # Name mongo grid DB
 EI_GRIDFS_DB: ""
 # Password mongo grid DB

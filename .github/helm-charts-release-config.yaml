@@ -10,4 +10,4 @@ charts:
     chart_file: deployments/charts/atp-environments/Chart.yaml
     values_file: deployments/charts/atp-environments/values.yaml
     image:
-      - ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714054521
+      - ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714065909
