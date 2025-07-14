@@ -202,7 +202,13 @@ runs:
             sleep 2
           done
         done
-  
+        echo "========== Get pods $pod =========="
+        kubectl get pods -n ${{inputs.namespace}}
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
+          echo "===== Logs from pod: $pod ====="
+          kubectl logs "$pod" -n ${{inputs.namespace}}
+          echo
+        done
 
 
     - name: Get docker images
