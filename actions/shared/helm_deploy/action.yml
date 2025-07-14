@@ -146,7 +146,7 @@ runs:
       id: update-versions
       uses: netcracker/qubership-workflow-hub/actions/helm-charts-release@main
       with:
-        release-version: 1.5.92
+        release-version: test_pipeline-20250714054521
         config-file: .github/helm-charts-release-config.yaml
         create-release-branch: "false"
         version-replace-method: 'replace'
