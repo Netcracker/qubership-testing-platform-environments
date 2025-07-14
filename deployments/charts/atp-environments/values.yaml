@@ -50,7 +50,7 @@ FEIGN_ATP_USERS_URL: '' # TO_BE_REPLACED
 # Host of graylog
 GRAYLOG_HOST: "tcp:graylog-machine-address"
 # This option turns on or off logging in graylog
-GRAYLOG_ON: "true"
+GRAYLOG_ON: "false"
 # Port of graylog
 GRAYLOG_PORT: "12201"
 # Hist mongo grid DB

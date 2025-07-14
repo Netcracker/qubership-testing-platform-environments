@@ -215,6 +215,33 @@ runs:
       run: |
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
+        echo "⏳ Waiting for pod $pod to be ready..."
+      
+          for i in {1..30}; do
+            STATE=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state}" 2>/dev/null)
+        
+            if echo "$STATE" | grep -q "running"; then
+              echo "✅ Pod $pod is Running"
+              break
+            elif echo "$STATE" | grep -q "terminated"; then
+              echo "⚠️ Pod $pod has Terminated"
+              break
+            elif echo "$STATE" | grep -q "waiting"; then
+              REASON=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state.waiting.reason}" 2>/dev/null)
+              echo "⏳ Still waiting... (reason: $REASON)"
+  
+              if [[ "$REASON" == "ContainerCreating" ]]; then
+                echo "🔍 Detected ContainerCreating — showing last Events:"
+                kubectl describe pod "$pod" -n ${{inputs.namespace}} | awk '/^Events:$/,/^$/' | tail -n 10
+                fi
+            else
+              echo "❓ Pod $pod state is unknown or container not initialized yet"
+            fi
+        
+            sleep 2
+          done
+        done
         
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
