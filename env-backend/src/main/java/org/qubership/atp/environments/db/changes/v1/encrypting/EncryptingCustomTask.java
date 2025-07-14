@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.qubership.atp.crypt.AtpCryptoFactory;
 import org.qubership.atp.crypt.api.CryptoProvider;
-import org.qubership.atp.crypt.provider.BouncyCastleProvider;
 import org.qubership.atp.environments.errorhandling.connection.EnvironmentSqlConnectionParamEncryptException;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
@@ -38,7 +38,7 @@ public class EncryptingCustomTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(EncryptingCustomTask.class);
     private final EncryptorService encryptor;
     private final ConnectionRepositoryImpl connectionRepository;
-    private final CryptoProvider cryptoProvider = new BouncyCastleProvider();
+    private final CryptoProvider cryptoProvider = AtpCryptoFactory.getDefaultProvider();
     private final List<String> encryptValues = Arrays.asList("password", "passphrase", "key", "token", "credentials",
             "authentication");
 
