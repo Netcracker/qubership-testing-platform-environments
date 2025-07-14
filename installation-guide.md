@@ -1,6 +1,6 @@
-# Qubership ATP-ENVIRONMENTS Installation Guide
+# Qubership Testing Platform ENVIRONMENTS Service Installation Guide
 
-## This guide describes Qubership ATP-ENVIRONMENTS installation process
+## This guide describes how to install Qubership Testing Platform ENVIRONMENTS Service
 
 ### Requirements
 1. Postgres database is installed 
@@ -35,8 +35,18 @@ Connect any client to postgres database and execute script (change "envconf"  as
 
 `CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
 
-### Installation
+### Installation under Helm
 
-* Choose installation method:
-  * Install on OpenShift use this article ATP Environments. Installation on OpenShift.
-  * Install Standalone use this article ATP Environments. Installation and update for standalone.
+#### Prerequisites
+
+1. Install k8s locally
+2. Install Helm
+
+#### How to deploy tool
+
+1. Build snapshot (artifacts and docker image) of https://github.com/Netcracker/qubership-testing-platform-environments in GitHub
+2. Clone repository to a place, available from your openshift/kubernetes where you need to deploy the tool to
+3. Navigate to <repository-root>/deployments/charts/atp-environments folder
+4. Check/change configuration parameters in the ./values.yaml file according to your services installed
+5. Execute the command: `helm install atp-environments`
+6. After installation is completed, check deployment health

@@ -15,7 +15,7 @@ To develop you need to install a plugin for your **IDE**.
 
 Probably you would need running Hazelcast instance. You can find information like "How to run Hazelcast locally"
 
-### Build project: mvn clean package
+### Build project: `mvn -P github clean package`
 1. In some case with flag -DskipTests
 2. If you have not compiled q-classes:
     * check db-postgresql, migration-on-build-pg in profiles;
