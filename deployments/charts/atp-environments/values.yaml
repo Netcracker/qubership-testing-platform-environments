@@ -91,7 +91,7 @@ AUDIT_LOGGING_TOPIC_REPLICAS: ""
 # Url atp-keycloak with auth
 KEYCLOAK_AUTH_URL: "https://keycloak-server-address/auth"
 # Keycloak enabled
-KEYCLOAK_ENABLED: "true"
+KEYCLOAK_ENABLED: "false"
 # Keycloak realm
 KEYCLOAK_REALM: "atp2"
 # level of logs
