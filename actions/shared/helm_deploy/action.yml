@@ -175,18 +175,29 @@ runs:
       run: |
         kubectl get pods -n ${{inputs.namespace}}
         kubectl get events -n ${{inputs.namespace}} --sort-by=.metadata.creationTimestamp
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
+        for pod in $(kubectl get pods -n "${{ inputs.namespace }}" --no-headers | awk '{print $1}'); do
+          echo "========== Describe of $pod =========="
+          kubectl describe pod "$pod" -n "${{ inputs.namespace }}"
+        done
+  
+        for pod in $(kubectl get pods -n "${{ inputs.namespace }}" --no-headers | awk '{print $1}'); do
+        echo "⏳ Waiting for pod $pod to exit ContainerCreating..."
+          for i in {1..30}; do
+          STATE=$(kubectl get pod "$pod" -n "${{ inputs.namespace }}" -o jsonpath="{.status.containerStatuses[0].state.waiting.reason}" 2>/dev/null)
+            if [[ "$STATE" != "ContainerCreating" && "$STATE" != "PodInitializing" && "$STATE" != "ImagePullBackOff" ]]; then
+              echo "✅ Pod $pod is ready or in another state: $STATE"
+              break
+            fi
+            echo "⏳ Still waiting for pod $pod... (state: $STATE)"
+            sleep 2
+          done
+        done
+  
+        for pod in $(kubectl get pods -n "${{ inputs.namespace }}" --no-headers | awk '{print $1}'); do
           echo "========== Logs from $pod =========="
-          kubectl describe pod "$pod" -n ${{inputs.namespace}}
+          kubectl logs "$pod" -n "${{ inputs.namespace }}" || echo "⚠️ Failed to get logs for $pod"
         done
-        while [[ $(kubectl get pod <pod-name> -n <namespace> -o jsonpath='{.status.phase}') == "Pending" ]]; do
-          echo "⏳ Waiting for pod to start..."
-          sleep 2
-        done
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
-          echo "========== Logs from $pod =========="
-          kubectl logs "$pod" -n ${{inputs.namespace}}
-        done
+
 
     - name: Get docker images
       shell: bash
