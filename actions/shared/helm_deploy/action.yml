@@ -172,6 +172,7 @@ runs:
           --set auth.password=atp-envconf \
           --set auth.database=atp-envconf
         
+        
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
         else
@@ -225,16 +226,17 @@ runs:
             echo -e "\n---\n"
         done
         
-        sleep 60
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do
-          echo "📦 Logs from pod: $pod"
-            kubectl logs "$pod" -n ${{inputs.namespace}} || echo "⚠️ Could not fetch logs for $pod"
-            echo -e "\n---\n"
-        done
-        
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
         
+    - name: Show PostgreSQL databases
+      shell: bash
+      run: |
+        POD=$(kubectl get pods -n ${{inputs.namespace}} -l app.kubernetes.io/name=postgresql -o jsonpath="{.items[0].metadata.name}")
+        echo "Connecting to pod: $POD"
+        kubectl exec -n my-namespace "$POD" -- \
+          psql -U postgres -c '\l'
+
 
     - name: Get docker images
       shell: bash
