@@ -69,7 +69,7 @@ JMX_ENABLE: "true"
 JMX_PORT: "3000"
 JMX_RMI_PORT: "3001"
 # This option turns on or off kafka enable
-KAFKA_ENABLE: "true"
+KAFKA_ENABLE: "false"
 # TOPIC of kafka service
 KAFKA_PROJECT_EVENT_CONSUMER_TOPIC_NAME: ""
 KAFKA_ENVIRONMENTS_EVENT_PRODUCER_TOPIC_NAME: ""
