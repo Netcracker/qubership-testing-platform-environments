@@ -206,7 +206,11 @@ runs:
         kubectl get pods -n ${{inputs.namespace}}
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
+        max_attempts=10
+        attempt=0
+        
         while true; do
+          ((attempt++))
           ready_status=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath='{.status.containerStatuses[0].ready}' 2>/dev/null)
         
           if [[ "$ready_status" == "true" ]]; then
@@ -214,11 +218,15 @@ runs:
             kubectl logs "$pod" -n ${{inputs.namespace}}
             break
           else
-            echo "⏳ Pod $pod is not Ready yet, streaming logs..."
+            echo "⏳ Attempt $attempt/$max_attempts: Pod $pod is not Ready yet, streaming logs..."
             kubectl logs "$pod" -n ${{inputs.namespace}} --tail=10 || echo "No logs available yet"
           fi
         
           sleep 5
+          if (( attempt >= max_attempts )); then
+            echo "❌ Pod $pod did not become Ready after $max_attempts attempts. Exiting."
+            exit 1
+          fi
         done
 
     - name: Get docker images
