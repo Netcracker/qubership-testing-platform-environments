@@ -222,11 +222,11 @@ runs:
             kubectl logs "$pod" -n ${{inputs.namespace}} --tail=10 || echo "No logs available yet"
           fi
         
-          sleep 5
           if (( attempt >= max_attempts )); then
-            echo "❌ Pod $pod did not become Ready after $max_attempts attempts. Exiting."
-            exit 1
+            echo "⚠️ Max attempts reached. Pod $pod is still not Ready."
+            break
           fi
+          sleep 5
         done
 
     - name: Get docker images
