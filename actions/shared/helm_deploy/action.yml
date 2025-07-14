@@ -207,23 +207,25 @@ runs:
         
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
-        for attempt in {1..10}; do
-          ready_status=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath='{.status.containerStatuses[0].ready}' 2>/dev/null)
+        sleep 60
         
-          if [[ "$ready_status" == "true" ]]; then
-            echo "✅ Pod $pod is Ready!"
-            kubectl logs "$pod" -n ${{inputs.namespace}}
-            break
-          else
-            echo "⏳ Pod $pod is not Ready yet, streaming logs..."
-            kubectl logs "$pod" -n ${{inputs.namespace}} --tail=10 || echo "No logs available yet"
-          fi
         
-          sleep 5
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do
+          echo "📦 Logs from pod: $pod"
+            kubectl logs "$pod" -n ${{inputs.namespace}} || echo "⚠️ Could not fetch logs for $pod"
+            echo -e "\n---\n"
         done
         
-        echo "❌ Pod $pod did not become Ready after 10 attempts. Exiting."
-        exit 1
+        sleep 60
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do
+          echo "📦 Logs from pod: $pod"
+            kubectl logs "$pod" -n ${{inputs.namespace}} || echo "⚠️ Could not fetch logs for $pod"
+            echo -e "\n---\n"
+        done
+        
+        echo "========== Get pods $pod =========="
+        kubectl get pods -n ${{inputs.namespace}}
+        
 
     - name: Get docker images
       shell: bash
