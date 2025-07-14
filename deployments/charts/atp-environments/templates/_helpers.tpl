@@ -138,6 +138,8 @@ ZIPKIN_URL: "{{ .Values.ZIPKIN_URL }}"
 KAFKA_REPORTING_SERVERS: "{{ .Values.KAFKA_REPORTING_SERVERS }}"
 AUDIT_LOGGING_TOPIC_PARTITIONS: "{{ .Values.AUDIT_LOGGING_TOPIC_PARTITIONS }}"
 AUDIT_LOGGING_TOPIC_REPLICAS: "{{ include "env.factor" (dict "ctx" . "def" .Values.AUDIT_LOGGING_TOPIC_REPLICAS) }}"
+ENVIRONMENT_DB_USER: "{{ .Values.ENVIRONMENT_DB_USER }}"
+ENVIRONMENT_DB_PASSWORD: "{{ .Values.ENVIRONMENT_DB_PASSWORD }}"
 {{- end }}
 
 {{/* Sensitive data to be converted into secrets whenever possible */}}

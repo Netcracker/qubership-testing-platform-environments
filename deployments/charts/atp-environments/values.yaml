@@ -23,11 +23,11 @@ EI_GRIDFS_PASSWORD: ""
 # User mongo grid DB
 EI_GRIDFS_USER: ""
 # Name of db
-ENVIRONMENT_DB: ""
+ENVIRONMENT_DB: "atp-envconf"
 # Password for db
-ENVIRONMENT_DB_PASSWORD: ""
+ENVIRONMENT_DB_PASSWORD: "atp-envconf"
 # User for db
-ENVIRONMENT_DB_USER: ""
+ENVIRONMENT_DB_USER: "atp-envconf"
 # Switching-on of Eureka client
 EI_CLEAN_JOB_ENABLED: "true"
 EI_CLEAN_JOB_WORKDIR: "exportimport/node"
