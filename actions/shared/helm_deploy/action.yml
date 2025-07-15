@@ -279,10 +279,15 @@ runs:
             else
               echo "❓Pod in Progress"
             fi
-          sleep 5
+          sleep 10
           done
         done
         
+        sleep 20
+        
+        echo "========== Get pods $pod =========="
+        kubectl get pods -n ${{inputs.namespace}}
+
     - name: Show PostgreSQL databases
       shell: bash
       run: |
