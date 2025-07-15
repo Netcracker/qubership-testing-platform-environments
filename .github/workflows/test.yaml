@@ -104,7 +104,6 @@ jobs:
       - name: Verify Consul installation
         uses: ./qubership-testing-platform-environments/actions/consul/verify_installation_consul
 
-
       - name: Update to [LATEST] Version With Diff Params
         uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
         with:
