@@ -245,7 +245,7 @@ runs:
         
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
-        sleep 35
+        sleep 90
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
           echo "📦 Logs from pod: $pod"
