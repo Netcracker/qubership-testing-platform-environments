@@ -84,6 +84,11 @@ jobs:
           ls -la
           cd shared
           ls -la
+          pwd
+          cd ..
+          cd consul
+          ls -la
+          pwd
 
       - name: Clean Install Consul [LATEST]
         uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
