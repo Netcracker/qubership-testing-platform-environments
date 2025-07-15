@@ -275,7 +275,7 @@ runs:
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           env PGPASSWORD=atp-envconf psql -U atp-envconf -c '\l';
-          env PGPASSWORD=atp-envconf psql -U postgres -d test -c 'SELECT schema_name FROM information_schema.schemata;'
+          env PGPASSWORD=atp-envconf psql -U atp-envconf -d atp-envconf -c 'SELECT schema_name FROM information_schema.schemata;'
         "
 
     - name: Get docker images
