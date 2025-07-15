@@ -80,9 +80,10 @@ jobs:
           ls -la
           cd qubership-testing-platform-environments
           ls -la
-          cd templates
+          cd actions
           ls -la
-          pwd
+          cd shared
+          ls -la
 
       - name: Clean Install Consul [LATEST]
         uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
