@@ -1,0 +1,245 @@
+name: 'Verify Installation Action'
+description: 'A GitHub Action to verify Kubernetes deployments including status checks, log collection, and test validation.'
+inputs:
+  namespace:
+    description: |
+      Kubernetes namespace for service installation
+    required: true
+
+  max_attempts:
+    description: |
+      Maximum verification retries for test pod to be completed
+    required: true
+
+  timeout:
+    description: |
+      Delay between test pod check attempts
+    required: true
+
+  max_attempts_for_provisioner:
+    description: |
+      Maximum retries for provisioner pod to be completed
+    required: true
+
+  timeout_for_provisioner:
+    description: |
+      Delay between provisioner pod check attempts
+    required: true
+
+  service_branch:
+    description: |
+      Branch in service repository
+    required: false
+
+  cr_kind:
+    description: |
+      Kind of custom resource for checking deploy status.
+      CR is used to check the status if status provisioner is missing
+    required: false
+
+  cr_name:
+    description: |
+      Name of custom resource for checking deploy status.
+      CR is used to check the status if status provisioner is missing
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create folder for artifacts
+      shell: bash
+      # language=bash
+      run: mkdir -p artifacts
+
+    - name: Initialize error flag
+      shell: bash
+      # language=bash
+      run: echo "ERROR_FLAG=false" >> $GITHUB_ENV
+
+    - name: Check service is ready
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Check service is ready
+        provisioner_pod="NOT_FOUND"
+        IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
+        for pod in "${pods[@]}"; do
+          if [[ $pod == *"provisioner"* ]]; then
+            provisioner_pod=$pod
+          fi
+        done
+        if [[ $provisioner_pod != "NOT_FOUND" ]]; then
+          echo "provisioner_pod=$provisioner_pod"
+          for i in {1..${{inputs.max_attempts_for_provisioner}}}; do
+            status=$(kubectl get pod $provisioner_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
+            if [[ "$status" == 'Succeeded' ]]; then
+              break
+            fi
+            sleep ${{inputs.timeout_for_provisioner}}
+          done
+          if [[ "$status" != 'Succeeded' ]]; then
+            echo $provisioner_pod pod has not Succeeded status
+          fi
+          echo PROVISIONER LOGS:
+          kubectl logs $provisioner_pod -n ${{inputs.namespace}}
+          logs=$(kubectl logs $provisioner_pod -n ${{inputs.namespace}})
+          if [[ $logs != *"Failed components statuses are []"* ]]; then
+            echo "::error:: Not all components are in succeed status after ${{inputs.max_attempts_for_provisioner}} attempts"
+            echo PODS:
+            kubectl get pods -n ${{inputs.namespace}}
+            echo "ERROR_FLAG=true" >> $GITHUB_ENV
+          fi
+        else
+          for i in {1..${{inputs.max_attempts_for_provisioner}}}; do
+            cr_yaml=$(kubectl get ${{inputs.cr_kind}} ${{inputs.cr_name}} -n "${{inputs.namespace}}" -o yaml)
+            condition=$(echo "$cr_yaml" | yq eval '.status.conditions[] | select(.reason == "ReconcileCycleStatus")' -o=json)
+              if ! [[ -z "$condition" ]]; then
+                status=$(echo "$condition" | yq eval '.status' -)
+                if [[ "$status" == 'True' ]]; then
+                  break
+                fi
+              fi
+            sleep ${{inputs.timeout_for_provisioner}}
+          done
+          if [[ "$status" != 'True' ]]; then
+             echo "::error:: Not all components are in succeed status after ${{inputs.max_attempts_for_provisioner}} attempts"
+             echo "ERROR_FLAG=true" >> $GITHUB_ENV
+          fi
+        fi
+
+    - name: Get pods
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get pods
+        file_name=artifacts/${{inputs.namespace}}_get_pods.txt
+        kubectl get pods -n ${{inputs.namespace}}
+        kubectl get pods -n ${{inputs.namespace}} > $file_name
+
+    - name: Get yaml from pods
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get yaml from pods
+        file_name=artifacts/${{inputs.namespace}}_get_pods_yaml.txt
+        IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
+        echo "Yaml files from pods: " > $file_name
+        for pod in "${pods[@]}"; do
+            echo $pod >> $file_name
+            kubectl get pod "$pod" -n ${{inputs.namespace}} -o yaml >> $file_name
+        done
+
+    - name: Get events from namespace
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get events from namespace
+        file_name=artifacts/${{inputs.namespace}}_get_events.txt
+        kubectl events -n ${{inputs.namespace}} > $file_name
+
+    - name: Get yaml from PVC
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get yaml from PVC
+        file_name=artifacts/${{inputs.namespace}}_get_pvc_yaml.txt
+        kubectl get pvc -n ${{inputs.namespace}}
+        kubectl get pvc -n ${{inputs.namespace}} -o yaml > $file_name
+
+    - name: Get PV from namespace
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get PV from namespace
+        file_name=artifacts/${{inputs.namespace}}_get_pv.txt
+        kubectl get pv | grep ${{inputs.namespace}}
+        kubectl get pv | grep ${{inputs.namespace}} > $file_name
+
+    - name: Get logs from all containers in pods
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get logs from all containers in pods
+        file_name=artifacts/${{inputs.namespace}}_log_from_containers.txt
+        IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
+        echo "Logs from all containers in pods: " > $file_name
+        for pod in "${pods[@]}"; do
+            IFS=' ' read -ra containers <<< $(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.spec.containers[*].name}")
+            for container in "${containers[@]}"; do
+              echo $pod $container >> $file_name
+              kubectl logs "$pod" -n ${{inputs.namespace}} -c "$container" >> $file_name
+              echo '================================================================================' >> $file_name
+            done
+        done
+
+    - name: Get logs from test pod
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Get logs from test pod
+        file_name=artifacts/${{inputs.namespace}}_tests.txt
+        IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
+        for pod in "${pods[@]}"; do
+          if [[ $pod == *"tests"* ]]; then
+            test_pod=$pod
+          fi
+        done
+        if ! [[ $test_pod ]]; then
+          echo There is no test pod
+          exit 0
+        fi
+        echo "test_pod=$test_pod"
+        for i in {1..${{inputs.max_attempts}}}; do
+          echo attempt $i
+          status=$(kubectl get pod $test_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
+          echo "$status"
+          if [[ "$status" == 'Running' ]]; then
+            break
+          fi
+          sleep ${{inputs.timeout}}
+        done
+        for i in {1..${{inputs.max_attempts}}}; do
+          logs=$(kubectl logs $test_pod -n ${{inputs.namespace}})
+          if [[ $logs == *"Report: /opt/robot/output/report.html"* ]]; then
+            kubectl logs $test_pod -n ${{inputs.namespace}} > $file_name
+            break
+          fi
+          sleep ${{inputs.timeout}}
+        done
+        echo 'TEST LOGS:'
+        kubectl logs $test_pod -n ${{inputs.namespace}}
+        if [[ $logs == *"| FAIL |"* ]]; then
+          echo "ERROR_FLAG=true" >> $GITHUB_ENV
+        fi
+        kubectl cp $test_pod:/opt/robot/output artifacts/robot-results -n ${{inputs.namespace}}
+        ls -la artifacts/robot-results
+
+    - name: Generate artifact name
+      if: always()
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ Generate artifact name
+        release_name=$(echo ${{inputs.service_branch}})
+        if [[ $release_name ]]; then
+          release_name=$(echo "_$release_name" | tr '/' '_')
+        fi
+        ARTIFACT_NAME=${{github.job}}_${{inputs.namespace}}${release_name}_artifacts_$(date -u +'%Y%m%d%H%M%S')
+        echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
+
+    - name: Upload artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{env.ARTIFACT_NAME}}
+        path: artifacts/
+
+    - name: Check job status
+      shell: bash
+      # language=bash
+      run: |
+        echo "${{ env.ERROR_FLAG }}"
+        if [ "${{ env.ERROR_FLAG }}" == 'true' ]; then
+          echo "Service was installed with errors!"
+          exit 1
+        fi

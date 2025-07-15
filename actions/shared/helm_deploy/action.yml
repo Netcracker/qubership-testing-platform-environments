@@ -264,26 +264,6 @@ runs:
           fi
       
         done
-  
-        
-        echo "========== Get pods $pod =========="
-        kubectl get pods -n ${{inputs.namespace}}
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
-        echo "⏳ Waiting for pod $pod to be ready..."
-          for i in {1..30}; do
-            POD_STATUS=$(kubectl get pods -n "$NAMESPACE" -l "$LABEL_SELECTOR" --no-headers 2>/dev/null | awk '{print $2}')
-          
-            if [[ "$POD_STATUS" == "1/1" ]]; then
-              echo "✅ (Ready: 1/1)"
-              break
-            else
-              echo "❓Pod in Progress"
-            fi
-          sleep 10
-          done
-        done
-        
-        sleep 20
         
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}

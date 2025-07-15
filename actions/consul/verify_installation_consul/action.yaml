@@ -4,7 +4,7 @@ inputs:
   namespace:
     description: 'See verify_installation.namespace'
     required: true
-    default: consul
+    default: atp-environments
   max_attempts:
     description: 'See verify_installation.max_attempts'
     required: true
@@ -30,7 +30,7 @@ runs:
   using: 'composite'
   steps:
     - name: Run verify_installation action for Consul
-      uses: ./qubership-test-pipelines/actions/shared/verify_installation
+      uses: ./qubership-testing-platform-environments/actions/shared/verify_installation
       with:
         namespace: ${{inputs.namespace}}
         max_attempts: ${{inputs.max_attempts}}
