@@ -102,7 +102,7 @@ jobs:
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
       - name: Verify Consul installation
-        uses: ./qubership-testing-platform-environments/consul/verify_installation_consul
+        uses: ./qubership-testing-platform-environments/actions/consul/verify_installation_consul
 
 
       - name: Update to [LATEST] Version With Diff Params
