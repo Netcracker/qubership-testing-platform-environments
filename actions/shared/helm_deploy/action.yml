@@ -268,15 +268,30 @@ runs:
         
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
+        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
+        echo "⏳ Waiting for pod $pod to be ready..."
+          for i in {1..30}; do
+            POD_STATUS=$(kubectl get pods -n "$NAMESPACE" -l "$LABEL_SELECTOR" --no-headers 2>/dev/null | awk '{print $2}')
+          
+            if [[ "$POD_STATUS" == "1/1" ]]; then
+              echo "✅ (Ready: 1/1)"
+              break
+            else
+              echo "❓Pod in Progress"
+            fi
+          sleep 5
+          done
+        done
         
     - name: Show PostgreSQL databases
       shell: bash
       run: |
         POD=$(kubectl get pods -n ${{inputs.namespace}} -l app.kubernetes.io/name=postgresql -o jsonpath="{.items[0].metadata.name}")
         echo "Connecting to pod: $POD"
-        kubectl exec -n ${{inputs.namespace}} "$POD" -- \
-          env PGPASSWORD=atp-envconf psql -U atp-envconf -c '\l'
-
+        kubectl exec -n namespace "$POD" -- bash -c "
+          env PGPASSWORD=atp-envconf psql -U atp-envconf -c '\l';
+          env PGPASSWORD=atp-envconf psql -U postgres -d test -c 'SELECT schema_name FROM information_schema.schemata;'
+        "
 
     - name: Get docker images
       shell: bash
