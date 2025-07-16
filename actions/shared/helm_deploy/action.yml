@@ -96,7 +96,7 @@ runs:
 
     - name: Create restricted resources
       if: inputs.restricted == 'true'  && inputs.deploy_mode == 'install'
-      uses: ./qubershipqubership-testing-platform-environments-test-pipelines/actions/shared/create_restricted_resources
+      uses: ./qubership-testing-platform-environments-test-pipelines/actions/shared/create_restricted_resources
       with:
         service_name: ${{inputs.service_name}}
         repository_name: ${{inputs.repository_name}}
@@ -167,10 +167,10 @@ runs:
         helm repo add bitnami https://charts.bitnami.com/bitnami
         
         helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
-          --set image.tag=14.9.0-debian-11-r0 \
-          --set auth.username=atp-envconf \
-          --set auth.password=atp-envconf \
-          --set auth.database=atp-envconf
+          --set image.tag=14.2 \
+          --set auth.username=postgres \
+          --set auth.password=postgrestest \
+          --set auth.database=postgres
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
         echo "⏳ Waiting for pod $pod to be ready..."

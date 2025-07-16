@@ -1,5 +1,5 @@
-name: "Helm deploy Action for Consul"
-description: "GitHub Action for install/upgrade Consul using Helm"
+name: "Helm deploy Action for Environments"
+description: "GitHub Action for install/upgrade Environments using Helm"
 inputs:
   deploy_mode:
     description: 'See helm_deploy.deploy_mode'
@@ -39,7 +39,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run helm_install action for Consul
+    - name: Run helm_install action for Environments
       uses: ./qubership-testing-platform-environments/actions/shared/helm_deploy
       with:
         deploy_mode: ${{inputs.deploy_mode}}

@@ -1,4 +1,4 @@
-name: 'Verify Consul Installation Action'
+name: 'Verify Environments Installation Action'
 description: 'A GitHub Action to verify tests, get logs from pods'
 inputs:
   namespace:
@@ -29,7 +29,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run verify_installation action for Consul
+    - name: Run verify_installation action for Environments
       uses: ./qubership-testing-platform-environments/actions/shared/verify_installation
       with:
         namespace: ${{inputs.namespace}}

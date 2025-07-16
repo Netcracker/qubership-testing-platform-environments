@@ -74,24 +74,9 @@ jobs:
           ref: 'test_pipeline'
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
-      - name: Checkout folder
-        run: |
-          pwd
-          ls -la
-          cd qubership-testing-platform-environments
-          ls -la
-          cd actions
-          ls -la
-          cd shared
-          ls -la
-          pwd
-          cd ..
-          cd consul
-          ls -la
-          pwd
 
-      - name: Clean Install Consul [LATEST]
-        uses: ./qubership-testing-platform-environments/actions/consul/helm_deploy_consul
+      - name: Clean Install Environments [LATEST]
+        uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_consul
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
           service_branch: 'test_pipeline'
@@ -101,35 +86,5 @@ jobs:
           namespace: 'atp-environments'
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
-      - name: Verify Consul installation
-        uses: ./qubership-testing-platform-environments/actions/consul/verify_installation_consul
-
-      - name: Update to [LATEST] Version With Diff Params
-        uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
-        with:
-          path_to_template: 'templates/consul-service/consul_clean_all_on_sc_updated.yml'
-          service_branch: '${{inputs.service_branch}}'
-          deploy_mode: upgrade
-      - name: Verify Consul upgrade
-        uses: ./qubership-test-pipelines/actions/consul/verify_installation_consul
-
-  #22-Clean [LATEST_SPRINT] Full-AT Ports-specifying Custom-labels
-  Clean-Latest-Full-At-ports-Specifying-Custom-Labels:
-    runs-on: ${{inputs.runner_type}}
-    name: Clean [LATEST] Full-AT Ports-specifying Custom-labels
-    steps:
-      - name: Checkout pipeline
-        uses: actions/checkout@v4
-        with:
-          ref: 'main'
-          repository: 'Netcracker/qubership-test-pipelines'
-          path: 'qubership-test-pipelines'
-      - name: Create cluster
-        uses: ./qubership-test-pipelines/actions/shared/create_cluster
-      - name: Clean Install Consul [LATEST] Full-At
-        uses: ./qubership-test-pipelines/actions/consul/helm_deploy_consul
-        with:
-          path_to_template: 'templates/consul-service/consul_clean_all_on_sc_full_at.yml'
-          service_branch: '${{inputs.service_branch}}'
       - name: Verify Environments installation
-        uses: ./qubership-test-pipelines/actions/consul/verify_installation_consul
+        uses: ./qubership-testing-platform-environments/actions/env/verify_installation_consul
