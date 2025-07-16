@@ -167,7 +167,7 @@ runs:
         helm repo add bitnami https://charts.bitnami.com/bitnami
         
         helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
-          --set image.tag=14.2 \
+          --set image.tag=14.2.0 \
           --set auth.username=postgres \
           --set auth.password=postgrestest \
           --set auth.database=postgres
