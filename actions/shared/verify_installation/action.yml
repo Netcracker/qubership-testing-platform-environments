@@ -63,6 +63,11 @@ runs:
         # ▶️ Check service is ready
         provisioner_pod="NOT_FOUND"
         IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
+        
+        for pod in "${pods[@]}"; do
+          echo "$pod"
+        done
+        
         for pod in "${pods[@]}"; do
           if [[ $pod == *"provisioner"* ]]; then
             provisioner_pod=$pod
