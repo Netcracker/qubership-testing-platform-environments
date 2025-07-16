@@ -76,7 +76,7 @@ jobs:
           path: 'qubership-testing-platform-environments'
 
       - name: Clean Install Environments [LATEST]
-        uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_consul
+        uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_env
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
           service_branch: 'test_pipeline'
@@ -87,4 +87,4 @@ jobs:
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
       - name: Verify Environments installation
-        uses: ./qubership-testing-platform-environments/actions/env/verify_installation_consul
+        uses: ./qubership-testing-platform-environments/actions/env/verify_installation_env
