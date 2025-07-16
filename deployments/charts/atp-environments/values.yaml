@@ -29,7 +29,7 @@ ENVIRONMENT_DB_PASSWORD: "atp-envconf"
 # User for db
 ENVIRONMENT_DB_USER: "atp-envconf"
 # Switching-on of Eureka client
-EI_CLEAN_JOB_ENABLED: "true"
+EI_CLEAN_JOB_ENABLED: "false"
 EI_CLEAN_JOB_WORKDIR: "exportimport/node"
 EI_CLEAN_SCHEDULED_JOB_PERIOD_MS: "86400000"
 EI_CLEAN_JOB_FILE_DELETE_AFTER_MS: "172800000"
@@ -77,7 +77,7 @@ KAFKA_SYSTEMS_EVENT_PRODUCER_TOPIC_NAME: ""
 KAFKA_CONNECTIONS_EVENT_PRODUCER_TOPIC_NAME: ""
 KAFKA_MAX_REQUEST_SIZE: "5000000"
 # URL of kafka service
-KAFKA_SERVERS: "kafka:9092"
+KAFKA_SERVERS: ""
 KAFKA_SERVICE_ENTITIES_TOPIC: ""
 KAFKA_SERVICE_ENTITIES_TOPIC_PARTITIONS: "1"
 KAFKA_SERVICE_ENTITIES_TOPIC_REPLICATION_FACTOR: ""
@@ -85,7 +85,7 @@ SERVICE_ENTITIES_MIGRATION_ENABLED: "false"
 # Audit Logging topic
 AUDIT_LOGGING_ENABLE: "false"
 AUDIT_LOGGING_TOPIC_NAME: ""
-KAFKA_REPORTING_SERVERS: "kafka:9092"
+KAFKA_REPORTING_SERVERS: ""
 AUDIT_LOGGING_TOPIC_PARTITIONS: '1'
 AUDIT_LOGGING_TOPIC_REPLICAS: ""
 # Url atp-keycloak with auth
@@ -93,7 +93,7 @@ KEYCLOAK_AUTH_URL: "https://keycloak-server-address/auth"
 # Keycloak enabled
 KEYCLOAK_ENABLED: "false"
 # Keycloak realm
-KEYCLOAK_REALM: "atp2"
+KEYCLOAK_REALM: ""
 # level of logs
 LOG_LEVEL: "INFO"
 # locale resolver
@@ -132,7 +132,7 @@ SERVICE_REGISTRY_URL: "http://atp-registry-service:8761/eureka"
 # Set to ATP2 to enable Prometheus scrapping
 SERVICE_TYPE: "ATP2"
 # Spring profile for security
-SPRING_PROFILES: "default"
+SPRING_PROFILES: "disable-security"
 # Vault service URL, required when ENCRYPT = vault
 VAULT_URL: ''
 ZIPKIN_ENABLE: "false"
@@ -147,7 +147,8 @@ ATP_CRYPTO_PRIVATE_KEY: ""
 # Keycloak client name
 KEYCLOAK_CLIENT_NAME: "environments"
 # Keycloak secret
-KEYCLOAK_SECRET: "28b4cf8a-24e6-4fa2-82df-9ef5907560c6"
+#KEYCLOAK_SECRET: "28b4cf8a-24e6-4fa2-82df-9ef5907560c6"
+KEYCLOAK_SECRET: ""
 # DB connection timeout
 HIKARI_CONNECTION_TIMEOUT: "90000"
 HIKARI_MAX_POOL_SIZE: "100"
