@@ -166,35 +166,27 @@ runs:
           --set auth.password=postgrestest \
           --set auth.database=postgres
         
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
-        echo "⏳ Waiting for pod $pod to be ready..."
-        
-          for i in {1..30}; do
-            STATE=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state}" 2>/dev/null)
-        
-            if echo "$STATE" | grep -q "running"; then
-              echo "✅ Pod $pod is Running"
-              break
-            elif echo "$STATE" | grep -q "terminated"; then
-              echo "⚠️ Pod $pod has Terminated"
-              break
-            elif echo "$STATE" | grep -q "waiting"; then
-              REASON=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state.waiting.reason}" 2>/dev/null)
-              echo "⏳ Still waiting... (reason: $REASON)"
-        
-              if [[ "$REASON" == "ContainerCreating" ]]; then
-                echo "🔍 Detected ContainerCreating — showing last Events:"
-                kubectl describe pod "$pod" -n ${{inputs.namespace}} | awk '/^Events:$/,/^$/' | tail -n 10
-                fi
-            else
-              echo "❓ Pod $pod state is unknown or container not initialized yet"
-            fi
-        
-            sleep 2
-          done
+        for pod in "${pods[@]}"; do
+          if [[ $pod == *"my-postgres-postgresql"* ]]; then
+            name_pod=$pod
+          fi
         done
-        echo "Get pods $pod"
-        kubectl get pods -n ${{inputs.namespace}}
+        if ! [[ $name_pod ]]; then
+          echo There is no test pod
+          exit 0
+        fi
+        echo "name_pod=$name_pod"
+        for i in {1..10}; do
+          echo attempt $i
+          status=$(kubectl get pod $name_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
+          echo "$status"
+          ready=$(kubectl get pod "$name_pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[*].ready}")
+          echo "$ready"
+          if [[ "$status" == "Running" && "$ready" == "true" ]]; then
+            break
+          fi
+          sleep 5
+        done
 
     - name: Install/update service with helm
       shell: bash
@@ -205,84 +197,8 @@ runs:
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
+        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m
 
-    - name: Debug
-      shell: bash
-      if: always()
-      run: |
-        echo "Get pods $pod"
-        kubectl get pods -n ${{inputs.namespace}}
-        
-        echo "Get values"
-        helm get values atp-environments -n ${{inputs.namespace}} --all
-        echo "End values"
-        
-        echo "Describe pod"
-        kubectl describe pod $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1 {print $1}') -n ${{inputs.namespace}}
-        echo "End describe"
-        
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
-        echo "⏳ Waiting for pod $pod to be ready..."
-      
-          for i in {1..30}; do
-            kubectl get pods -n ${{inputs.namespace}}
-            STATE=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state}" 2>/dev/null)
-        
-            if echo "$STATE" | grep -q "running"; then
-              echo "✅ Pod $pod is Running"
-              break
-            elif echo "$STATE" | grep -q "terminated"; then
-              echo "⚠️ Pod $pod has Terminated"
-              break
-            elif echo "$STATE" | grep -q "waiting"; then
-              REASON=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].state.waiting.reason}" 2>/dev/null)
-              echo "⏳ Still waiting... (reason: $REASON)"
-  
-              if [[ "$REASON" == "ContainerCreating" ]]; then
-                echo "🔍 Detected ContainerCreating — showing last Events:"
-                kubectl describe pod "$pod" -n ${{inputs.namespace}} | awk '/^Events:$/,/^$/' | tail -n 10
-                fi
-              elif echo "$STATE" | grep -q "init"; then
-                echo "🔍 Pod in init status"
-                kubectl get pods -n ${{inputs.namespace}}
-                break
-            else
-              echo "❓ Pod $pod state is unknown or container not initialized yet"
-            fi
-        
-            sleep 2
-          done
-        done
-        kubectl get pods -n ${{inputs.namespace}}
-        echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
-        
-        for i in {1..5}; do
-            kubectl get pods -n ${{inputs.namespace}}
-            sleep 5
-        done
-        
-        
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
-          echo "📦 Logs from pod: $pod"
-          
-          if ! kubectl logs "$pod" -n ${{inputs.namespace}}; then
-            echo "⚠️ Could not fetch current logs for $pod"
-          fi
-      
-          restart_count=$(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[0].restartCount}")
-          
-          if [[ "$restart_count" -gt 0 ]]; then
-            echo "🔁 Previous logs (before restart) for pod: $pod"
-            if ! kubectl logs "$pod" -n ${{inputs.namespace}} --previous; then
-              echo "⚠️ Could not fetch previous logs for $pod"
-            fi
-          fi
-      
-        done
-        
-        echo " Get pods $pod"
-        kubectl get pods -n ${{inputs.namespace}}
 
     - name: Show PostgreSQL databases
       shell: bash
