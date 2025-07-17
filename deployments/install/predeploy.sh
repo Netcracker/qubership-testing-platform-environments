@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+echo "predeploy"
+
 if [ ! -f ./atp-common-scripts/openshift/common.sh ]; then
   echo "ERROR: Cannot locate ./atp-common-scripts/openshift/common.sh"
   exit 1

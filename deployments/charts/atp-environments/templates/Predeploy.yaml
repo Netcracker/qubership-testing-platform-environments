@@ -39,6 +39,7 @@ spec:
         - -c
         - |
           echo "=> Starting pre-deploy scripts ..."
+          echo "flow {{ $flow }}"
           ./{{ $flow }}/predeploy.sh
         envFrom:
           - secretRef:
