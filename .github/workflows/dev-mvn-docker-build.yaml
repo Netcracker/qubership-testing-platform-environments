@@ -84,7 +84,7 @@ jobs:
 
   reusable-job:
     uses: Netcracker/qubership-testing-platform-environments/.github/workflows/test.yaml@test_pipeline
-    needs: build-and-push
+    #needs: build-and-push
     with:
       service_branch: '${{ github.head_ref || github.ref_name }}'
       versions_file: '.github/versions.yaml'
