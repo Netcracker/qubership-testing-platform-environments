@@ -90,7 +90,7 @@ jobs:
           service_name: 'atp-environments'
           repository_name: 'qubership-testing-platform-environments'
           path_to_chart: 'deployments/charts/atp-environments'
-          namespace: 'atp-environments'
+          namespace: 'env'
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
       - name: Verify Environments installation

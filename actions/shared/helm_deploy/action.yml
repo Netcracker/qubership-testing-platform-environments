@@ -311,7 +311,7 @@ runs:
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           env PGPASSWORD=postgrestest psql -U postgres -c '\l';
           env PGPASSWORD=postgrestest psql -U postgres -c '\du';
-          env PGPASSWORD=postgrestest psql -U postgres -d atp-envconf -c 'SELECT schema_name FROM information_schema.schemata;'
+          env PGPASSWORD=postgrestest psql -U postgres -d env-envconf -c 'SELECT schema_name FROM information_schema.schemata;'
           env PGPASSWORD=postgrestest psql -U postgres -d postgres -c 'SELECT schema_name FROM information_schema.schemata;'
         "
 
