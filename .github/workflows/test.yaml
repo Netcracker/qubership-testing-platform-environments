@@ -70,3 +70,8 @@ jobs:
         uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
         with:
           namespace: 'env'
+          max_attempts: 40
+          timeout: '30s'
+          max_attempts_for_provisioner: 40
+          timeout_for_provisioner: '10s'
+          service_branch: 'test_pipeline'
