@@ -9,7 +9,7 @@ fi
 
 . ./atp-common-scripts/openshift/common.sh
 
-_ns="${NAMESPACE}"
+#_ns="${NAMESPACE}"
 
 #ENVIRONMENT_DB="$(env_default "${ENVIRONMENT_DB}" "atp-envconf" "${_ns}")"
 #ENVIRONMENT_DB_USER="$(env_default "${ENVIRONMENT_DB_USER}" "atp-envconf" "${_ns}")"
