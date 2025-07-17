@@ -26,29 +26,6 @@ on:
 #        required: true
 
 jobs:
-  prepare-versions:
-    runs-on: ${{inputs.runner_type}}
-    outputs:
-      versions: ${{steps.process-versions.outputs.versions}}
-      previous_version: ${{steps.process-versions.outputs.previous_version}}
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          ref: '${{inputs.service_branch}}'
-          repository: 'Netcracker/qubership-testing-platform-environments'
-          path: 'qubership-testing-platform-environments'
-      - name: Process versions file
-        id: process-versions
-        run: |
-          versions_str=$(cat qubership-testing-platform-environments/${{inputs.versions_file}})
-          versions_json=$(echo $versions_str | jq -R -s -c 'split(" ")')
-          echo "versions=$versions_json" >> $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
-          previous_version=$(echo "$versions_json" | jq -r '.[-1]')
-          echo "previous_version=$previous_version" >> $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
-
   Clean_Install_Environments:
     runs-on: ${{inputs.runner_type}}
     name: Clean Install Environments
@@ -73,15 +50,19 @@ jobs:
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
-#      - name: Checkout folder
-#        run: |
-#          pwd
-#          ls -la
-#          cd qubership-testing-platform-environments
-#          ls -la
+      - name: Checkout folder
+        run: |
+          cd qubership-testing-platform-environments
+          ls -la
+          cd .github
+          ls -la
+          cd actions
+          ls -la
+          cd shared
+          ls -la
 
       - name: Clean Install Environments
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/env/helm_deploy_env
+        uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy_env
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
           service_branch: 'test_pipeline'
@@ -92,4 +73,4 @@ jobs:
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
       - name: Verify Environments installation
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/env/verify_installation_env
+        uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation_env
