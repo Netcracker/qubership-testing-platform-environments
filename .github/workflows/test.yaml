@@ -49,11 +49,9 @@ jobs:
           echo "previous_version=$previous_version" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
 
-  # ---------- Current service branch ----------
-  #4-Clean [LATEST_SPRINT], 5-Upgrade [LATEST_SPRINT] Diff Params
-  Clean-Latest-Upgrade-Diff-Params:
+  Clean_Install_Environments:
     runs-on: ${{inputs.runner_type}}
-    name: Clean [LATEST], Upgrade [LATEST] Diff Params
+    name: Clean Install
     steps:
       - name: Get current workflow branch
         id: get_branch
@@ -75,12 +73,12 @@ jobs:
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
-      - name: Checkout folder
-        run: |
-          pwd
-          ls -la
-          cd qubership-testing-platform-environments
-          ls -la
+#      - name: Checkout folder
+#        run: |
+#          pwd
+#          ls -la
+#          cd qubership-testing-platform-environments
+#          ls -la
 
       - name: Clean Install Environments
         uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_env
