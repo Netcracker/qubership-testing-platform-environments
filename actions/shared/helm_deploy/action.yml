@@ -271,7 +271,7 @@ runs:
             sleep 2
           done
         done
-        
+        kubectl get pods -n ${{inputs.namespace}}
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
         sleep 360
