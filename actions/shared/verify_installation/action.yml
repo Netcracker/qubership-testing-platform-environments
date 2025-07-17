@@ -142,7 +142,9 @@ runs:
           echo attempt $i
           status=$(kubectl get pod $test_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
           echo "$status"
-          if [[ "$status" == 'Running' ]]; then
+          ready=$(kubectl get pod "$test_pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[*].ready}")
+          echo "$ready"
+          if [[ "$status" == "Running" && "$ready" == "true" ]]; then
             break
           fi
           sleep ${{inputs.timeout}}

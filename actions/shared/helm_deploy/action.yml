@@ -204,12 +204,9 @@ runs:
         template_name=$(basename "${{inputs.path_to_template}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
-        ls -la
-        pwd
         
         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
         kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
-        
 
     - name: Debug
       shell: bash
@@ -272,7 +269,6 @@ runs:
             sleep 5
         done
         
-        sleep 180
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
           echo "📦 Logs from pod: $pod"

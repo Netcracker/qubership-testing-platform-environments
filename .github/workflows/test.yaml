@@ -82,7 +82,7 @@ jobs:
           cd qubership-testing-platform-environments
           ls -la
 
-      - name: Clean Install Environments [LATEST]
+      - name: Clean Install Environments
         uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_env
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
