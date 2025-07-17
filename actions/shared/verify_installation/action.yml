@@ -121,7 +121,7 @@ runs:
             done
         done
 
-    - name: Get logs from test pod
+    - name: Get logs from atp-environments pod
       shell: bash
       # language=bash
       run: |
@@ -129,7 +129,7 @@ runs:
         file_name=artifacts/${{inputs.namespace}}_tests.txt
         IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
         for pod in "${pods[@]}"; do
-          if [[ $pod == *"tests"* ]]; then
+          if [[ $pod == *"atp-environments"* ]]; then
             test_pod=$pod
           fi
         done
