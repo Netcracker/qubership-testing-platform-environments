@@ -379,7 +379,6 @@ create_pg_db() {
   # shellcheck disable=2016
   _pw="${8:+PGPASSWORD='$8'}"
   echo "=> Creating database '${_db}' ..."
-  echo "_cmd '${_cmd}' "
   ${_cmd} bash -c "${_pw} psql -h \"${_host}\" -p \"${_port}\" -U \"${_as}\" -c \"CREATE USER \"${_user}\" WITH ENCRYPTED PASSWORD '${_pass}'\""
   ${_cmd} bash -c "${_pw} psql -h \"${_host}\" -p \"${_port}\" -U \"${_as}\" -c \"CREATE DATABASE \"${_db}\" OWNER \"${_user}\"\""
   ${_cmd} bash -c "${_pw} psql -h \"${_host}\" -p \"${_port}\" -U \"${_as}\" -c \"GRANT ALL PRIVILEGES ON DATABASE \"${_db}\" TO \"${_user}\"\""

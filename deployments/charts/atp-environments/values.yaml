@@ -1,4 +1,3 @@
-image: ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714065909
 PAAS_PLATFORM: "KUBERNETES"
 ATP_NET: ""
 # expression describing the start time of the job
@@ -15,7 +14,7 @@ CPU_LIMIT: "1"
 # CPU core request
 CPU_REQUEST: "0.05"
 # Which docker image should be used to deploy
-DOCKER_TAG: "ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250714065909"
+DOCKER_TAG: "artifactory-url/path-to-image"
 # Name mongo grid DB
 EI_GRIDFS_DB: ""
 # Password mongo grid DB
@@ -29,7 +28,7 @@ ENVIRONMENT_DB_PASSWORD: ""
 # User for db
 ENVIRONMENT_DB_USER: ""
 # Switching-on of Eureka client
-EI_CLEAN_JOB_ENABLED: "false"
+EI_CLEAN_JOB_ENABLED: "true"
 EI_CLEAN_JOB_WORKDIR: "exportimport/node"
 EI_CLEAN_SCHEDULED_JOB_PERIOD_MS: "86400000"
 EI_CLEAN_JOB_FILE_DELETE_AFTER_MS: "172800000"
@@ -50,15 +49,15 @@ FEIGN_ATP_USERS_URL: '' # TO_BE_REPLACED
 # Host of graylog
 GRAYLOG_HOST: "tcp:graylog-machine-address"
 # This option turns on or off logging in graylog
-GRAYLOG_ON: "false"
+GRAYLOG_ON: "true"
 # Port of graylog
 GRAYLOG_PORT: "12201"
 # Hist mongo grid DB
-GRIDFS_DB_ADDR: ""
+GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
 # Port mongo grid DB
 GRIDFS_DB_PORT: "27017"
 # This option turns Javers on or off.
-JAVERS_ENABLED: "false"
+JAVERS_ENABLED: "true"
 CACHE_VERSIONS_PERIOD: "21600"
 CACHE_ENVIRONMENTS_BY_SYSTEM_ID_PERIOD : "21600"
 CACHE_SYSTEMS_BY_ENVIRONMENT_ID_PERIOD : "21600"
@@ -69,7 +68,7 @@ JMX_ENABLE: "true"
 JMX_PORT: "3000"
 JMX_RMI_PORT: "3001"
 # This option turns on or off kafka enable
-KAFKA_ENABLE: "false"
+KAFKA_ENABLE: "true"
 # TOPIC of kafka service
 KAFKA_PROJECT_EVENT_CONSUMER_TOPIC_NAME: ""
 KAFKA_ENVIRONMENTS_EVENT_PRODUCER_TOPIC_NAME: ""
@@ -77,23 +76,23 @@ KAFKA_SYSTEMS_EVENT_PRODUCER_TOPIC_NAME: ""
 KAFKA_CONNECTIONS_EVENT_PRODUCER_TOPIC_NAME: ""
 KAFKA_MAX_REQUEST_SIZE: "5000000"
 # URL of kafka service
-KAFKA_SERVERS: ""
+KAFKA_SERVERS: "kafka:9092"
 KAFKA_SERVICE_ENTITIES_TOPIC: ""
 KAFKA_SERVICE_ENTITIES_TOPIC_PARTITIONS: "1"
 KAFKA_SERVICE_ENTITIES_TOPIC_REPLICATION_FACTOR: ""
-SERVICE_ENTITIES_MIGRATION_ENABLED: "false"
+SERVICE_ENTITIES_MIGRATION_ENABLED: "true"
 # Audit Logging topic
 AUDIT_LOGGING_ENABLE: "false"
 AUDIT_LOGGING_TOPIC_NAME: ""
-KAFKA_REPORTING_SERVERS: ""
+KAFKA_REPORTING_SERVERS: "kafka:9092"
 AUDIT_LOGGING_TOPIC_PARTITIONS: '1'
 AUDIT_LOGGING_TOPIC_REPLICAS: ""
 # Url atp-keycloak with auth
 KEYCLOAK_AUTH_URL: "https://keycloak-server-address/auth"
 # Keycloak enabled
-KEYCLOAK_ENABLED: "false"
+KEYCLOAK_ENABLED: "true"
 # Keycloak realm
-KEYCLOAK_REALM: ""
+KEYCLOAK_REALM: "atp2"
 # level of logs
 LOG_LEVEL: "INFO"
 # locale resolver
@@ -105,7 +104,7 @@ MEMORY_LIMIT: "1.5Gi"
 # Memory request
 MEMORY_REQUEST: "600Mi"
 # IP of db
-PG_DB_ADDR: "my-postgres-postgresql"
+PG_DB_ADDR: "pg-common.postgrescluster.svc"
 # PORT of db
 PG_DB_PORT: "5432"
 # enabling profiler option
@@ -132,7 +131,7 @@ SERVICE_REGISTRY_URL: "http://atp-registry-service:8761/eureka"
 # Set to ATP2 to enable Prometheus scrapping
 SERVICE_TYPE: "ATP2"
 # Spring profile for security
-SPRING_PROFILES: "disable-security"
+SPRING_PROFILES: "default"
 # Vault service URL, required when ENCRYPT = vault
 VAULT_URL: ''
 ZIPKIN_ENABLE: "false"
@@ -147,8 +146,7 @@ ATP_CRYPTO_PRIVATE_KEY: ""
 # Keycloak client name
 KEYCLOAK_CLIENT_NAME: "environments"
 # Keycloak secret
-#KEYCLOAK_SECRET: "28b4cf8a-24e6-4fa2-82df-9ef5907560c6"
-KEYCLOAK_SECRET: ""
+KEYCLOAK_SECRET: "28b4cf8a-24e6-4fa2-82df-9ef5907560c6"
 # DB connection timeout
 HIKARI_CONNECTION_TIMEOUT: "90000"
 HIKARI_MAX_POOL_SIZE: "100"
@@ -209,8 +207,5 @@ HEAPDUMP_ENABLED: false
 #    }
 #  ]
 extraEnvs: []
-keepHookLogs: true
-HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:main-20250714085543"
-CONTENT_SECURITY_POLICY: "*"
-pg_pass: "postgrestest"
-pg_user: "postgres"
+keepHookLogs: false
+HELPER_IMAGE: "artifactory-address/path-to-docker-image"
