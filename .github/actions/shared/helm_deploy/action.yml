@@ -147,9 +147,9 @@ runs:
         
         for i in {1..10}; do
           echo attempt $i
-          status=$(kubectl get pod $name_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
+          status=$(kubectl get pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
           echo "$status"
-          ready=$(kubectl get pod "$name_pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[*].ready}")
+          ready=$(kubectl get pod -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[*].ready}")
           echo "$ready"
           if [[ "$status" == "Running" && "$ready" == "true" ]]; then
             break
