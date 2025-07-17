@@ -208,10 +208,12 @@ runs:
         
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
+          kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
         else
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
+          kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
         fi
-
+        
 
     - name: Debug
       shell: bash
@@ -283,7 +285,8 @@ runs:
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           'ls';
-          'ls -la';
+          'cd deployments';
+          'ls';
         "
 
     - name: Show PostgreSQL databases
