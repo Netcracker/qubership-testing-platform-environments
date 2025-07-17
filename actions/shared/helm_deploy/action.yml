@@ -279,7 +279,7 @@ runs:
     - name: Show Environments files
       shell: bash
       run: |
-        POD=$(kubectl logs $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1{print $1}') -n ${{inputs.namespace}})
+        POD=$(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1{print $1}')
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           'ls -ls';
