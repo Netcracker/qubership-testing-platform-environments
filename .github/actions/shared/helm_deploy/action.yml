@@ -154,7 +154,7 @@ runs:
           if [[ "$status" == "Running" && "$ready" == "true" ]]; then
             break
           fi
-          sleep 5
+          sleep 20
         done
         if [[ "$status" == "Running" && "$ready" != "true" ]]; then
             kubectl get pods -n ${{inputs.namespace}}
