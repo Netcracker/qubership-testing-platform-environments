@@ -1,17 +1,64 @@
 name: Run Environments Pipeline
 
+#on:
+#  pull_request:
+#    types: [opened, synchronize, reopened]
+#    branches: [main]
+
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [main]
+  workflow_call:
+    inputs:
+      service_branch:
+        required: false
+        type: string
+      versions_file:
+        description: 'Path to versions list file'
+        type: string
+        required: true
+      pipeline_branch:
+        description: 'Test pipeline branch name'
+        type: string
+        required: true
+      runner_type:
+        description: 'Runner type (self-hosted or ubuntu-latest)'
+        type: string
+        required: false
+        default: 'ubuntu-latest'
 
 jobs:
-  Environments-Pipeline:
-    uses: Netcracker/qubership-test-pipelines/.github/workflows/test.yaml@test_pipeline
-    with:
-      service_branch: '${{ github.head_ref || github.ref_name }}'
-      versions_file: '.github/versions.yaml'
-      pipeline_branch: 'test_pipeline' #this value must match the value after '@' in 'uses'
-#    secrets:
-#      AWS_S3_ACCESS_KEY_ID: ${{secrets.AWS_S3_ACCESS_KEY_ID}}
-#      AWS_S3_ACCESS_KEY_SECRET: ${{secrets.AWS_S3_ACCESS_KEY_SECRET}}
+  Clean_Install_Environments:
+    runs-on: ${{inputs.runner_type}}
+    name: Clean Install
+    steps:
+      - name: Get current workflow branch
+        id: get_branch
+        run: |
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-test-pipelines'
+          path: 'qubership-test-pipelines'
+      - name: Create cluster
+        uses: ./qubership-test-pipelines/actions/shared/create_cluster
+
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'test_pipeline'
+          repository: 'Netcracker/qubership-testing-platform-environments'
+          path: 'qubership-testing-platform-environments'
+
+      - name: Clean Install Environments
+        uses: ./qubership-testing-platform-environments/.github/actions/env/helm_deploy_env
+        with:
+          path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
+          service_branch: 'test_pipeline'
+          service_name: 'atp-environments'
+          repository_name: 'qubership-testing-platform-environments'
+          path_to_chart: 'deployments/charts/atp-environments'
+          namespace: 'env'
+          helm_charts_release_config: './github/helm-charts-release-config.yaml'
+
+      - name: Verify Environments installation
+        uses: ./qubership-testing-platform-environments/.github/actions/env/verify_installation_env

@@ -1,4 +1,3 @@
-#image: ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250717134026
 # Which docker image should be used to deploy
 DOCKER_TAG: "ghcr.io/netcracker/qubership-testing-platform-environments:test_pipeline-20250717160258"
 # Switching-on of Eureka client
