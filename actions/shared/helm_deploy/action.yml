@@ -160,9 +160,6 @@ runs:
         
         helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
           --set image.tag=14.2.0 \
-          #--set auth.username=atp-envconf \
-          #--set auth.password=atp-envconf \
-          #--set auth.database=atp-envconf
           --set auth.username=postgres \
           --set auth.password=postgrestest \
           --set auth.database=postgres
