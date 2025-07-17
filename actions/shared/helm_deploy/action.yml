@@ -272,6 +272,7 @@ runs:
             sleep 5
         done
         
+        sleep 180
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
           echo "📦 Logs from pod: $pod"
