@@ -19,12 +19,12 @@ inputs:
   max_attempts_for_provisioner:
     description: |
       Maximum retries for provisioner pod to be completed
-    required: true
+    required: false
 
   timeout_for_provisioner:
     description: |
       Delay between provisioner pod check attempts
-    required: true
+    required: false
 
   service_branch:
     description: |
