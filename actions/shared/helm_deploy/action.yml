@@ -207,7 +207,6 @@ runs:
         ls -la
         pwd
         
-        
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
           kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
@@ -222,6 +221,10 @@ runs:
       run: |
         echo "Get pods $pod"
         kubectl get pods -n ${{inputs.namespace}}
+        
+        echo "Get values"
+        helm get values atp-environments -n ${{inputs.namespace}} --all
+        echo "End values"
         
         echo "Get logs for predeploy-install"
         kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
