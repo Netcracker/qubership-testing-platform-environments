@@ -211,28 +211,7 @@ runs:
         else
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
         fi
-        
-        PODS=$(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name" | grep "atp-environments")
-        if [[ -z "$PODS" ]]; then
-           echo "❌ '$POD_MASK' in namespace "
-           exit 1
-        fi
-        
-        for POD in $PODS; do
-        echo -e "\n🔍 Pod: $POD"
-          INIT_CONTAINERS=$(kubectl get pod "$POD" -n ${{inputs.namespace}} -o jsonpath="{.spec.initContainers[*].name}")
-        
-          if [[ -z "$INIT_CONTAINERS" ]]; then
-            echo "ℹ️  There is no initContainers"
-            continue
-          fi
 
-          for IC in $INIT_CONTAINERS; do
-            echo -e "\n📄 Logs initContainer: $IC"
-            kubectl logs "$POD" -c "$IC" -n ${{inputs.namespace}}
-            echo -e "---\n"
-          done
-        done
 
     - name: Debug
       shell: bash
@@ -300,10 +279,10 @@ runs:
     - name: Show Environments files
       shell: bash
       run: |
-        POD=$(kubectl get pods -n ${{inputs.namespace}} -l app.kubernetes.io/name=postgresql -o jsonpath="{.items[0].metadata.name}")
+        PODS=$(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name" | grep "atp-environments")
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
-          env PGPASSWORD=postgrestest psql -U postgres -c 'ls -ls';
+          'ls -ls';
         "
 
     - name: Show PostgreSQL databases
