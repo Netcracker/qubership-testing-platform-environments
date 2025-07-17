@@ -53,7 +53,7 @@ GRAYLOG_ON: "true"
 # Port of graylog
 GRAYLOG_PORT: "12201"
 # Hist mongo grid DB
-GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
+GRIDFS_DB_ADDR: ""
 # Port mongo grid DB
 GRIDFS_DB_PORT: "27017"
 # This option turns Javers on or off.
