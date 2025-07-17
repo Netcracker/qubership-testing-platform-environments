@@ -81,9 +81,6 @@ jobs:
           ls -la
           cd qubership-testing-platform-environments
           ls -la
-          cd shared
-          ls -la
-          pwd
 
       - name: Clean Install Environments [LATEST]
         uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_env
@@ -95,6 +92,20 @@ jobs:
           path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'atp-environments'
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
+
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'test_pipeline'
+          repository: 'Netcracker/qubership-testing-platform-environments'
+          path: 'qubership-testing-platform-environments'
+
+      - name: Checkout folder
+        run: |
+          pwd
+          ls -la
+          cd qubership-testing-platform-environments
+          ls -la
 
       - name: Verify Environments installation
         uses: ./qubership-testing-platform-environments/actions/env/verify_installation_env
