@@ -262,6 +262,7 @@ runs:
                 fi
               elif echo "$STATE" | grep -q "init"; then
                 echo "🔍 Pod in init status"
+                kubectl get pods -n ${{inputs.namespace}}
                 break
             else
               echo "❓ Pod $pod state is unknown or container not initialized yet"
