@@ -294,15 +294,6 @@ runs:
         echo " Get pods $pod"
         kubectl get pods -n ${{inputs.namespace}}
 
-    - name: Show Environments files
-      shell: bash
-      run: |
-        POD=$(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1{print $1}')
-        echo "Connecting to pod: $POD"
-        kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
-          'ls';
-        "
-
     - name: Show PostgreSQL databases
       shell: bash
       run: |
@@ -311,8 +302,10 @@ runs:
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           env PGPASSWORD=postgrestest psql -U postgres -c '\l';
           env PGPASSWORD=postgrestest psql -U postgres -c '\du';
-          env PGPASSWORD=postgrestest psql -U postgres -d env-envconf -c 'SELECT schema_name FROM information_schema.schemata;'
+          env PGPASSWORD=postgrestest psql -U postgres -d env_envconf -c 'SELECT schema_name FROM information_schema.schemata;'
+          env PGPASSWORD=postgrestest psql -U postgres -d env_envconf -c '\dt';
           env PGPASSWORD=postgrestest psql -U postgres -d postgres -c 'SELECT schema_name FROM information_schema.schemata;'
+          env PGPASSWORD=env_envconf psql -U env_envconf -d env_envconf -c 'SELECT schema_name FROM information_schema.schemata;'
         "
 
     - name: Get docker images
