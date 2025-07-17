@@ -30,7 +30,7 @@ runs:
   using: 'composite'
   steps:
     - name: Run verify_installation action for Environments
-      uses: ./qubership-testing-platform-environments/actions/shared/verify_installation
+      uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
       with:
         namespace: ${{inputs.namespace}}
         max_attempts: ${{inputs.max_attempts}}

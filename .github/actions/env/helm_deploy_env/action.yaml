@@ -40,7 +40,7 @@ runs:
   using: 'composite'
   steps:
     - name: Run helm_install action for Environments
-      uses: ./qubership-testing-platform-environments/actions/shared/helm_deploy
+      uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy
       with:
         deploy_mode: ${{inputs.deploy_mode}}
         restricted: ${{inputs.restricted}}
