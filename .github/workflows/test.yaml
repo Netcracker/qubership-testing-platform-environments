@@ -62,7 +62,7 @@ jobs:
           ls -la
 
       - name: Clean Install Environments
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy_env
+        uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy
         with:
           path_to_template: './qubership-testing-platform-environments/deployments/charts/atp-environments/values.yaml'
           service_branch: 'test_pipeline'
@@ -73,4 +73,4 @@ jobs:
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
 
       - name: Verify Environments installation
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation_env
+        uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
