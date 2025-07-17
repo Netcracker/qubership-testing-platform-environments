@@ -50,16 +50,10 @@ jobs:
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
-      - name: Checkout folder
-        run: |
-          cd qubership-testing-platform-environments
-          ls -la
-          cd .github
-          ls -la
-          cd actions
-          ls -la
-          cd shared
-          ls -la
+#      - name: Checkout folder
+#        run: |
+#          cd qubership-testing-platform-environments
+#          ls -la
 
       - name: Clean Install Environments
         uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy
@@ -74,3 +68,5 @@ jobs:
 
       - name: Verify Environments installation
         uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
+        with:
+          namespace: 'env'
