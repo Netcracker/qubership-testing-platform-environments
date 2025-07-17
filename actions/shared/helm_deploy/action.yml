@@ -211,14 +211,9 @@ runs:
         
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
-          echo "========== Get logs for predeploy-install =========="
           kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
-          echo "========== End logs =========="
         else
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
-          echo "========== Get logs for predeploy-install =========="
-          kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
-          echo "========== End logs =========="
         fi
         
 
@@ -226,13 +221,18 @@ runs:
       shell: bash
       if: always()
       run: |
-        echo "========== Get pods $pod =========="
+        echo "Get pods $pod"
         kubectl get pods -n ${{inputs.namespace}}
         
         echo "Get logs for predeploy-install"
-          kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
-          echo "End logs"
+          kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
+            --selector=job-name=${{inputs.service_name}}-predeploy-install \
+            -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
+        echo "End logs"
         
+        echo "Describe pod"
+        kubectl describe pod $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1 {print $1}') -n ${{inputs.namespace}}
+        echo "End describe"
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
         echo "⏳ Waiting for pod $pod to be ready..."
