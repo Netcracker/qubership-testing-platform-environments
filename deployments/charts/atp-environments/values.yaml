@@ -212,3 +212,5 @@ extraEnvs: []
 keepHookLogs: true
 HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:main-20250714085543"
 CONTENT_SECURITY_POLICY: "*"
+pg_pass: "postgrestest"
+pg_user: "postgres"

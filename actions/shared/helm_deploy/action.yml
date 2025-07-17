@@ -160,12 +160,12 @@ runs:
         
         helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
           --set image.tag=14.2.0 \
-          --set auth.username=atp-envconf \
-          --set auth.password=atp-envconf \
-          --set auth.database=atp-envconf
-          #--set auth.username=postgres \
-          #--set auth.password=postgrestest \
-          #--set auth.database=postgres
+          #--set auth.username=atp-envconf \
+          #--set auth.password=atp-envconf \
+          #--set auth.database=atp-envconf
+          --set auth.username=postgres \
+          --set auth.password=postgrestest \
+          --set auth.database=postgres
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
         echo "⏳ Waiting for pod $pod to be ready..."
@@ -194,7 +194,7 @@ runs:
             sleep 2
           done
         done
-        echo "========== Get pods $pod =========="
+        echo "Get pods $pod"
         kubectl get pods -n ${{inputs.namespace}}
 
     - name: Install/update service with helm
@@ -225,9 +225,9 @@ runs:
         kubectl get pods -n ${{inputs.namespace}}
         
         echo "Get logs for predeploy-install"
-          kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
-            --selector=job-name=${{inputs.service_name}}-predeploy-install \
-            -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
+        kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
+          --selector=job-name=${{inputs.service_name}}-predeploy-install \
+          -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
         echo "End logs"
         
         echo "Describe pod"
@@ -294,7 +294,7 @@ runs:
       
         done
         
-        echo "========== Get pods $pod =========="
+        echo " Get pods $pod"
         kubectl get pods -n ${{inputs.namespace}}
 
     - name: Show Environments files
@@ -303,8 +303,6 @@ runs:
         POD=$(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1{print $1}')
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
-          'ls';
-          'cd deployments/';
           'ls';
         "
 
