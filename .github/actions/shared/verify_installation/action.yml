@@ -144,11 +144,16 @@ runs:
           echo "$status"
           ready=$(kubectl get pod "$test_pod" -n ${{inputs.namespace}} -o jsonpath="{.status.containerStatuses[*].ready}")
           echo "$ready"
+          kubectl get pods -n ${{inputs.namespace}}
           if [[ "$status" == "Running" && "$ready" == "true" ]]; then
             break
           fi
           sleep ${{inputs.timeout}}
         done
+        if [[ "$status" == "Running" && "$ready" != "true" ]]; then
+            ERROR_FLAG=true
+          fi
+        
 
     - name: Generate artifact name
       if: always()

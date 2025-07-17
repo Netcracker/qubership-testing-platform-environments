@@ -71,7 +71,7 @@ jobs:
         with:
           namespace: 'env'
           max_attempts: 40
-          timeout: '30s'
+          timeout: '45s'
           max_attempts_for_provisioner: 40
           timeout_for_provisioner: '10s'
           service_branch: 'test_pipeline'
