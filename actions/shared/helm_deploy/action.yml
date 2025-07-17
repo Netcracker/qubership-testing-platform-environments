@@ -211,7 +211,9 @@ runs:
         
         if [[ ${{inputs.restricted}} == 'false' ]]; then
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --debug
+          echo "========== Get logs for predeploy-install =========="
           kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
+          echo "========== End logs =========="
         else
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
           echo "========== Get logs for predeploy-install =========="
@@ -226,6 +228,12 @@ runs:
       run: |
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
+        
+        echo "Get logs for predeploy-install"
+          kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
+          echo "End logs"
+        
+        
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
         echo "⏳ Waiting for pod $pod to be ready..."
       
