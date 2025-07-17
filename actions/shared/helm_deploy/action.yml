@@ -206,7 +206,6 @@ runs:
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         
         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
-        kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
 
     - name: Debug
       shell: bash
@@ -218,12 +217,6 @@ runs:
         echo "Get values"
         helm get values atp-environments -n ${{inputs.namespace}} --all
         echo "End values"
-        
-        echo "Get logs for predeploy-install"
-        kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
-          --selector=job-name=${{inputs.service_name}}-predeploy-install \
-          -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
-        echo "End logs"
         
         echo "Describe pod"
         kubectl describe pod $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1 {print $1}') -n ${{inputs.namespace}}
