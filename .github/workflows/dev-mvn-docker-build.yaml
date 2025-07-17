@@ -31,7 +31,7 @@ env:
 jobs:
   mvn-snapshot-deploy:
     uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
-    #if: ${{ false }}
+    if: ${{ false }}
     with:
       java-version: "21"
       additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
@@ -45,7 +45,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     needs: mvn-snapshot-deploy
-    #if: ${{ false }}
+    if: ${{ false }}
 
     steps:
       - name: Checkout Repository
