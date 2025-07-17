@@ -11,9 +11,12 @@ fi
 
 _ns="${NAMESPACE}"
 
-ENVIRONMENT_DB="$(env_default "${ENVIRONMENT_DB}" "atp-envconf" "${_ns}")"
-ENVIRONMENT_DB_USER="$(env_default "${ENVIRONMENT_DB_USER}" "atp-envconf" "${_ns}")"
-ENVIRONMENT_DB_PASSWORD="$(env_default "${ENVIRONMENT_DB_PASSWORD}" "atp-envconf" "${_ns}")"
+#ENVIRONMENT_DB="$(env_default "${ENVIRONMENT_DB}" "atp-envconf" "${_ns}")"
+#ENVIRONMENT_DB_USER="$(env_default "${ENVIRONMENT_DB_USER}" "atp-envconf" "${_ns}")"
+#ENVIRONMENT_DB_PASSWORD="$(env_default "${ENVIRONMENT_DB_PASSWORD}" "atp-envconf" "${_ns}")"
+ENVIRONMENT_DB="atp-envconf"
+ENVIRONMENT_DB_USER="atp-envconf"
+ENVIRONMENT_DB_PASSWORD="atp-envconf"
 EI_GRIDFS_DB="$(env_default "${EI_GRIDFS_DB}" "atp-ei-gridfs" "${_ns}")"
 EI_GRIDFS_USER="$(env_default "${EI_GRIDFS_USER}" "atp-ei-gridfs" "${_ns}")"
 EI_GRIDFS_PASSWORD="$(env_default "${EI_GRIDFS_PASSWORD}" "atp-ei-gridfs" "${_ns}")"
