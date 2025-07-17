@@ -108,8 +108,6 @@ runs:
       # language=bash
       run: |
         echo ${{inputs.path_to_template}}
-        cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
-        ls -la
     #    ls -la
     #    cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
 
