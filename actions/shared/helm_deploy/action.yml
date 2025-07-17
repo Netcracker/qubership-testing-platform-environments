@@ -212,17 +212,25 @@ runs:
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
         fi
         
-        for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk '{print $1}'); do
-          for ic in $(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.spec.initContainers[*].name}"); do
-            echo "🔧 Logs from initContainer: $ic"
-            kubectl logs "$pod" -c "$ic" -n ${{inputs.namespace}}
-            echo "---"
-          done
-  
-          for c in $(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.spec.containers[*].name}"); do
-            echo "📦 Logs from container: $c"
-            kubectl logs "$pod" -c "$c" -n ${{inputs.namespace}}
-            echo "---"
+        PODS=$(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name" | grep "atp-environments")
+        if [[ -z "$PODS" ]]; then
+           echo "❌ '$POD_MASK' in namespace "
+           exit 1
+        fi
+        
+        for POD in $PODS; do
+        echo -e "\n🔍 Pod: $POD"
+          INIT_CONTAINERS=$(kubectl get pod "$POD" -n ${{inputs.namespace}} -o jsonpath="{.spec.initContainers[*].name}")
+        
+          if [[ -z "$INIT_CONTAINERS" ]]; then
+            echo "ℹ️  There is no initContainers"
+            continue
+          fi
+
+          for IC in $INIT_CONTAINERS; do
+            echo -e "\n📄 Logs initContainer: $IC"
+            kubectl logs "$POD" -c "$IC" -n ${{inputs.namespace}}
+            echo -e "---\n"
           done
         done
 
