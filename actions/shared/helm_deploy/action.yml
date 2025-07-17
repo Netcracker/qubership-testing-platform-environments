@@ -260,6 +260,9 @@ runs:
                 echo "🔍 Detected ContainerCreating — showing last Events:"
                 kubectl describe pod "$pod" -n ${{inputs.namespace}} | awk '/^Events:$/,/^$/' | tail -n 10
                 fi
+              elif echo "$STATE" | grep -q "init"; then
+                echo "🔍 Pod in init status"
+                break
             else
               echo "❓ Pod $pod state is unknown or container not initialized yet"
             fi
