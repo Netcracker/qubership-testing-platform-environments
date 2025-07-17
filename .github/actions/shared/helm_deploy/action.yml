@@ -166,16 +166,20 @@ runs:
           --set auth.password=postgrestest \
           --set auth.database=postgres
         
+        echo "Get pods $pod"
+        kubectl get pods -n ${{inputs.namespace}}
+        
         for pod in "${pods[@]}"; do
           if [[ $pod == *"my-postgres-postgresql"* ]]; then
             name_pod=$pod
           fi
         done
         if ! [[ $name_pod ]]; then
-          echo There is no test pod
+          echo There is no postgres pod
           exit 0
         fi
         echo "name_pod=$name_pod"
+        
         for i in {1..10}; do
           echo attempt $i
           status=$(kubectl get pod $name_pod -n ${{inputs.namespace}} -o jsonpath="{.status.phase}")
