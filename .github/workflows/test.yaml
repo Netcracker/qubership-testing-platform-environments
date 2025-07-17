@@ -75,6 +75,16 @@ jobs:
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
+      - name: Checkout folder
+        run: |
+          pwd
+          ls -la
+          cd qubership-testing-platform-environments
+          ls -la
+          cd shared
+          ls -la
+          pwd
+
       - name: Clean Install Environments [LATEST]
         uses: ./qubership-testing-platform-environments/actions/env/helm_deploy_env
         with:
