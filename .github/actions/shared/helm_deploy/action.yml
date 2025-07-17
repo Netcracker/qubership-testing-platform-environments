@@ -144,16 +144,16 @@ runs:
         echo ${service_branch_updated}
         echo "service_branch_updated=${service_branch_updated}" >> $GITHUB_OUTPUT
 
-    - name: Update versions in values
-      id: update-versions
-      uses: netcracker/qubership-workflow-hub/actions/helm-charts-release@main
-      with:
-        release-version: test_pipeline-20250714054521
-        config-file: .github/helm-charts-release-config.yaml
-        create-release-branch: "false"
-        version-replace-method: 'replace'
-        working-directory: ${{inputs.repository_name}}
-        chart-version: ${{github.run_number}}.${{github.run_attempt}}.${{github.run_id}}
+#    - name: Update versions in values
+#      id: update-versions
+#      uses: netcracker/qubership-workflow-hub/actions/helm-charts-release@main
+#      with:
+#        release-version: test_pipeline-20250714054521
+#        config-file: .github/helm-charts-release-config.yaml
+#        create-release-branch: "false"
+#        version-replace-method: 'replace'
+#        working-directory: ${{inputs.repository_name}}
+#        chart-version: ${{github.run_number}}.${{github.run_attempt}}.${{github.run_id}}
 
     - name: Install Postgres
       shell: bash
