@@ -56,7 +56,7 @@ GRAYLOG_PORT: "12201"
 # Hist mongo grid DB
 GRIDFS_DB_ADDR: ""
 # Port mongo grid DB
-GRIDFS_DB_PORT: "27017"
+GRIDFS_DB_PORT: ""
 # This option turns Javers on or off.
 JAVERS_ENABLED: "false"
 CACHE_VERSIONS_PERIOD: "21600"
