@@ -202,6 +202,23 @@ runs:
         
         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m
 
+    - name: Debug
+      shell: bash
+      if: always()
+      run: |
+        echo "Get pods $pod"
+        kubectl get pods -n ${{inputs.namespace}}
+        
+        echo "Get values"
+        helm get values atp-environments -n ${{inputs.namespace}} --all
+        echo "End values"
+        
+        echo "Get logs for predeploy-install"
+        kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
+          --selector=job-name=${{inputs.service_name}}-predeploy-install \
+          -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
+        echo "End logs"
+
     - name: Get docker images
       shell: bash
       # language=bash

@@ -129,7 +129,7 @@ runs:
         file_name=artifacts/${{inputs.namespace}}_tests.txt
         IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
         for pod in "${pods[@]}"; do
-          if [[ $pod == *"atp-environments"* ]]; then
+          if [[ $pod == *"atp-environments"* && $pod != *"atp-environments-predeploy-install"* ]]; then
             test_pod=$pod
           fi
         done
