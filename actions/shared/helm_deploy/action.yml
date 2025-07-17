@@ -207,7 +207,7 @@ runs:
         
         
         if [[ ${{inputs.restricted}} == 'false' ]]; then
-          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -f /qubership-testing-platform-environments/templates/values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -f ./qubership-testing-platform-environments/templates/values-dev.yaml -n ${{inputs.namespace}} --timeout 10m --debug
           kubectl get jobs -n ${{inputs.namespace}} | grep predeploy-install
         else
           helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --timeout 10m --skip-crds --debug
