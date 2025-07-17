@@ -153,17 +153,9 @@ runs:
         working-directory: ${{inputs.repository_name}}
         chart-version: ${{github.run_number}}.${{github.run_attempt}}.${{github.run_id}}
 
-    - name: Install/update service with helm
+    - name: Install Postgres
       shell: bash
-      # language=bash
       run: |
-        # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
-        template_name=$(basename "${{inputs.path_to_template}}")
-        echo $template_name
-        cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
-        ls -la
-        pwd
-        
         helm repo add bitnami https://charts.bitnami.com/bitnami
         
         helm install my-postgres bitnami/postgresql -n ${{inputs.namespace}} \
@@ -204,6 +196,17 @@ runs:
         done
         echo "========== Get pods $pod =========="
         kubectl get pods -n ${{inputs.namespace}}
+
+    - name: Install/update service with helm
+      shell: bash
+      # language=bash
+      run: |
+        # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
+        template_name=$(basename "${{inputs.path_to_template}}")
+        echo $template_name
+        cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
+        ls -la
+        pwd
         
         
         if [[ ${{inputs.restricted}} == 'false' ]]; then
@@ -258,10 +261,12 @@ runs:
         kubectl get pods -n ${{inputs.namespace}}
         echo "⏳ Waiting for pod $pod to be Ready and streaming logs..."
         
-        for i in {1..70}; do
+        for i in {1..5}; do
             kubectl get pods -n ${{inputs.namespace}}
             sleep 5
         done
+        
+        sleep 180
         
         for pod in $(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name"); do 
           echo "📦 Logs from pod: $pod"
