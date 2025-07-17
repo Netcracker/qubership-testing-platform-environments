@@ -149,21 +149,6 @@ runs:
           fi
           sleep ${{inputs.timeout}}
         done
-        for i in {1..${{inputs.max_attempts}}}; do
-          logs=$(kubectl logs $test_pod -n ${{inputs.namespace}})
-          if [[ $logs == *"Report: /opt/robot/output/report.html"* ]]; then
-            kubectl logs $test_pod -n ${{inputs.namespace}} > $file_name
-            break
-          fi
-          sleep ${{inputs.timeout}}
-        done
-        echo 'TEST LOGS:'
-        kubectl logs $test_pod -n ${{inputs.namespace}}
-        if [[ $logs == *"| FAIL |"* ]]; then
-          echo "ERROR_FLAG=true" >> $GITHUB_ENV
-        fi
-        kubectl cp $test_pod:/opt/robot/output artifacts/robot-results -n ${{inputs.namespace}}
-        ls -la artifacts/robot-results
 
     - name: Generate artifact name
       if: always()
