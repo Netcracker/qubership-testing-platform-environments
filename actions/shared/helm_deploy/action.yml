@@ -279,7 +279,7 @@ runs:
     - name: Show Environments files
       shell: bash
       run: |
-        PODS=$(kubectl get pods -n ${{inputs.namespace}} --no-headers -o custom-columns=":metadata.name" | grep "atp-environments")
+        PODS=$(kubectl logs $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1{print $1}') -n ${{inputs.namespace}})
         echo "Connecting to pod: $POD"
         kubectl exec -n ${{inputs.namespace}} "$POD" -- bash -c "
           'ls -ls';
