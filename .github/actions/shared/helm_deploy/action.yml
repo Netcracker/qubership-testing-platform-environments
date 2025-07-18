@@ -103,7 +103,7 @@ runs:
       # language=bash
       run: |
         echo ${{inputs.path_to_template}}
-        cp ./qubership-testing-platform-environments/.github/deploy_templates/values-dev.yaml ${{inputs.repository_name}}/${{inputs.path_to_chart}}
+        cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         ls -la
     #    ls -la
     #    cp ${{inputs.path_to_template}} ${{inputs.repository_name}}/${{inputs.path_to_chart}}
@@ -162,7 +162,7 @@ runs:
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --set DOCKER_TAG="${{ inputs.docker_image }}" --timeout 10m
+        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set DOCKER_TAG="${{ inputs.docker_image }}" --timeout 10m
 
     - name: Get docker images
       shell: bash
