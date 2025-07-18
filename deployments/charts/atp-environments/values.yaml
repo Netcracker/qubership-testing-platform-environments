@@ -54,7 +54,7 @@ GRAYLOG_ON: "true"
 GRAYLOG_PORT: "12201"
 ENV_EI_DB_ENABLE: "true"
 # Hist mongo grid DB
-GRIDFS_DB_ADDR: ""
+GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
 # Port mongo grid DB
 GRIDFS_DB_PORT: "27017"
 # This option turns Javers on or off.
