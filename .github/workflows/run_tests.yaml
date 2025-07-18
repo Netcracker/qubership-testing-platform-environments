@@ -51,8 +51,7 @@ jobs:
           repository_name: 'qubership-testing-platform-environments'
           path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'env'
-          helm_charts_release_config: './github/helm-charts-release-config.yaml'
-          docker_image: ${{ github.event.inputs.image }}
+          docker_tag: ${{ github.event.inputs.image }}
 
       - name: Verify Environments installation
         uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation

@@ -53,16 +53,16 @@ inputs:
   helm_charts_release_config:
     description: |
       Path to helm-charts-release-config.yaml in pipeline repository
-    required: true
+    required: false
 
   resource_folder:
     description: |
       Folder with resources for creating before installation
     required: true
 
-  docker_image:
+  docker_tag:
     description: "Full docker image"
-    required: false
+    required: true
 
 runs:
   using: 'composite'
@@ -127,17 +127,6 @@ runs:
       # language=bash
       run: echo "ERROR_FLAG=false" >> $GITHUB_ENV
 
-#    - name: Update versions in values
-#      id: update-versions
-#      uses: netcracker/qubership-workflow-hub/actions/helm-charts-release@main
-#      with:
-#        release-version: test_pipeline-20250714054521
-#        config-file: .github/helm-charts-release-config.yaml
-#        create-release-branch: "false"
-#        version-replace-method: 'replace'
-#        working-directory: ${{inputs.repository_name}}
-#        chart-version: ${{github.run_number}}.${{github.run_attempt}}.${{github.run_id}}
-
     - name: Install Postgres
       shell: bash
       run: |
@@ -173,7 +162,7 @@ runs:
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --timeout 10m
+        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f values-dev.yaml -n ${{inputs.namespace}} --set DOCKER_TAG="${{ inputs.docker_image }}" --timeout 10m
 
     - name: Get docker images
       shell: bash
