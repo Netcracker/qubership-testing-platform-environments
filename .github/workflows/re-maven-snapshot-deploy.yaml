@@ -20,7 +20,7 @@ on:
         default: "maven-central"
       additional-mvn-args:
         type: string
-        description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=true')"
+        description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=false')"
         required: false
         default: ""
       artifact-id:
