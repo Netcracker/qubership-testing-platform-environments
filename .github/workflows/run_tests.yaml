@@ -6,24 +6,17 @@ name: Run Environments Pipeline
 #    branches: [main]
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      service_branch:
-        required: false
-        type: string
-      versions_file:
-        description: 'Path to versions list file'
-        type: string
+      docker_tag:
         required: true
+        type: string
+        description: 'Docker Image for rollout'
       pipeline_branch:
         description: 'Test pipeline branch name'
         type: string
         required: true
-      runner_type:
-        description: 'Runner type (self-hosted or ubuntu-latest)'
-        type: string
-        required: false
-        default: 'ubuntu-latest'
+        default: 'main'
 
 jobs:
   Clean_Install_Environments:
@@ -59,6 +52,7 @@ jobs:
           path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'env'
           helm_charts_release_config: './github/helm-charts-release-config.yaml'
+          docker_image: ${{ github.event.inputs.image }}
 
       - name: Verify Environments installation
         uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation

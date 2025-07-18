@@ -60,6 +60,10 @@ inputs:
       Folder with resources for creating before installation
     required: true
 
+  docker_image:
+    description: "Full docker image"
+    required: false
+
 runs:
   using: 'composite'
   steps:
