@@ -156,13 +156,15 @@ runs:
 
     - name: Install/update service with helm
       shell: bash
+      env:
+        DOCKER_TAG: "\"${{ inputs.docker_tag }}\""
       run: |
         # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
         template_name=$(basename "${{inputs.path_to_template}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set DOCKER_TAG="${{inputs.docker_tag}}" --timeout 10m
+        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=$DOCKER_TAG --timeout 10m
 
     - name: Get docker images
       shell: bash
