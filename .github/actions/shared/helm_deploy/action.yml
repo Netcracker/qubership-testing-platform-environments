@@ -122,7 +122,7 @@ runs:
         echo ${service_branch_updated}
         echo "service_branch_updated=${service_branch_updated}" >> $GITHUB_OUTPUT
         echo "docker_tag"
-        echo ${{inputs.docker_tag}}
+        echo ${{ inputs.docker_tag }}
 
     - name: Initialize error flag
       shell: bash
@@ -159,13 +159,14 @@ runs:
     - name: Install/update service with helm
       shell: bash
       env:
-        DOCKER_TAG: "\"${{inputs.docker_tag}}\""
+        DOCKER_TAG: "\"${{ inputs.docker_tag }}\""
       run: |
         # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
         template_name=$(basename "${{inputs.path_to_template}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         echo "Tag being passed: \"${{ inputs.docker_tag }}\""
+        echo "Running Helm with tag: $DOCKER_TAG"
         
         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=$DOCKER_TAG --timeout 10m
 
