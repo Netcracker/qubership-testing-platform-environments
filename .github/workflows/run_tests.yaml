@@ -20,7 +20,7 @@ on:
 
 jobs:
   Clean_Install_Environments:
-    runs-on: ${{inputs.runner_type}}
+    runs-on: ubuntu-latest
     name: Clean Install
     steps:
       - name: Get current workflow branch
