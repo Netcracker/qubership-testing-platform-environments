@@ -46,7 +46,7 @@ jobs:
         uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy
         with:
           path_to_template: './qubership-testing-platform-environments/.github/deploy_templates/values-dev.yaml'
-          service_branch: ${{inputs.pipeline_branch}}
+          service_branch: ${{ inputs.pipeline_branch }}
           service_name: 'atp-environments'
           repository_name: 'qubership-testing-platform-environments'
           path_to_chart: 'deployments/charts/atp-environments'
