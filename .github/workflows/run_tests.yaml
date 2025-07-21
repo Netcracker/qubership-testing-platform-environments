@@ -59,6 +59,4 @@ jobs:
           namespace: 'env'
           max_attempts: 40
           timeout: '45s'
-          max_attempts_for_provisioner: 40
-          timeout_for_provisioner: '10s'
-          service_branch: 'test_pipeline'
+          service_branch: ${{inputs.pipeline_branch}}
