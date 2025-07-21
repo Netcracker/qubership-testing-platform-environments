@@ -121,6 +121,8 @@ runs:
         fi
         echo ${service_branch_updated}
         echo "service_branch_updated=${service_branch_updated}" >> $GITHUB_OUTPUT
+        echo "docker_tag"
+        echo ${{inputs.docker_tag}}
 
     - name: Initialize error flag
       shell: bash
