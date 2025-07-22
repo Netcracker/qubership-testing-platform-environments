@@ -38,7 +38,7 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@v4
         with:
-          ref: 'test_pipeline'
+          ref: ${{ inputs.pipeline_branch }}
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
