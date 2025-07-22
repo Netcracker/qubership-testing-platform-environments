@@ -166,7 +166,7 @@ runs:
         echo "Running Helm with tag: $DOCKER_TAG"
         helm template ${{inputs.service_name}} . -f $template_name --set-string DOCKER_TAG=${{ inputs.docker_tag }} --debug
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=$DOCKER_TAG --timeout 10m
+        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }} --timeout 10m
 
     - name: Get docker images
       shell: bash
