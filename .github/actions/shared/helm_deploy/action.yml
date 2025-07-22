@@ -63,7 +63,6 @@ inputs:
   docker_tag:
     description: "Full docker image"
     required: false
-    default: ''
 
 runs:
   using: 'composite'
@@ -167,7 +166,13 @@ runs:
 
         helm template ${{inputs.service_name}} . -f $template_name --set-string DOCKER_TAG=${{ inputs.docker_tag }} --debug
         
-        helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }} --timeout 10m
+        if [ -n "${{ inputs.docker_tag }}" ]; then
+          echo "Using docker_tag: ${{ inputs.docker_tag }}"
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }} --timeout 10m
+        else
+         echo "No docker_tag provided. Using value from values-dev.yaml"
+         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }} --timeout 10m
+        fi
 
     - name: Get docker images
       shell: bash
