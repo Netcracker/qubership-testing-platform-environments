@@ -167,9 +167,9 @@ runs:
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
         echo "Tag being passed: \"${{ inputs.docker_tag }}\""
         echo "Running Helm with tag: $DOCKER_TAG"
+        helm template ${{inputs.service_name}} . -f $template_name --set-string DOCKER_TAG=$DOCKER_TAG --debug
         
         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=$DOCKER_TAG --timeout 10m
-        helm template ${{inputs.service_name}} . -f $template_name --set-string DOCKER_TAG=$DOCKER_TAG --debug
 
     - name: Get docker images
       shell: bash
