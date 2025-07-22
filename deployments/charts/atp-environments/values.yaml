@@ -52,6 +52,7 @@ GRAYLOG_HOST: "tcp:graylog-machine-address"
 GRAYLOG_ON: "true"
 # Port of graylog
 GRAYLOG_PORT: "12201"
+ENV_EI_DB_ENABLE: "true"
 # Hist mongo grid DB
 GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
 # Port mongo grid DB
@@ -209,4 +210,3 @@ HEAPDUMP_ENABLED: false
 extraEnvs: []
 keepHookLogs: false
 HELPER_IMAGE: "artifactory-address/path-to-docker-image"
-
