@@ -159,13 +159,12 @@ runs:
     - name: Install/update service with helm
       shell: bash
       env:
-        DOCKER_TAG: "\"${{ inputs.docker_tag }}\""
+        DOCKER_TAG: ${{ inputs.docker_tag }}
       run: |
         # ▶️ ${{inputs.deploy_mode}} ${{inputs.service_name}} with Helm
         template_name=$(basename "${{inputs.path_to_template}}")
         echo $template_name
         cd ${{inputs.repository_name}}/${{inputs.path_to_chart}}
-        echo "Tag being passed: \"${{ inputs.docker_tag }}\""
         echo "Running Helm with tag: $DOCKER_TAG"
         helm template ${{inputs.service_name}} . -f $template_name --set-string DOCKER_TAG=$DOCKER_TAG --debug
         
