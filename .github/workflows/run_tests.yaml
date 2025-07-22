@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_tag:
-        required: true
+        required: false
         type: string
         description: 'Docker Image for rollout'
       pipeline_branch:
