@@ -62,7 +62,7 @@ inputs:
 
   docker_tag:
     description: "Full docker image"
-    required: true
+    required: false
 
 runs:
   using: 'composite'
