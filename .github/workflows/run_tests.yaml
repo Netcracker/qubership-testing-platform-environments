@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       docker_tag:
-        required: true
+        required: false
         type: string
         description: 'Docker Image for rollout'
       pipeline_branch:
@@ -38,7 +38,7 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@v4
         with:
-          ref: 'test_pipeline'
+          ref: ${{ inputs.pipeline_branch }}
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
