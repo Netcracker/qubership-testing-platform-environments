@@ -183,7 +183,7 @@ CONSUL_URL: ""
 CONSUL_PORT: 8500
 CONSUL_TOKEN: ""
 #Replicas count
-NODES_COUNT: "1"
+NODES_COUNT: "2"
 # Swagger
 SWAGGER_ENABLED: 'false'
 # Common logging
