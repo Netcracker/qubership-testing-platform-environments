@@ -201,6 +201,20 @@ runs:
         echo "See ports"
         kubectl get svc atp-environments -n env
         kubectl describe svc atp-environments -n env
+        kubectl port-forward svc/atp-environments 8080:8080 -n env
+
+    - name: Wait for service to be ready
+      shell: bash
+      run: |
+        for i in {1..10}; do
+          if curl -sSf http://localhost:8080/api/environments/; then
+            echo "Service is ready"
+            break
+          fi
+          echo "Waiting for service..."
+          sleep 5
+        done
+
       #- name: Run Newman
       #  uses: matt-ball/newman-action@v1
       #  with:
