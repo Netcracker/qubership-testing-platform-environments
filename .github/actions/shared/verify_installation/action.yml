@@ -194,3 +194,15 @@ runs:
           echo "Service was installed with errors!"
           exit 1
         fi
+        
+    - name: Port-forward service
+      shell: bash
+      run: |
+        echo "See ports"
+        kubectl get svc ${{inputs.service_name}} -n ${{inputs.namespace}}
+        kubectl describe svc ${{inputs.service_name}} -n ${{inputs.namespace}
+      #- name: Run Newman
+      #  uses: matt-ball/newman-action@v1
+      #  with:
+      #    collection: path/to/collection.json
+      #    environment: path/to/env.json
