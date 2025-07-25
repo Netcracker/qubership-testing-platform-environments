@@ -32,10 +32,10 @@
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
 
         <atp.common.version>0.0.43</atp.common.version>
-        <atp.auth.version>1.2.60</atp.auth.version>
+        <atp.auth.version>1.2.67-SNAPSHOT</atp.auth.version>
         <atp.crypt.version>0.0.21</atp.crypt.version>
         <atp.intergration.spring.boot.starter.version>0.2.38</atp.intergration.spring.boot.starter.version>
-        <ei.version>0.2.40</ei.version>
+        <ei.version>0.2.42-SNAPSHOT</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>
@@ -344,7 +344,12 @@
             </dependency>
             <dependency>
                 <groupId>org.qubership.atp.auth</groupId>
-                <artifactId>atp-auth-spring-boot-starter</artifactId>
+                <artifactId>atp-auth-models</artifactId>
+                <version>${atp.auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.qubership.atp.auth</groupId>
+                <artifactId>atp-auth-impl</artifactId>
                 <version>${atp.auth.version}</version>
                 <exclusions>
                     <exclusion>
