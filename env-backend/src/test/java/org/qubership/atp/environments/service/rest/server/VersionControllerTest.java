@@ -38,7 +38,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
 @TestPropertySource("classpath:application-test-rest-api.properties")
 @Isolated

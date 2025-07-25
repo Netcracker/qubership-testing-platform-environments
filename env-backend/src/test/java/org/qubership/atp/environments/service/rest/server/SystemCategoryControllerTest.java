@@ -48,7 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest()
-@AutoConfigureMockMvc()
+@AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
 @TestPropertySource("classpath:application-test-rest-api.properties")
 @EnableWebMvc
