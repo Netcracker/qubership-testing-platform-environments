@@ -233,6 +233,12 @@ runs:
           sleep 3
         done
 
+    - name: Check API response (any status)
+      shell: bash
+      run: |
+        echo "📡 Sending test request to http://localhost:8080/api/v1/status"
+        curl -v -u user:user http://localhost:8080/api/v1/status || echo "❌ curl failed"
+
       #- name: Run Newman
       #  uses: matt-ball/newman-action@v1
       #  with:
