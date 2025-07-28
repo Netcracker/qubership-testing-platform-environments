@@ -194,26 +194,31 @@ runs:
           echo "Service was installed with errors!"
           exit 1
         fi
-        
+
     - name: Port-forward service
       shell: bash
       run: |
-        echo "See ports"
         kubectl get svc atp-environments -n env
         kubectl describe svc atp-environments -n env
-        kubectl port-forward svc/atp-environments 8080:8080 -n env
+        echo "🚀 Starting kubectl port-forward in background..."
 
-    - name: Wait for service to be ready
-      shell: bash
-      run: |
+        kubectl port-forward svc/atp-environments 8080:8080 -n env > port-forward.log 2>&1 &
+        echo $! > port_forward_pid.txt
+
         for i in {1..10}; do
-          if curl -u user:user -v http://localhost:8080/api/v1/status; then
-            echo "Service is ready"
+          if nc -z localhost 8080; then
+            echo "✅ Port-forward is working"
             break
           fi
-          echo "Waiting for service..."
-          sleep 5
+          echo "⏳ Waiting for port-forward..."
+          sleep 2
         done
+
+        if ! nc -z localhost 8080; then
+          echo "❌ Port-forward did not start in time"
+          cat port-forward.log
+          exit 1
+        fi
 
       #- name: Run Newman
       #  uses: matt-ball/newman-action@v1
