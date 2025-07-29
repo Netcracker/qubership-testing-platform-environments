@@ -33,6 +33,25 @@
       }
     },
     {
+      "name": "GET /api/projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/projects",
+          "host": ["{{base_url}}"],
+          "path": ["api", "projects"]
+        }
+      }
+    },
+    {
       "name": "GET /api/environments",
       "request": {
         "method": "GET",
