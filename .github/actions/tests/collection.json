@@ -49,7 +49,22 @@
           "host": ["{{base_url}}"],
           "path": ["api", "projects"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('=== Response Body ===');",
+              "console.log(pm.response.text());",
+              "const json = pm.response.json();",
+              "pm.environment.set('created_id', json[0].id);",
+              "console.log('Saved ID:', json[0].id);"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "POST /api/projects/{{created_id}}/environments",
@@ -76,22 +91,30 @@
           "raw": "{{base_url}}/api/projects/{{created_id}}/environments",
           "host": ["{{base_url}}"],
           "path": ["api", "projects", "{{created_id}}", "environments"]
-        },
-        "exec": [
-          "console.log('🟢 Test script triggered');",
-          "console.log('Status:', pm.response.code);",
-          "const contentType = pm.response.headers.get('Content-Type');",
-          "console.log('Content-Type:', contentType);",
-          "",
-          "try {",
-          "  const body = pm.response.text();",
-          "  console.log('Body length:', body.length);",
-          "  console.log('Raw body:', body ? body : '[empty]');",
-          "} catch (e) {",
-          "  console.log('❌ Error reading response body:', e);",
-          "}"
-        ]
-      }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('🟢 Test script triggered');",
+              "console.log('Status:', pm.response.code);",
+              "const contentType = pm.response.headers.get('Content-Type');",
+              "console.log('Content-Type:', contentType);",
+              "",
+              "try {",
+              "  const body = pm.response.text();",
+              "  console.log('Body length:', body.length);",
+              "  console.log('Raw body:', body ? body : '[empty]');",
+              "} catch (e) {",
+              "  console.log('❌ Error reading response body:', e);",
+              "}"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "GET /api/environments",
@@ -109,22 +132,30 @@
           "raw": "{{base_url}}/api/environments",
           "host": ["{{base_url}}"],
           "path": ["api", "environments"]
-        },
-        "exec": [
-          "console.log('🟢 Test script triggered');",
-          "console.log('Status:', pm.response.code);",
-          "const contentType = pm.response.headers.get('Content-Type');",
-          "console.log('Content-Type:', contentType);",
-          "",
-          "try {",
-          "  const body = pm.response.text();",
-          "  console.log('Body length:', body.length);",
-          "  console.log('Raw body:', body ? body : '[empty]');",
-          "} catch (e) {",
-          "  console.log('❌ Error reading response body:', e);",
-          "}"
-        ]
-      }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('🟢 Test script triggered');",
+              "console.log('Status:', pm.response.code);",
+              "const contentType = pm.response.headers.get('Content-Type');",
+              "console.log('Content-Type:', contentType);",
+              "",
+              "try {",
+              "  const body = pm.response.text();",
+              "  console.log('Body length:', body.length);",
+              "  console.log('Raw body:', body ? body : '[empty]');",
+              "} catch (e) {",
+              "  console.log('❌ Error reading response body:', e);",
+              "}"
+            ]
+          }
+        }
+      ]
     }
   ]
 }
