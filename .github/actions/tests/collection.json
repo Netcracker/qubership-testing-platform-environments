@@ -5,6 +5,30 @@
   },
   "item": [
     {
+      "name": "POST /api/environments",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/environments",
+          "host": ["{{base_url}}"],
+          "path": ["api", "environments"]
+        }
+      }
+    },
+    {
       "name": "GET /api/environments",
       "request": {
         "method": "GET",
