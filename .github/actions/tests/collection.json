@@ -140,6 +140,80 @@
           }
         }
       ]
-    }
+    },
+    {
+      "name": "POST /api/projects/{{created_id}}/tools",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/projects/{{created_id}}/tools",
+          "host": ["{{base_url}}"],
+          "path": ["api", "projects", "{{created_id}}", "tools"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('Status:', pm.response.code);",
+              "const contentType = pm.response.headers.get('Content-Type');",
+              "console.log('Content-Type:', contentType);",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/projects/*/tools",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/projects/*/tools",
+          "host": ["{{base_url}}"],
+          "path": ["api", "projects", "*","tools"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('Status:', pm.response.code);",
+              "const contentType = pm.response.headers.get('Content-Type');",
+              "console.log('Content-Type:', contentType);",
+              ""
+            ]
+          }
+        }
+      ]
   ]
 }
