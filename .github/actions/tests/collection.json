@@ -98,6 +98,7 @@
             "script": {
               "type": "text/javascript",
               "exec": [
+                "console.log('Request body:', pm.request.body.raw);",
                 "console.log('=== Response Body ===');",
                 "console.log(pm.response.text());"
               ]
