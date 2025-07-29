@@ -60,6 +60,8 @@
               "console.log(pm.response.text());"
             ]
           }
+        }
+      ]
     },
     {
       "name": "GET /api/environments",
