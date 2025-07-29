@@ -92,21 +92,19 @@
           "host": ["{{base_url}}"],
           "path": ["api", "projects", "{{created_id}}", "environments"]
         },
-        "event": [
-          {
-            "listen": "test",
-            "script": {
-              "type": "text/javascript",
-              "exec": [
-                "console.log('🟢 Test script triggered');",
-                "console.log('Status:', pm.response.code);",
-                "console.log('Content-Type:', pm.response.headers.get('Content-Type'));",
-                "const body = pm.response.text();",
-                "console.log('Body length:', body.length);",
-                "console.log('Raw body:', body);"
-              ]
-            }
-          }
+        "exec": [
+          "console.log('🟢 Test script triggered');",
+          "console.log('Status:', pm.response.code);",
+          "const contentType = pm.response.headers.get('Content-Type');",
+          "console.log('Content-Type:', contentType);",
+          "",
+          "try {",
+          "  const body = pm.response.text();",
+          "  console.log('Body length:', body.length);",
+          "  console.log('Raw body:', body ? body : '[empty]');",
+          "} catch (e) {",
+          "  console.log('❌ Error reading response body:', e);",
+          "}"
         ]
       }
     },
@@ -127,21 +125,19 @@
           "host": ["{{base_url}}"],
           "path": ["api", "environments"]
         },
-        "event": [
-          {
-            "listen": "test",
-            "script": {
-              "type": "text/javascript",
-              "exec": [
-                "console.log('🟢 Test script triggered');",
-                "console.log('Status:', pm.response.code);",
-                "console.log('Content-Type:', pm.response.headers.get('Content-Type'));",
-                "const body = pm.response.text();",
-                "console.log('Body length:', body.length);",
-                "console.log('Raw body:', body);"
-              ]
-            }
-          }
+        "exec": [
+          "console.log('🟢 Test script triggered');",
+          "console.log('Status:', pm.response.code);",
+          "const contentType = pm.response.headers.get('Content-Type');",
+          "console.log('Content-Type:', contentType);",
+          "",
+          "try {",
+          "  const body = pm.response.text();",
+          "  console.log('Body length:', body.length);",
+          "  console.log('Raw body:', body ? body : '[empty]');",
+          "} catch (e) {",
+          "  console.log('❌ Error reading response body:', e);",
+          "}"
         ]
       }
     }
