@@ -140,7 +140,22 @@
           "raw": "{{base_url}}/api/environments",
           "host": ["{{base_url}}"],
           "path": ["api", "environments"]
-        }
+        },
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "console.log('=== Response Body ===');",
+                "console.log(pm.response.text());",
+                "const json = pm.response.json();",
+                "pm.environment.set('created_id', json[0].id);",
+                "console.log('Saved ID:', json[0].id);"
+              ]
+            }
+          }
+        ]
       }
     }
   ]
