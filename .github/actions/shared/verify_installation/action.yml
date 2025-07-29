@@ -227,7 +227,7 @@ runs:
         curl -v -u user:user http://localhost:8080/api/environments || echo "❌ curl failed"
 
     - name: Run Newman
-      uses: matt-ball/newman-action@v1
+      uses: matt-ball/newman-action@v2.0.0
       with:
         collection: .github/actions/tests/collection.json
         environment: .github/actions/tests/environment.json
