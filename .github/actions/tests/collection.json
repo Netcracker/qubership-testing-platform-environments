@@ -85,7 +85,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"environments\": {{environments}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/environments",
