@@ -98,9 +98,18 @@
             "script": {
               "type": "text/javascript",
               "exec": [
-                "console.log('Request body:', pm.request.body.raw);",
-                "console.log('=== Response Body ===');",
-                "console.log(pm.response.text());"
+                "if (pm.request.body && pm.request.body.mode === 'raw') {",
+                "  console.log('Request body:', pm.request.body.raw);",
+                "} else {",
+                "  console.log('Request body: [none or not raw]');",
+                "}",
+                "",
+                "try {",
+                "  console.log('=== Response Body ===');",
+                "  console.log(pm.response.text());",
+                "} catch (e) {",
+                "  console.log('Error reading response:', e);",
+                "}"
               ]
             }
           }
