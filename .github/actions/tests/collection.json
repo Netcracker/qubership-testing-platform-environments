@@ -94,19 +94,27 @@
         },
         "event": [
           {
+            "listen": "prerequest",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "console.log('🟡 Pre-request triggered');",
+                "if (pm.request.body && pm.request.body.mode === 'raw') {",
+                "  console.log('Request body:', pm.request.body.raw);",
+                "} else {",
+                "  console.log('No raw body found.');",
+                "}"
+              ]
+            }
+          },
+          {
             "listen": "test",
             "script": {
               "type": "text/javascript",
               "exec": [
-                "if (pm.request.body && pm.request.body.mode === 'raw') {",
-                "  console.log('Request body:', pm.request.body.raw);",
-                "} else {",
-                "  console.log('Request body: [none or not raw]');",
-                "}",
-                "",
+                "console.log('🟢 Test script triggered');",
                 "try {",
-                "  console.log('=== Response Body ===');",
-                "  console.log(pm.response.text());",
+                "  console.log('Response:', pm.response.text());",
                 "} catch (e) {",
                 "  console.log('Error reading response:', e);",
                 "}"
