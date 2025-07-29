@@ -49,7 +49,17 @@
           "host": ["{{base_url}}"],
           "path": ["api", "projects"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('=== Response Body ===');",
+              "console.log(pm.response.text());"
+            ]
+          }
     },
     {
       "name": "GET /api/environments",
