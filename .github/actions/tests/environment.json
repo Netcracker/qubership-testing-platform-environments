@@ -50,6 +50,31 @@
       "key": "shortName",
       "value": "test",
       "enabled": true
+    },
+    {
+      "key": "graylogName",
+      "value": "string",
+      "enabled": true
+    },
+    {
+      "key": "projectId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "systems",
+      "value": "[]",
+      "enabled": true
+    },
+    {
+      "key": "ssmSolutionAlias",
+      "value": "string",
+      "enabled": true
+    },
+    {
+      "key": "ssmInstanceAlias",
+      "value": "string",
+      "enabled": true
     }
   ],
   "timestamp": 0,

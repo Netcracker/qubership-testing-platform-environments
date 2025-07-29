@@ -57,11 +57,53 @@
             "type": "text/javascript",
             "exec": [
               "console.log('=== Response Body ===');",
-              "console.log(pm.response.text());"
+              "console.log(pm.response.text());",
+              "const json = pm.response.json();",
+              "pm.environment.set(\"created_id\", json.id);"
             ]
           }
         }
       ]
+    },
+    {
+      "name": "POST /api/projects/{{created_id}}/environments",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"environments\": {{environments}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/projects/{{created_id}}/environments",
+          "host": ["{{base_url}}"],
+          "path": ["api", "projects", "{{created_id}}", "environments"]
+        },
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "console.log('=== Response Body ===');",
+                "console.log(pm.response.text());"
+              ]
+            }
+          }
+        ]
+      }
     },
     {
       "name": "GET /api/environments",
