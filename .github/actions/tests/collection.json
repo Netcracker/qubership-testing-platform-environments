@@ -94,30 +94,16 @@
         },
         "event": [
           {
-            "listen": "prerequest",
-            "script": {
-              "type": "text/javascript",
-              "exec": [
-                "console.log('🟡 Pre-request triggered');",
-                "if (pm.request.body && pm.request.body.mode === 'raw') {",
-                "  console.log('Request body:', pm.request.body.raw);",
-                "} else {",
-                "  console.log('No raw body found.');",
-                "}"
-              ]
-            }
-          },
-          {
             "listen": "test",
             "script": {
               "type": "text/javascript",
               "exec": [
                 "console.log('🟢 Test script triggered');",
-                "try {",
-                "  console.log('Response:', pm.response.text());",
-                "} catch (e) {",
-                "  console.log('Error reading response:', e);",
-                "}"
+                "console.log('Status:', pm.response.code);",
+                "console.log('Content-Type:', pm.response.headers.get('Content-Type'));",
+                "const body = pm.response.text();",
+                "console.log('Body length:', body.length);",
+                "console.log('Raw body:', body);"
               ]
             }
           }
@@ -147,11 +133,12 @@
             "script": {
               "type": "text/javascript",
               "exec": [
-                "console.log('=== Response Body ===');",
-                "console.log(pm.response.text());",
-                "const json = pm.response.json();",
-                "pm.environment.set('created_id', json[0].id);",
-                "console.log('Saved ID:', json[0].id);"
+                "console.log('🟢 Test script triggered');",
+                "console.log('Status:', pm.response.code);",
+                "console.log('Content-Type:', pm.response.headers.get('Content-Type'));",
+                "const body = pm.response.text();",
+                "console.log('Body length:', body.length);",
+                "console.log('Raw body:', body);"
               ]
             }
           }
