@@ -21,6 +21,10 @@
             { "key": "password", "value": "user", "type": "string" }
           ]
         },
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
         "url": {
           "raw": "{{base_url}}/api/environments",
           "host": ["{{base_url}}"],
