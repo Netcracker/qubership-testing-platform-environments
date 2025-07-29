@@ -220,27 +220,14 @@ runs:
           exit 1
         fi
 
-    - name: Test API is responding
-      shell: bash
-      run: |
-        echo "🚀 Testing API response..."
-        for i in {1..10}; do
-          if curl -s -o /dev/null -w "%{http_code}" -u user:user http://localhost:8080/api/v1/status | grep -q 200; then
-            echo "✅ API is up and responding with 200"
-            break
-          fi
-          echo "⏳ Waiting for API to respond with 200..."
-          sleep 3
-        done
-
     - name: Check API response (any status)
       shell: bash
       run: |
         echo "📡 Sending test request to http://localhost:8080/api/environments"
         curl -v -u user:user http://localhost:8080/api/environments || echo "❌ curl failed"
 
-      #- name: Run Newman
-      #  uses: matt-ball/newman-action@v1
-      #  with:
-      #    collection: path/to/collection.json
-      #    environment: path/to/env.json
+    - name: Run Newman
+      uses: matt-ball/newman-action@v1
+      with:
+        collection: .github/actions/tests/collection.json
+        environment: .github/actions/tests/environment.json
