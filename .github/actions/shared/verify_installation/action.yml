@@ -226,8 +226,14 @@ runs:
         echo "📡 Sending test request to http://localhost:8080/api/environments"
         curl -v -u user:user http://localhost:8080/api/environments || echo "❌ curl failed"
 
+    - name: Check collection path
+      shell: bash
+      run: |
+        cd qubership-testing-platform-environments/.github/actions/tests
+        ls -la
+
     - name: Run Newman
       uses: matt-ball/newman-action@v2.0.0
       with:
-        collection: .github/actions/tests/collection.json
-        environment: .github/actions/tests/environment.json
+        collection: ./qubership-testing-platform-environments/.github/actions/tests/collection.json
+        environment: ./qubership-testing-platform-environments/.github/actions/tests/environment.json
