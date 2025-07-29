@@ -59,7 +59,8 @@
               "console.log('=== Response Body ===');",
               "console.log(pm.response.text());",
               "const json = pm.response.json();",
-              "pm.environment.set(\"created_id\", json.id);"
+              "pm.environment.set('created_id', json[0].id);",
+              "console.log('Saved ID:', json[0].id);"
             ]
           }
         }
