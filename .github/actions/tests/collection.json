@@ -170,8 +170,25 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log('Status:', pm.response.code);",
-              "console.log('Response body:', pm.response.text());"
+              "console.log('🔍 Status:', pm.response.code);",
+              "",
+              "console.log('🧪 Environment variables:');",
+              "Object.keys(pm.environment.toObject()).forEach(key => {",
+              "  console.log(`  ${key}: ${pm.environment.get(key)}`);",
+              "});",
+              "",
+              "console.log('📦 Collection variables:');",
+              "Object.keys(pm.variables.toObject()).forEach(key => {",
+              "  console.log(`  ${key}: ${pm.variables.get(key)}`);",
+              "});",
+              "",
+              "console.log('🌐 Request URL:', pm.request.url.toString());",
+              "",
+              "if (pm.request.body && pm.request.body.mode === 'raw') {",
+              "  console.log('📤 Request body:', pm.request.body.raw);",
+              "} else {",
+              "  console.log('📤 No raw request body.');",
+              "}"
             ]
           }
         }
