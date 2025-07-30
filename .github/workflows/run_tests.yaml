@@ -60,3 +60,11 @@ jobs:
           max_attempts: 40
           timeout: '45s'
           service_branch: ${{ inputs.pipeline_branch }}
+
+      - name: Run tests
+        uses: ./qubership-testing-platform-environments/.github/actions/shared/running_tests
+        with:
+          namespace: 'env'
+          max_attempts: 40
+          timeout: '45s'
+          service_branch: ${{ inputs.pipeline_branch }}
