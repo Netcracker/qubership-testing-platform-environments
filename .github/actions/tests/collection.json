@@ -156,7 +156,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{idtool}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/tools",
@@ -199,19 +199,14 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n \"id\": \"{{created_id}}\",\n \"name\": \"{{name}}\"\n}"
+          "raw": "{\n \"id\": \"{{idtool}}\",\n \"name\": \"{{name}}\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/projects/*/tools",
+          "raw": "{{base_url}}/api/projects/{{created_id}}/tools/short",
           "host": [
             "{{base_url}}"
           ],
-          "path": [
-            "api",
-            "projects",
-            "*",
-            "tools"
-          ]
+          "path": ["api", "projects", "{{created_id}}", "tools", "short"]
         }
       },
       "event": [
