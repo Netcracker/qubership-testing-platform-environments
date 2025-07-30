@@ -52,6 +52,11 @@
       "enabled": true
     },
     {
+      "key": "nametool",
+      "value": "Main Group test",
+      "enabled": true
+    },
+    {
       "key": "shortName",
       "value": "test",
       "enabled": true
