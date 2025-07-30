@@ -170,13 +170,8 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log('🌐 Request URL:', pm.request.url.toString());",
-              "",
-              "if (pm.request.body && pm.request.body.mode === 'raw') {",
-              "  console.log('📤 Request body:', pm.request.body.raw);",
-              "} else {",
-              "  console.log('📤 No raw request body.');",
-              "}"
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());"
             ]
           }
         }
