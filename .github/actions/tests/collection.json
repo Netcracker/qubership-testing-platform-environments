@@ -100,9 +100,7 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "const contentType = pm.response.headers.get('Content-Type');",
-              "console.log('Content-Type:', contentType);",
-              ""
+              "console.log('Response body:', pm.response.text());"
             ]
           }
         }
@@ -133,9 +131,7 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "const contentType = pm.response.headers.get('Content-Type');",
-              "console.log('Content-Type:', contentType);",
-              ""
+              "console.log('Response body:', pm.response.text());"
             ]
           }
         }
@@ -160,7 +156,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}}\n}"
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/tools",
@@ -175,16 +171,14 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "const contentType = pm.response.headers.get('Content-Type');",
-              "console.log('Content-Type:', contentType);",
-              ""
+              "console.log('Response body:', pm.response.text());"
             ]
           }
         }
       ]
     },
     {
-      "name": "GET /api/projects/*/tools",
+      "name": "GET /api/projects/{{created_id}}/tools/short",
       "request": {
         "method": "GET",
         "header": [],
@@ -202,6 +196,10 @@
               "type": "string"
             }
           ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"id\": \"{{created_id}}\",\n \"name\": \"{{name}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/*/tools",
@@ -223,9 +221,7 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "const contentType = pm.response.headers.get('Content-Type');",
-              "console.log('Content-Type:', contentType);",
-              ""
+              "console.log('Response body:', pm.response.text());"
             ]
           }
         }
