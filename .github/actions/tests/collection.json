@@ -138,8 +138,8 @@
       ]
     },
     {
-      "name": "POST /api/projects/{{created_id}}/tools",
-      "request": {
+    "name": "POST /api/projects/{{created_id}}/tools",
+    "request": {
         "method": "POST",
         "header": [
           {
@@ -156,7 +156,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{idtool}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/tools",
@@ -170,18 +170,6 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log('🔍 Status:', pm.response.code);",
-              "",
-              "console.log('🧪 Environment variables:');",
-              "Object.keys(pm.environment.toObject()).forEach(key => {",
-              "  console.log(`  ${key}: ${pm.environment.get(key)}`);",
-              "});",
-              "",
-              "console.log('📦 Collection variables:');",
-              "Object.keys(pm.variables.toObject()).forEach(key => {",
-              "  console.log(`  ${key}: ${pm.variables.get(key)}`);",
-              "});",
-              "",
               "console.log('🌐 Request URL:', pm.request.url.toString());",
               "",
               "if (pm.request.body && pm.request.body.mode === 'raw') {",
@@ -216,7 +204,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n \"id\": \"{{idtool}}\",\n \"name\": \"{{name}}\"\n}"
+          "raw": "{\n \"id\": \"{{id}}\",\n \"name\": \"{{name}}\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/tools/short",
