@@ -160,7 +160,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}},\n \"ssmSolutionAlias\": \"{{ssmSolutionAlias}}\", \n\"ssmInstanceAlias\": \"{{ssmInstanceAlias}}\"\n}"
+          "raw": "{\n  \"created\": \"{{created}}\",\n  \"createdBy\": \"{{createdBy}}\",\n  \"description\": \"{{description}}\",\n \"graylogName\": \"{{graylogName}}\",\n \"id\": \"{{id}}\",\n  \"modified\": \"{{modified}}\",\n  \"modifiedBy\": \"{{modifiedBy}}\",\n  \"name\": \"{{name}}\",\n  \"projectId\": \"{{created_id}}\",\n \"systems\": {{systems}}\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/projects/{{created_id}}/tools",
@@ -191,14 +191,29 @@
         "auth": {
           "type": "basic",
           "basic": [
-            { "key": "username", "value": "user", "type": "string" },
-            { "key": "password", "value": "user", "type": "string" }
+            {
+              "key": "username",
+              "value": "user",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "user",
+              "type": "string"
+            }
           ]
         },
         "url": {
           "raw": "{{base_url}}/api/projects/*/tools",
-          "host": ["{{base_url}}"],
-          "path": ["api", "projects", "*","tools"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "projects",
+            "*",
+            "tools"
+          ]
         }
       },
       "event": [
@@ -215,5 +230,6 @@
           }
         }
       ]
+    }
   ]
 }
