@@ -5,7 +5,7 @@ and to provide this information to other services during test scenarios executio
 
 ## How to install and run the database
 
-For local DB in Docker deployment, see the following instructions - [DB in Docker](./docker-compose/readme.md)
+For local DB in Docker deployment, see the following instructions - [DB in Docker](./installation-guide.md)
 
 ## How to start Backend
 
