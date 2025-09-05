@@ -3,8 +3,8 @@
 ## This guide describes how to install Qubership Testing Platform ENVIRONMENTS Service
 
 ### Requirements
-1. Postgres database is installed 
-   2. Use link to download and install 9.6 release version https://www.postgresql.org/download/linux/
+1. Postgres database is installed
+   2. Use link to download and install [PostgreSQL 9.6.x version](https://www.postgresql.org/download/linux/)
 2. Java 1.8 is installed
 3. General System Requirements:
 
@@ -44,7 +44,7 @@ Connect any client to postgres database and execute script (change "envconf"  as
 
 #### How to deploy tool
 
-1. Build snapshot (artifacts and docker image) of https://github.com/Netcracker/qubership-testing-platform-environments in GitHub
+1. Build snapshot (artifacts and Docker image) of [Environments Repository](https://github.com/Netcracker/qubership-testing-platform-environments) in GitHub
 2. Clone repository to a place, available from your openshift/kubernetes where you need to deploy the tool to
 3. Navigate to <repository-root>/deployments/charts/atp-environments folder
 4. Check/change configuration parameters in the ./values.yaml file according to your services installed
