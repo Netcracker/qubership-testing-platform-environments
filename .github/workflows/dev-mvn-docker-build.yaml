@@ -69,7 +69,7 @@ jobs:
           tags: ${{steps.metadata.outputs.result}}
           download-artifact: true
           custom-image-name: qubership-testing-platform-environments
-          download-artifact-path: build-context/qubership-testing-platform-environments/qubership-testing-platform-environments
+          download-artifact-path: build-context
           component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
