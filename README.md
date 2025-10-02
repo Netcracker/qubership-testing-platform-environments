@@ -46,7 +46,7 @@ Probably you would need running Hazelcast instance. You can find information lik
 Just run Main#main with args from step above
 
 ## How to create dump on production and restore it to local DB
-Please follow common PostgreSql instructions to do so, using pg_dump and pg_restore/psql command-line utilities bundled in PostgreSql.
+Please follow common PostgreSQL instructions to do so, using pg_dump and pg_restore/psql command-line utilities bundled in PostgreSQL.
 
 ## Local build without local PostgreSQL installation
 Example for **dev04** openshift server connection. For another project use correspond server and credentials.
