@@ -18,7 +18,7 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <hazelcast.version>4.2.6</hazelcast.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.13</logback.version>
         <junit.version>4.13</junit.version>
         <hikariCP.version>3.4.5</hikariCP.version>
         <querydsl.version>5.0.0</querydsl.version>
@@ -30,12 +30,13 @@
         <shedlock.spring>4.11.1</shedlock.spring>
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
+        <tomcat-embed.version>9.0.99</tomcat-embed.version>
 
         <atp.common.version>0.0.43</atp.common.version>
-        <atp.auth.version>1.2.67-SNAPSHOT</atp.auth.version>
+        <atp.auth.version>1.2.74</atp.auth.version>
         <atp.crypt.version>0.0.21</atp.crypt.version>
-        <atp.intergration.spring.boot.starter.version>0.2.38</atp.intergration.spring.boot.starter.version>
-        <ei.version>0.2.42-SNAPSHOT</ei.version>
+        <atp.intergration.version>0.2.38</atp.intergration.version>
+        <ei.version>0.2.45</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>
@@ -264,12 +265,37 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.9</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.14.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-el</artifactId>
+                <version>${tomcat-embed.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat-embed.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat-embed.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.31</version>
             </dependency>
             <dependency>
                 <groupId>com.github.mwiede</groupId>
@@ -300,7 +326,7 @@
             <dependency>
                 <groupId>org.qubership.atp</groupId>
                 <artifactId>atp-integration-spring-boot-starter</artifactId>
-                <version>${atp.intergration.spring.boot.starter.version}</version>
+                <version>${atp.intergration.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.qubership.atp.common</groupId>
