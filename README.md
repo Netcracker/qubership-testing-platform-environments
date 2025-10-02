@@ -9,23 +9,24 @@ For local DB in Docker deployment, see the following instructions - [DB in Docke
 
 ## How to start Backend
 
-This project use [Lombok](https://projectlombok.org). This means that the project has a code that is generated before compilation.
+This project uses [Lombok](https://projectlombok.org). This means that the project has a code that is generated before compilation.
 To develop you need to install a plugin for your **IDE**.
 * [Intellij IDEA](http://plugins.jetbrains.com/plugin/6317-lombok-plugin)
 
 Probably you would need running Hazelcast instance. You can find information like "How to run Hazelcast locally"
 
 ### Build project: `mvn -P github clean package`
-1. In some case with flag -DskipTests
+1. In some cases with flag `-DskipTests`
 2. If you have not compiled q-classes:
-    * check db-postgresql, migration-on-build-pg in profiles;
-    * set settings for DB - jdbc.url, jdbc.user, jdbc.password in parent-db-properties (like in the step bellow)
+    * check `db-postgresql`, `migration-on-build-pg` in profiles;
+    * set settings for DB - `jdbc.url`, `jdbc.user`, `jdbc.password` in `parent-db-properties` (like in the step bellow)
     * and create extensions in db if not
 3. Check and enable maven profiles `db-postgresql` and `migration-on-build-pg`
 
 ### Create run configuration
 1. Main class: org.qubership.atp.environments.Main
 2. VM options:
+```properties
  -Djavax.net.ssl.keyStore=src/main/config/keystore.p12
  -Djavax.net.ssl.keyStorePassword=123456
  -Dspring.datasource.url=jdbc:postgresql://localhost:5432/dev_env?preferQueryMode=simple
@@ -33,16 +34,19 @@ Probably you would need running Hazelcast instance. You can find information lik
  -Dspring.datasource.password=dev_env_pass
  -Dlogback.configurationFile=src/main/config/logback.xml
  -Dlog.graylog.on=false
+ ```
 3. Working dir (for example): C:\Projects\env-backend
 4. VM options for logging define where is logback file and where log should be (console.log or graylog):
+```properties
 -Dlogback.configurationFile=src/main/config/logback.xml
 -Dlog.graylog.on=false
+```
 
 ### Run Main
 Just run Main#main with args from step above
 
 ## How to create dump on production and restore it to local DB
-[Create and restore dump]
+Please follow common PostgreSql instructions to do so, using pg_dump and pg_restore/psql command-line utilities bundled in PostgreSql.
 
 ## Local build without local PostgreSQL installation
 Example for **dev04** openshift server connection. For another project use correspond server and credentials.
@@ -54,13 +58,17 @@ Example for **dev04** openshift server connection. For another project use corre
 5. Go to development environment with **Environment service** opened
 6. Go to **src/test/config/application-test-rest-api.properties**
 7. Set parameters:
+```properties
    spring.datasource.url=${pg.jdbc.Url:jdbc:postgresql://127.0.0.1:98765/dev_env}
    spring.datasource.username=${pg.jdbc.User:dev_env_user}
    spring.datasource.password=${pg.jdbc.Password:dev_env_pass}
+```
 8. Go to **parent/parent-db-properties/pom.xml**
 9. Set parameters:
+```xml
    <pg.jdbc.Url>jdbc:postgresql://127.0.0.1:98765/dev_env?preferQueryMode=simple</pg.jdbc.Url>
    <pg.jdbc.User>dev_env_user</pg.jdbc.User>
    <pg.jdbc.Password>dev_env_pass</pg.jdbc.Password>
+```
 10. Go to **Maven**, select lifecycle phases and click **Run Maven Build**
 
