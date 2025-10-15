@@ -61,6 +61,31 @@ jobs:
         with:
           default-template: '{{ref-name}}-{{timestamp}}'
 
+      - name: Load Docker Configuration
+        id: load_component
+        run: |
+          verify=$(cat "$GITHUB_WORKSPACE/.github/docker-build-config.json" | jq '
+          def verify_structure:
+          .components as $components
+          | .platforms as $platforms
+          | ($components | type == "array")
+          and (all($components[]; has("name") and has("file") and has("context")))
+          and ($platforms | type == "string");
+          verify_structure
+          | if . then true else false end
+          ')
+          if [ ${verify} == 'true' ]; then
+            echo "✅ $GITHUB_WORKSPACE/.github/docker-build-config.json file is valid"
+            components=$(jq -c ".components" "$GITHUB_WORKSPACE/.github/docker-build-config.json")
+            platforms=$(jq -c ".platforms" "$GITHUB_WORKSPACE/.github/docker-build-config.json")
+          else
+            echo "❗ $GITHUB_WORKSPACE/.github/docker-build-config.json file is invalid"
+            echo "❗ $GITHUB_WORKSPACE/.github/docker-build-config.json file is invalid" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          echo "components=${components}" >> $GITHUB_OUTPUT
+          echo "platforms=${platforms}" >> $GITHUB_OUTPUT
+
       - name: Build and Publish Docker Image For Environments
         uses: netcracker/qubership-workflow-hub/actions/docker-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
         with:
