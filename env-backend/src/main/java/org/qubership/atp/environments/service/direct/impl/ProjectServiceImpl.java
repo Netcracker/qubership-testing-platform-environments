@@ -41,6 +41,7 @@ import org.qubership.atp.environments.model.Project;
 import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.model.impl.Context;
 import org.qubership.atp.environments.model.utils.Constants;
+import org.qubership.atp.environments.model.utils.HazelcastMapName;
 import org.qubership.atp.environments.repo.impl.ContextRepository;
 import org.qubership.atp.environments.repo.impl.EnvironmentRepositoryImpl;
 import org.qubership.atp.environments.repo.impl.ProjectRepositoryImpl;
@@ -67,7 +68,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProjectServiceImpl implements ProjectService {
 
-    public static final String PROJECTS_CACHE_NAME = "projects";
     private final ProjectRepositoryImpl projectRepository;
     private final EnvironmentRepositoryImpl environmentRepository;
     private final EnvironmentService environmentService;
@@ -78,7 +78,6 @@ public class ProjectServiceImpl implements ProjectService {
     private final Provider<UserInfo> userInfoProvider;
     private final PolicyEnforcement policyEnforcement;
     private final ProjectAccessService projectAccessService;
-
 
     /**
      * TODO Make javadoc documentation for this method.
@@ -229,7 +228,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Nonnull
     @Override
-    @CacheEvict(value = PROJECTS_CACHE_NAME, key = "#id")
+    @CacheEvict(value = HazelcastMapName.PROJECTS_CACHE, key = "#id")
     public void update(UUID id, String name, String shortName) {
         projectRepository.getContext().setFullDbFetching(true);
         projectRepository.update(id, name, shortName, dateTimeUtil.timestampAsUtc());
@@ -237,7 +236,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    @CacheEvict(value = PROJECTS_CACHE_NAME, key = "#projectId")
+    @CacheEvict(value = HazelcastMapName.PROJECTS_CACHE, key = "#projectId")
     public void delete(UUID projectId) {
         projectRepository.delete(projectId);
     }

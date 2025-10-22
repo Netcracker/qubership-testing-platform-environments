@@ -58,6 +58,9 @@ public class HazelcastConfig {
     @Value("${hazelcast.enable-caching}")
     private boolean cachingIsEnable;
 
+    @Value("${hazelcast.projects.cache-period}")
+    private int cacheProjectsPeriod;
+
     @Value("${hazelcast.system-versions.cache-period}")
     private int cacheVersionsPeriod;
 
@@ -97,9 +100,8 @@ public class HazelcastConfig {
     /**
      * Hazelcast client.
      *
-     * @return client bean
+     * @return client bean.
      */
-
     @Bean(name = "hazelcastClient")
     @ConditionalOnProperty(name = "hazelcast.enable-caching", havingValue = "true")
     public HazelcastInstance hazelcastClient(ClientConfig hazelCastConfig) {
@@ -115,7 +117,6 @@ public class HazelcastConfig {
      *
      * @return system versions cache map bean
      */
-
     @Bean(name = "systemCachedMap")
     public Cache systemCachedMap(CacheManager cacheManager) {
         return cacheManager != null && cacheManager.getCache(HazelcastMapName.SYSTEM_VERSION) != null
@@ -156,7 +157,6 @@ public class HazelcastConfig {
      *
      * @return cache manager
      */
-
     @Bean
     public CacheManager cacheManager(@Autowired(required = false) @Qualifier("hazelcastClient")
                                      HazelcastInstance hazelcastClient) {
@@ -175,27 +175,45 @@ public class HazelcastConfig {
                     cacheEnvironmentsBySystemIdsPeriod, TimeUnit.SECONDS));
             caches.add(new EnvironmentHazelcastCache(hazelcastClient.getMap(HazelcastMapName.SYSTEMS_BY_ENVIRONMENT_ID),
                     cacheSystemsByEnvironmentIdPeriod, TimeUnit.SECONDS));
+            caches.add(new EnvironmentHazelcastCache(hazelcastClient.getMap(HazelcastMapName.PROJECTS_CACHE),
+                    cacheProjectsPeriod, TimeUnit.SECONDS));
             caches.add(new ConcurrentMapCache(HazelcastMapName.ATP_AUTH_PROJECT_CACHE,
-                    CacheBuilder.newBuilder().expireAfterWrite(2, TimeUnit.MINUTES).maximumSize(100).build().asMap(),
+                    CacheBuilder.newBuilder()
+                            .expireAfterWrite(2, TimeUnit.MINUTES)
+                            .maximumSize(100)
+                            .build().asMap(),
                     true));
         } else {
             caches.add(new CaffeineCache(HazelcastMapName.SYSTEM_VERSION,
-                    Caffeine.newBuilder().recordStats().expireAfterWrite(cacheVersionsPeriod, TimeUnit.SECONDS).build(),
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(cacheVersionsPeriod, TimeUnit.SECONDS)
+                            .build(),
                     true));
             caches.add(new CaffeineCache(HazelcastMapName.CONNECTIONS_BY_SYSTEM_ID,
-                    Caffeine.newBuilder().recordStats().expireAfterWrite(cacheConnectionsBySystemIdPeriod,
-                            TimeUnit.SECONDS).build(),
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(cacheConnectionsBySystemIdPeriod, TimeUnit.SECONDS)
+                            .build(),
                     true));
             caches.add(new CaffeineCache(HazelcastMapName.ENVIRONMENTS_BY_SYSTEM_ID,
-                    Caffeine.newBuilder().recordStats().expireAfterWrite(cacheEnvironmentsBySystemIdsPeriod,
-                            TimeUnit.SECONDS).build(),
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(cacheEnvironmentsBySystemIdsPeriod, TimeUnit.SECONDS)
+                            .build(),
                     true));
             caches.add(new CaffeineCache(HazelcastMapName.SYSTEMS_BY_ENVIRONMENT_ID,
-                    Caffeine.newBuilder().recordStats().expireAfterWrite(cacheSystemsByEnvironmentIdPeriod,
-                            TimeUnit.SECONDS).build(),
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(cacheSystemsByEnvironmentIdPeriod, TimeUnit.SECONDS)
+                            .build(),
+                    true));
+            caches.add(new CaffeineCache(HazelcastMapName.PROJECTS_CACHE,
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(cacheProjectsPeriod, TimeUnit.SECONDS)
+                            .build(),
                     true));
             caches.add(new CaffeineCache(HazelcastMapName.ATP_AUTH_PROJECT_CACHE,
-                    Caffeine.newBuilder().recordStats().expireAfterWrite(2, TimeUnit.MINUTES).maximumSize(100).build(),
+                    Caffeine.newBuilder().recordStats()
+                            .expireAfterWrite(2, TimeUnit.MINUTES)
+                            .maximumSize(100)
+                            .build(),
                     true));
         }
         cacheManager.setCaches(caches);

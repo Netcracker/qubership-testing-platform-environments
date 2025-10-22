@@ -17,9 +17,11 @@
 package org.qubership.atp.environments.model.utils;
 
 public class HazelcastMapName {
+    public static final String ATP_AUTH_PROJECT_CACHE = "auth_projects";
+
     public static final String SYSTEM_VERSION = "ATP_ENVIRONMENTS-SYSTEM_VERSION";
     public static final String CONNECTIONS_BY_SYSTEM_ID = "ATP_ENVIRONMENTS-CONNECTIONS";
-    public static final String ATP_AUTH_PROJECT_CACHE = "auth_projects";
+    public static final String PROJECTS_CACHE = "ATP_ENVIRONMENTS-PROJECTS";
     public static final String ENVIRONMENTS_BY_SYSTEM_ID = "ATP_ENVIRONMENTS-ENVIRONMENTS_BY_SYSTEM_ID";
     public static final String SYSTEMS_BY_ENVIRONMENT_ID = "ATP_ENVIRONMENTS-SYSTEMS_BY_ENVIRONMENT_ID";
 
