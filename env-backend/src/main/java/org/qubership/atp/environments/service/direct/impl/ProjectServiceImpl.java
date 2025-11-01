@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectAccessService projectAccessService;
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Constructor.
      */
     @Autowired
     public ProjectServiceImpl(ProjectRepositoryImpl projectRepository,
@@ -173,8 +173,8 @@ public class ProjectServiceImpl implements ProjectService {
     public Project replicate(@Nonnull UUID projectId, @Nonnull String name, String shortName, String description,
                              Long created) throws AtpException {
         projectRepository.getContext().setFullDbFetching(true);
-        if (StringUtils.isEmpty(name)) {
-            log.error("Found illegal nullable project name parameter");
+        if (!StringUtils.hasLength(name)) {
+            log.error("Found illegal null or empty project name parameter");
             throw new AtpIllegalNullableArgumentException("project name", "method argument");
         }
         return projectRepository.create(projectId, name, null, description, created);
@@ -200,7 +200,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.getContext().setFullDbFetching(true);
         UUID userId = userInfoProvider.get().getId();
         Project sourceProject = projectRepository.getById(id);
-        Preconditions.checkNotNull(sourceProject, "Project not found by id:" + id);
+        Preconditions.checkNotNull(sourceProject, "Project is not found by id: " + id);
         Project newProject = projectRepository.create(name, shortName, description, dateTimeUtil.timestampAsUtc());
         sourceProject.getEnvironments().forEach(environment -> {
             Environment newEnv = environmentRepository.create(environment.getName(),
@@ -214,7 +214,9 @@ public class ProjectServiceImpl implements ProjectService {
                     newProject.getId(),
                     environment.getCategoryId(),
                     environment.getTags());
-            environment.getSystems().forEach(system -> environmentService.createSystem(newEnv.getId(), system));
+            if (environment.getSystems() != null) {
+                environment.getSystems().forEach(system -> environmentService.createSystem(newEnv.getId(), system));
+            }
         });
         return newProject;
     }
@@ -321,7 +323,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projects;
     }
 
-
     @Override
     public Project getProjectWithSpecifiedEnvironments(UUID projectId, List<UUID> environmentIds) {
         Project project = projectRepository.getLazyById(projectId);
@@ -338,6 +339,5 @@ public class ProjectServiceImpl implements ProjectService {
                 .filter(project -> policyEnforcement.checkAccess(project.getId(), Operation.READ))
                 .collect(Collectors.toList());
     }
-
 
 }

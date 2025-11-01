@@ -30,12 +30,12 @@
         <shedlock.spring>4.11.1</shedlock.spring>
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
-        <tomcat-embed.version>9.0.99</tomcat-embed.version>
+        <tomcat-embed.version>9.0.108</tomcat-embed.version>
 
         <atp.common.version>0.0.43</atp.common.version>
-        <atp.auth.version>1.2.74</atp.auth.version>
+        <atp.auth.version>1.2.75</atp.auth.version>
         <atp.crypt.version>0.0.21</atp.crypt.version>
-        <atp.intergration.version>0.2.38</atp.intergration.version>
+        <atp.integration.version>0.2.38</atp.integration.version>
         <ei.version>0.2.45</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
@@ -326,7 +326,7 @@
             <dependency>
                 <groupId>org.qubership.atp</groupId>
                 <artifactId>atp-integration-spring-boot-starter</artifactId>
-                <version>${atp.intergration.version}</version>
+                <version>${atp.integration.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.qubership.atp.common</groupId>

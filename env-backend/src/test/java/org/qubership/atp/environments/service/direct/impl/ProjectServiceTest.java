@@ -197,7 +197,7 @@ public class ProjectServiceTest extends AbstractServiceTest {
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class,
                 () -> projectService.get().copy(projectId,
                         methodName, "", ""));
-        Assertions.assertTrue(exception.getMessage().contains("Project not found by id:" + projectId));
+        Assertions.assertTrue(exception.getMessage().contains("Project is not found by id: " + projectId));
     }
 
     @Test
