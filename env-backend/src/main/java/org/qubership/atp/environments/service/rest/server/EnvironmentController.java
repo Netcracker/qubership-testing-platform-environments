@@ -19,7 +19,9 @@ package org.qubership.atp.environments.service.rest.server;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -359,5 +361,19 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     @AuditAction(auditAction = "Delete environment {{#environmentId.toString()}}")
     public void deleteEnvironment(@PathVariable("environmentId") UUID environmentId) {
         environmentService.delete(environmentId);
+    }
+
+    /**
+     * Returns the total number of environments that match the provided filter criteria.
+     */
+    @PreAuthorize("@entityAccess.checkAccess("
+            + "T(org.qubership.atp.environments.enums.UserManagementEntities).ENVIRONMENT.getName(),"
+            + "#request.getProjectId(),'READ')")
+    @PostMapping("/environments/filter/count")
+    @Operation(description = "Returns the total count of environments matching the provided filter criteria")
+    public ResponseEntity<Map<String, Long>> getEnvironmentsCountByRequest(
+            @RequestBody EnvironmentsWithFilterRequest request) {
+        long count = environmentService.getEnvironmentsCountByFilter(request);
+        return ResponseEntity.ok(Collections.singletonMap("count", count));
     }
 }

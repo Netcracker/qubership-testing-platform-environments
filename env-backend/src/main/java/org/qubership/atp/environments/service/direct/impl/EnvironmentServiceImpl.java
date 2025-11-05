@@ -626,4 +626,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         }
         resultMap.get(tag).getEnvironments().add(environment);
     }
+
+    @Override
+    public long getEnvironmentsCountByFilter(EnvironmentsWithFilterRequest request) {
+        return environmentRepository.getEnvironmentsCountByFilter(request);
+    }
 }
