@@ -616,4 +616,35 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
         }
         return tagsPgObject;
     }
+
+    /**
+     * Returns count of environments matching given filter (without pagination).
+     *
+     * @param request EnvironmentsWithFilterRequest containing filters
+     * @return count of matching environments
+     */
+    public long getEnvironmentsCountByFilter(EnvironmentsWithFilterRequest request) {
+        BooleanExpression whereExpression = ENVIRONMENTS.projectId.eq(request.getProjectId());
+        if (!CollectionUtils.isEmpty(request.getFilter())) {
+            SQLQuery<Environment> filterBuilderQuery = queryFactory.select(getLazyProjection())
+                    .from(ENVIRONMENTS);
+            whereExpression = environmentMapper.mapFilter(filterBuilderQuery, whereExpression, request.getFilter());
+        }
+        SQLQuery<Long> countQuery = queryFactory
+                .select(ENVIRONMENTS.id.countDistinct())
+                .from(ENVIRONMENTS);
+        boolean hasSystemsFilter = request.getFilter() != null && request.getFilter().stream()
+                .anyMatch(f -> f != null && f.getName() != null && f.getName().contains("systems"));
+        if (hasSystemsFilter) {
+            countQuery.leftJoin(ENVIRONMENT_SYSTEMS)
+                    .on(ENVIRONMENTS.id.eq(ENVIRONMENT_SYSTEMS.environmentId))
+                    .leftJoin(SYSTEMS)
+                    .on(ENVIRONMENT_SYSTEMS.systemId.eq(SYSTEMS.id));
+        }
+        if (whereExpression != null) {
+            countQuery.where(whereExpression);
+        }
+        Long result = countQuery.fetchOne();
+        return result != null ? result : 0L;
+    }
 }
