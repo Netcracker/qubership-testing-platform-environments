@@ -17,7 +17,7 @@ on:
         type: string
         description: "Target store for the artifact"
         required: false
-        default: "maven-central"
+        default: "github-packages"
       additional-mvn-args:
         type: string
         description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=false')"
@@ -149,19 +149,17 @@ jobs:
 
       # ================= Maven Central deployment part
       - name: "Set up JDK for Maven Central deployment"
-        if: ${{ inputs.target-store == 'maven-central' }}
         uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165
         with:
           java-version: ${{ inputs.java-version }}
           distribution: "temurin"
-          server-id: central
+          server-id: ${{ inputs.target-store }}
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.gpg-private-key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: "Deploy to Maven Central"
-        if: ${{ inputs.target-store == 'maven-central' }}
         run: |
           mvn --batch-mode ${{ env.MVN_COMMAND }} ${ADDITIONAL_MVN_ARGS}
         env:

@@ -38,7 +38,7 @@ jobs:
     with:
       java-version: "21"
       additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
-      target-store: "maven-central"
+      target-store: "github-packages"
     secrets:
       maven-username: ${{ secrets.MAVEN_USER }}
       maven-token: ${{ secrets.MAVEN_PASSWORD }}
