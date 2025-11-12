@@ -5,14 +5,13 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-dependencies</artifactId>
-        <version>1.5.95-SNAPSHOT</version>
+        <version>1.5.96-SNAPSHOT</version>
         <relativePath>../parent-dependencies/pom.xml</relativePath>
     </parent>
 
     <artifactId>parent-java</artifactId>
     <name>parent-java</name>
     <packaging>pom</packaging>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,13 +22,6 @@
         <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
         <pmd.version>7.0.0</pmd.version>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>Central Maven Repository</name>
-        </repository>
-    </distributionManagement>
 
     <profiles>
         <profile>
@@ -216,25 +208,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.honton.chas</groupId>-->
-<!--                <artifactId>exists-maven-plugin</artifactId>-->
-<!--                <version>0.0.5</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>verify</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>remote</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <failIfExists>true</failIfExists>-->
-<!--                            <skipIfSnapshot>true</skipIfSnapshot>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
     </build>
 
 </project>

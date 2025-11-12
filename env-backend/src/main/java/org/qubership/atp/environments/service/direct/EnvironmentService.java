@@ -139,4 +139,6 @@ public interface EnvironmentService extends IdentifiedService<Environment> {
                                                      Integer size);
 
     Collection<GroupedByTagEnvironmentResponse> getGroupedByTagEnvironments(UUID projectId);
+
+    long getEnvironmentsCountByFilter(EnvironmentsWithFilterRequest request);
 }
