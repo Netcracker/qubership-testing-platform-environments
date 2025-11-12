@@ -26,6 +26,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 import org.qubership.atp.environments.enums.MdcField;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -244,6 +249,45 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
         } else {
             return environmentService.getSystemsV2(environmentId);
         }
+    }
+
+
+     /**
+     * Method returns systems data as a ZIP archive containing two YAML files:
+     * - deployment-parameters.yaml: all connection parameters except encrypted credentials
+     * - credentials.yaml: only encrypted parameters (starting with {ENC}) and password/token fields
+     */
+    @PreAuthorize("@entityAccess.checkAccess("
+            + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
+            + "@environmentService.getProjectIdByEnvironmentId(#environmentId),'READ')")
+    @GetMapping("/v2/environments/{environmentId}/yaml/envgene")
+    @AuditAction(auditAction = "Get systems stored in zip archive with two YAML files: "
+                + "deployment-parameters.yaml and credentials.yaml in envgene format by environment uuid {{#environmentId.toString()}} "
+                + "and system type {{#systemType}}")
+    public ResponseEntity<Resource> getSystemsYamlZipArchive(
+            @PathVariable("environmentId") UUID environmentId,
+            @RequestParam(value = "system_type", required = false) String systemType) {
+        log.info("Request to get systems YAML ZIP archive for environment '{}' with system type '{}'", 
+                environmentId, systemType);
+        contextRepository.getContext().setFieldsToUnfold("environments", "connections", "systemCategory");
+        
+        byte[] zipBytes = environmentService.getSystemsYamlZipArchive(environmentId, systemType);
+        
+        // Get environment name for filename
+        String environmentName = environmentService.getEnvironmentNameById(environmentId);
+        String filename = (environmentName != null ? environmentName : environmentId.toString())
+                + "-envgene-configuration.zip";
+        
+        ByteArrayResource resource = new ByteArrayResource(zipBytes);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", filename);
+        headers.setContentLength(zipBytes.length);
+        
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
     }
 
     /**
