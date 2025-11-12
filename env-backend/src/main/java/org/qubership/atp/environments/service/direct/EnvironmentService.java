@@ -141,4 +141,17 @@ public interface EnvironmentService extends IdentifiedService<Environment> {
     Collection<GroupedByTagEnvironmentResponse> getGroupedByTagEnvironments(UUID projectId);
 
     long getEnvironmentsCountByFilter(EnvironmentsWithFilterRequest request);
+
+    /**
+     * Generates a ZIP archive containing systems YAML files in envgene format.
+     * The archive contains two files:
+     * - deployment-parameters.yaml: all connection parameters except encrypted credentials
+     * - credentials.yaml: only encrypted parameters (starting with {ENC}) and password/token fields
+     *
+     * @param environmentId the environment ID
+     * @param systemType optional system type filter
+     * @return byte array containing the ZIP archive
+     */
+    @Nonnull
+    byte[] getSystemsYamlZipArchive(@Nonnull UUID environmentId, @Nullable String systemType);
 }

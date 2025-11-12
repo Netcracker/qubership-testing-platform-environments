@@ -20,6 +20,8 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -63,6 +67,7 @@ import org.qubership.atp.environments.service.rest.server.response.GroupedByTagE
 import org.qubership.atp.environments.service.rest.server.response.ValidateTaToolResponse;
 import org.qubership.atp.environments.service.rest.server.response.ValidateTaToolsResponse;
 import org.qubership.atp.environments.utils.DateTimeUtil;
+import org.qubership.atp.environments.utils.EnvgeneYamlGenerator;
 import org.qubership.atp.environments.validating.factories.ValidationStrategyFactory;
 import org.qubership.atp.environments.validating.strategies.ValidationStrategy;
 import org.slf4j.MDC;
@@ -578,6 +583,59 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     @Nullable
     public List<Connection> getConnections(UUID environmentId) {
         return connectionRepository.getAllByEnvironmentId(environmentId);
+    }
+
+    @Override
+    @Nonnull
+    public byte[] getSystemsYamlZipArchive(@Nonnull UUID environmentId, @Nullable String systemType) {
+        log.debug("Generating systems YAML ZIP archive for environment '{}' with system type '{}'", 
+                environmentId, systemType);
+        
+        // Fetch systems data
+        Collection<System> systems;
+        if (systemType != null) {
+            systems = getSystemsV2(environmentId, systemType);
+        } else {
+            systems = getSystemsV2(environmentId);
+        }
+        
+        if (CollectionUtils.isEmpty(systems)) {
+            log.warn("No systems found for environment '{}'", environmentId);
+            // Return empty ZIP archive with empty YAML files
+            systems = Collections.emptyList();
+        }
+        
+        // Generate YAML files
+        EnvgeneYamlGenerator yamlGenerator = new EnvgeneYamlGenerator();
+        String deploymentParamsYaml = yamlGenerator.generateDeploymentParametersYaml(systems);
+        String credentialsYaml = yamlGenerator.generateCredentialsYaml(systems);
+        
+        // Create ZIP archive
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ZipOutputStream zos = new ZipOutputStream(baos)) {
+            
+            // Add deployment-parameters.yaml
+            ZipEntry deploymentEntry = new ZipEntry("deployment-parameters.yaml");
+            zos.putNextEntry(deploymentEntry);
+            zos.write(deploymentParamsYaml.getBytes("UTF-8"));
+            zos.closeEntry();
+            
+            // Add credentials.yaml
+            ZipEntry credentialsEntry = new ZipEntry("credentials.yaml");
+            zos.putNextEntry(credentialsEntry);
+            zos.write(credentialsYaml.getBytes("UTF-8"));
+            zos.closeEntry();
+            
+            zos.finish();
+            byte[] zipBytes = baos.toByteArray();
+            log.info("Successfully generated ZIP archive with {} bytes for environment '{}'", 
+                    zipBytes.length, environmentId);
+            return zipBytes;
+            
+        } catch (IOException e) {
+            log.error("Error creating ZIP archive for environment '{}'", environmentId, e);
+            throw new RuntimeException("Failed to create ZIP archive", e);
+        }
     }
 
     @Override
