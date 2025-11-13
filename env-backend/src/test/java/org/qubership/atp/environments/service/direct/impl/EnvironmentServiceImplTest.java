@@ -141,8 +141,10 @@ public class EnvironmentServiceImplTest {
                 systemServiceMock,
                 systemCategoryRepositoryMock,
                 dateTimeUtil,
-                userInfoProviderMock, mock(ProjectAccessService.class), null, null));
-
+                userInfoProviderMock,
+                mock(ProjectAccessService.class),
+                null,
+                null));
 
         SystemCategory systemCategoryThread = EntitiesGenerator.generateSystemCategory(UUID.randomUUID(), "System Category");
         ConnectionImpl connection1Thread = new ConnectionImpl();
@@ -164,9 +166,9 @@ public class EnvironmentServiceImplTest {
         UUID uuid = UUID.randomUUID();
 
         EnvironmentImpl environment1Thread = new EnvironmentImpl(UUID.randomUUID(), "Environment name", "graylogName",
-                        "Environment description", "", "", "",  dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
-                        dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), UUID.randomUUID(),
-                        new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
+                "Environment description", "", "", "", dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
+                dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), UUID.randomUUID(),
+                new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
         EnvironmentImpl environment2Thread = new EnvironmentImpl();
         SystemImpl system1Thread = new SystemImpl(uuid, "1 System name", "System description", dateTimeUtil.timestampAsUtc(),
                 //TODO read from file
@@ -179,19 +181,19 @@ public class EnvironmentServiceImplTest {
         system1Thread.getConnections().add(connection1Thread);
         //TODO read from file
         SystemImpl system2Thread = new SystemImpl(UUID.randomUUID(), "2 System name", "System description", dateTimeUtil.timestampAsUtc(),
-                        null,
-                        dateTimeUtil.timestampAsUtc(), null, new ArrayList<>(), systemCategoryThread, new ArrayList<>(),
-                        Status.PASS, dateTimeUtil.timestampAsUtc(), "System version 2", dateTimeUtil.timestampAsUtc(),
-                        new ParametersGettingVersion(), UUID.randomUUID(), serverItf, true, UUID.randomUUID(),
-                        UUID.randomUUID(), UUID.randomUUID(), null);
+                null,
+                dateTimeUtil.timestampAsUtc(), null, new ArrayList<>(), systemCategoryThread, new ArrayList<>(),
+                Status.PASS, dateTimeUtil.timestampAsUtc(), "System version 2", dateTimeUtil.timestampAsUtc(),
+                new ParametersGettingVersion(), UUID.randomUUID(), serverItf, true, UUID.randomUUID(),
+                UUID.randomUUID(), UUID.randomUUID(), null);
         system2Thread.getEnvironments().add(environment1Thread);
         system2Thread.getConnections().add(connection2Thread);
         environment1Thread.getSystems().add(system1Thread);
         environment1Thread.getSystems().add(system2Thread);
         EnvironmentImpl environmentCreatedThread = new EnvironmentImpl(UUID.randomUUID(), "Environment Copy name", "Copy graylogName",
-                        "Environment Copy description", "", "", "",  dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
-                        dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), environment1Thread.getProjectId(),
-                        new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
+                "Environment Copy description", "", "", "", dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
+                dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), environment1Thread.getProjectId(),
+                new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
 
         environment1.set(environment1Thread);
         environment2.set(environment2Thread);
@@ -237,11 +239,11 @@ public class EnvironmentServiceImplTest {
     public void copy_CopiedSuccessfully_UnSharedSystem() {
         when(environmentRepository.get().getById(any(UUID.class))).thenReturn(environment1.get());
         when(environmentRepository.get().create(anyString(), anyString(), anyString(), anyString(),
-                anyString(), anyString(),  anyLong(),
+                anyString(), anyString(), anyLong(),
                 any(UUID.class), any(UUID.class), any(UUID.class), anyList())).thenReturn(environmentCreated.get());
         when(systemRepository.get().create(any(), anyString(), anyString(), anyLong(), any(),
                 any(), any(ParametersGettingVersion.class), any(), any(ServerItf.class),
-                anyBoolean(), any(), any(),any()))
+                anyBoolean(), any(), any(), any()))
                 .thenReturn(system1.get())
                 .thenReturn(system2.get());
         when(connectionRepository.get().create(any(), anyString(), anyString(), any(), anyLong(), any(), anyString(), any(),
@@ -315,7 +317,7 @@ public class EnvironmentServiceImplTest {
                 any(UUID.class), any(UUID.class), any(UUID.class), anyList())).thenReturn(environmentCreated.get());
         when(systemRepository.get().create(any(), anyString(), anyString(), anyLong(), any(), any(),
                 any(ParametersGettingVersion.class), any(), any(ServerItf.class), anyBoolean(), any(),
-                any(),any())).thenReturn(system1.get());
+                any(), any())).thenReturn(system1.get());
         when(systemRepository.get().create(any(), anyString(), isNull(), anyLong(), any(), any(),
                 isNull(), isNull(), isNull(), isNull(), isNull(), isNull(), isNull()))
                 .thenReturn(system1.get());
@@ -455,7 +457,7 @@ public class EnvironmentServiceImplTest {
                 null, null, null,
                 null, "Unknown", null,
                 null,
-                null, null, false,null,null, null, null);
+                null, null, false, null, null, null, null);
         envTest1.setSystems(Collections.singletonList(systemOrigin));
         envTest2.setSystems(Collections.singletonList(systemOrigin));
         Mockito.when(systemService.get().getCachedVersionBySystem(any())).thenReturn(systemOrigin);
@@ -483,6 +485,7 @@ public class EnvironmentServiceImplTest {
         Collection<System> systems = Collections.singletonList(testSystem);
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
@@ -490,13 +493,14 @@ public class EnvironmentServiceImplTest {
         // Then
         assertNotNull(zipBytes);
         assertThat(zipBytes.length).isGreaterThan(0);
-        
+
         // Verify ZIP structure
         verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
-        
+
         // Verify repository was called with correct parameters
         verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId, systemType);
         verify(systemRepository.get(), times(0)).getAllByParentIdV2(environmentId);
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     @Test
@@ -508,6 +512,7 @@ public class EnvironmentServiceImplTest {
         Collection<System> systems = Arrays.asList(testSystem1, testSystem2);
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -515,13 +520,14 @@ public class EnvironmentServiceImplTest {
         // Then
         assertNotNull(zipBytes);
         assertThat(zipBytes.length).isGreaterThan(0);
-        
+
         // Verify ZIP structure
         verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
-        
+
         // Verify repository was called with correct parameters
         verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId);
         verify(systemRepository.get(), times(0)).getAllByParentIdV2(any(UUID.class), anyString());
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     @Test
@@ -531,6 +537,7 @@ public class EnvironmentServiceImplTest {
         Collection<System> emptySystems = Collections.emptyList();
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(emptySystems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -538,12 +545,13 @@ public class EnvironmentServiceImplTest {
         // Then
         assertNotNull(zipBytes);
         assertThat(zipBytes.length).isGreaterThan(0);
-        
+
         // Verify ZIP structure still contains both files (empty YAML files)
         verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
-        
+
         // Verify repository was called
         verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId);
+        verify(systemService.get(), times(1)).generateSystemsYaml(emptySystems);
     }
 
     @Test
@@ -554,6 +562,7 @@ public class EnvironmentServiceImplTest {
         Collection<System> emptySystems = Collections.emptyList();
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(emptySystems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
@@ -561,12 +570,13 @@ public class EnvironmentServiceImplTest {
         // Then
         assertNotNull(zipBytes);
         assertThat(zipBytes.length).isGreaterThan(0);
-        
+
         // Verify ZIP structure
         verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
-        
+
         // Verify repository was called with system type
         verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId, systemType);
+        verify(systemService.get(), times(1)).generateSystemsYaml(emptySystems);
     }
 
     @Test
@@ -577,9 +587,18 @@ public class EnvironmentServiceImplTest {
         ConnectionParameters params = testSystem.getConnections().get(0).getParameters();
         params.put("host", "localhost");
         params.put("port", "8080");
-        
+
+        String deploymentParamsYaml =
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - TestSystem:\n" +
+                        "      connections:\n" +
+                        "      - TestConnection:\n" +
+                        "          host: localhost\n" +
+                        "          port: \"8080\"\n";
         Collection<System> systems = Collections.singletonList(testSystem);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -592,6 +611,7 @@ public class EnvironmentServiceImplTest {
         assertThat(deploymentParamsContent).contains("TestSystem");
         assertThat(deploymentParamsContent).contains("host");
         assertThat(deploymentParamsContent).contains("localhost");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     @Test
@@ -602,10 +622,24 @@ public class EnvironmentServiceImplTest {
         ConnectionParameters params = testSystem.getConnections().get(0).getParameters();
         params.put("password", "secret123");
         params.put("token", "token123");
-        params.put("encrypted_param", "{ENC}encrypted_value");
-        
+        String encryptedValue = "{ENC}encrypted_value";
+        String decryptedValue = "decrypted_value";
+        params.put("encrypted_param", encryptedValue);
+
+        String credentialsYaml = String.format(
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - TestSystem:\n" +
+                        "      connections:\n" +
+                        "      - TestConnection:\n" +
+                        "          password: secret123\n" +
+                        "          token: token123\n" +
+                        "          encrypted_param: %s\n",
+                decryptedValue
+        );
         Collection<System> systems = Collections.singletonList(testSystem);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", credentialsYaml});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -616,8 +650,14 @@ public class EnvironmentServiceImplTest {
         assertThat(credentialsContent).contains("ATP_ENVGENE_CONFIGURATION");
         assertThat(credentialsContent).contains("systems");
         assertThat(credentialsContent).contains("password");
+        assertThat(credentialsContent).contains("secret123");
         assertThat(credentialsContent).contains("token");
+        assertThat(credentialsContent).contains("token123");
         assertThat(credentialsContent).contains("encrypted_param");
+        // Verify that encrypted value is decrypted in credentials.yaml
+        assertThat(credentialsContent).contains(decryptedValue);
+        assertThat(credentialsContent).doesNotContain(encryptedValue);
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     @Test
@@ -628,7 +668,19 @@ public class EnvironmentServiceImplTest {
         System system2 = createSystemWithConnections("System2", "Conn2");
         Collection<System> systems = Arrays.asList(system1, system2);
 
+        String deploymentParamsYaml =
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - System1:\n" +
+                        "      connections:\n" +
+                        "      - Conn1:\n" +
+                        "          key1: value1\n" +
+                        "  - System2:\n" +
+                        "      connections:\n" +
+                        "      - Conn2:\n" +
+                        "          key1: value1\n";
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -638,6 +690,7 @@ public class EnvironmentServiceImplTest {
         assertNotNull(deploymentParamsContent);
         assertThat(deploymentParamsContent).contains("System1");
         assertThat(deploymentParamsContent).contains("System2");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     @Test
@@ -648,9 +701,12 @@ public class EnvironmentServiceImplTest {
         systemWithoutConnections.setId(UUID.randomUUID());
         systemWithoutConnections.setName("SystemWithoutConnections");
         systemWithoutConnections.setConnections(Collections.emptyList());
-        
+
+        String deploymentParamsYaml = "ATP_ENVGENE_CONFIGURATION:\n" +
+                "  systems: []\n";
         Collection<System> systems = Collections.singletonList(systemWithoutConnections);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -662,6 +718,7 @@ public class EnvironmentServiceImplTest {
         // Should contain empty systems list
         assertThat(deploymentParamsContent).contains("ATP_ENVGENE_CONFIGURATION");
         assertThat(deploymentParamsContent).contains("systems");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
     }
 
     /**
@@ -671,14 +728,14 @@ public class EnvironmentServiceImplTest {
         System system = new SystemImpl();
         system.setId(UUID.randomUUID());
         system.setName(systemName);
-        
+
         Connection connection = new ConnectionImpl();
         connection.setId(UUID.randomUUID());
         connection.setName(connectionName);
         connection.setParameters(new ConnectionParameters());
         connection.getParameters().put("key1", "value1");
         connection.getParameters().put("key2", "value2");
-        
+
         system.setConnections(Collections.singletonList(connection));
         return system;
     }
@@ -688,7 +745,7 @@ public class EnvironmentServiceImplTest {
      */
     private void verifyZipContents(byte[] zipBytes, String... expectedEntries) throws IOException {
         List<String> entryNames = new ArrayList<>();
-        
+
         try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
@@ -696,7 +753,7 @@ public class EnvironmentServiceImplTest {
                 zis.closeEntry();
             }
         }
-        
+
         assertThat(entryNames).containsExactlyInAnyOrder(expectedEntries);
     }
 
@@ -722,5 +779,4 @@ public class EnvironmentServiceImplTest {
         }
         return null;
     }
-
 }

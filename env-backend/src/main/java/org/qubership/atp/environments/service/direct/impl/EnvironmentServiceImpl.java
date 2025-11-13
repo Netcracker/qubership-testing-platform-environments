@@ -67,7 +67,6 @@ import org.qubership.atp.environments.service.rest.server.response.GroupedByTagE
 import org.qubership.atp.environments.service.rest.server.response.ValidateTaToolResponse;
 import org.qubership.atp.environments.service.rest.server.response.ValidateTaToolsResponse;
 import org.qubership.atp.environments.utils.DateTimeUtil;
-import org.qubership.atp.environments.utils.EnvgeneYamlGenerator;
 import org.qubership.atp.environments.validating.factories.ValidationStrategyFactory;
 import org.qubership.atp.environments.validating.strategies.ValidationStrategy;
 import org.slf4j.MDC;
@@ -606,9 +605,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         }
         
         // Generate YAML files
-        EnvgeneYamlGenerator yamlGenerator = new EnvgeneYamlGenerator();
-        String deploymentParamsYaml = yamlGenerator.generateDeploymentParametersYaml(systems);
-        String credentialsYaml = yamlGenerator.generateCredentialsYaml(systems);
+        String[] yamlFiles = systemService.generateSystemsYaml(systems);
+        String deploymentParamsYaml = yamlFiles[0];
+        String credentialsYaml = yamlFiles[1];
         
         // Create ZIP archive
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
