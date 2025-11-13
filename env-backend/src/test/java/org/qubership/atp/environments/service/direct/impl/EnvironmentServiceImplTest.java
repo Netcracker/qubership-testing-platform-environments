@@ -412,7 +412,9 @@ public class EnvironmentServiceImplTest {
                 + "\">Unknown</td></tr></table></body></html>";
 
         Mockito.when(environmentRepository.get().getByIds(any())).thenReturn(listEnv);
-        String htmlVersion = environmentService.get().getHtmlVersionByEnvironments(listEnv.stream().map(Identified::getId).collect(Collectors.toList()));
+        String htmlVersion = environmentService.get().getHtmlVersionByEnvironments(
+                listEnv.stream().map(Identified::getId).collect(Collectors.toList())
+        );
 
         Assertions.assertEquals(expectedHtmlVersion, htmlVersion);
     }
@@ -485,7 +487,8 @@ public class EnvironmentServiceImplTest {
         Collection<System> systems = Collections.singletonList(testSystem);
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
@@ -512,7 +515,8 @@ public class EnvironmentServiceImplTest {
         Collection<System> systems = Arrays.asList(testSystem1, testSystem2);
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -537,7 +541,8 @@ public class EnvironmentServiceImplTest {
         Collection<System> emptySystems = Collections.emptyList();
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(emptySystems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -562,7 +567,8 @@ public class EnvironmentServiceImplTest {
         Collection<System> emptySystems = Collections.emptyList();
 
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(emptySystems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
@@ -598,7 +604,8 @@ public class EnvironmentServiceImplTest {
                         "          port: \"8080\"\n";
         Collection<System> systems = Collections.singletonList(testSystem);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -639,7 +646,8 @@ public class EnvironmentServiceImplTest {
         );
         Collection<System> systems = Collections.singletonList(testSystem);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{"deployment-params-yaml", credentialsYaml});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", credentialsYaml});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -680,7 +688,8 @@ public class EnvironmentServiceImplTest {
                         "      - Conn2:\n" +
                         "          key1: value1\n";
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
@@ -706,7 +715,8 @@ public class EnvironmentServiceImplTest {
                 "  systems: []\n";
         Collection<System> systems = Collections.singletonList(systemWithoutConnections);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
-        when(systemService.get().generateSystemsYaml(any())).thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
 
         // When
         byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
