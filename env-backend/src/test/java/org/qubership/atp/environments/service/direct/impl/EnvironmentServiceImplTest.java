@@ -16,8 +16,10 @@
 
 package org.qubership.atp.environments.service.direct.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,12 +27,15 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +46,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -134,8 +141,10 @@ public class EnvironmentServiceImplTest {
                 systemServiceMock,
                 systemCategoryRepositoryMock,
                 dateTimeUtil,
-                userInfoProviderMock, mock(ProjectAccessService.class), null, null));
-
+                userInfoProviderMock,
+                mock(ProjectAccessService.class),
+                null,
+                null));
 
         SystemCategory systemCategoryThread = EntitiesGenerator.generateSystemCategory(UUID.randomUUID(), "System Category");
         ConnectionImpl connection1Thread = new ConnectionImpl();
@@ -157,9 +166,9 @@ public class EnvironmentServiceImplTest {
         UUID uuid = UUID.randomUUID();
 
         EnvironmentImpl environment1Thread = new EnvironmentImpl(UUID.randomUUID(), "Environment name", "graylogName",
-                        "Environment description", "", "", "",  dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
-                        dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), UUID.randomUUID(),
-                        new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
+                "Environment description", "", "", "", dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
+                dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), UUID.randomUUID(),
+                new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
         EnvironmentImpl environment2Thread = new EnvironmentImpl();
         SystemImpl system1Thread = new SystemImpl(uuid, "1 System name", "System description", dateTimeUtil.timestampAsUtc(),
                 //TODO read from file
@@ -172,19 +181,19 @@ public class EnvironmentServiceImplTest {
         system1Thread.getConnections().add(connection1Thread);
         //TODO read from file
         SystemImpl system2Thread = new SystemImpl(UUID.randomUUID(), "2 System name", "System description", dateTimeUtil.timestampAsUtc(),
-                        null,
-                        dateTimeUtil.timestampAsUtc(), null, new ArrayList<>(), systemCategoryThread, new ArrayList<>(),
-                        Status.PASS, dateTimeUtil.timestampAsUtc(), "System version 2", dateTimeUtil.timestampAsUtc(),
-                        new ParametersGettingVersion(), UUID.randomUUID(), serverItf, true, UUID.randomUUID(),
-                        UUID.randomUUID(), UUID.randomUUID(), null);
+                null,
+                dateTimeUtil.timestampAsUtc(), null, new ArrayList<>(), systemCategoryThread, new ArrayList<>(),
+                Status.PASS, dateTimeUtil.timestampAsUtc(), "System version 2", dateTimeUtil.timestampAsUtc(),
+                new ParametersGettingVersion(), UUID.randomUUID(), serverItf, true, UUID.randomUUID(),
+                UUID.randomUUID(), UUID.randomUUID(), null);
         system2Thread.getEnvironments().add(environment1Thread);
         system2Thread.getConnections().add(connection2Thread);
         environment1Thread.getSystems().add(system1Thread);
         environment1Thread.getSystems().add(system2Thread);
         EnvironmentImpl environmentCreatedThread = new EnvironmentImpl(UUID.randomUUID(), "Environment Copy name", "Copy graylogName",
-                        "Environment Copy description", "", "", "",  dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
-                        dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), environment1Thread.getProjectId(),
-                        new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
+                "Environment Copy description", "", "", "", dateTimeUtil.timestampAsUtc(), UUID.randomUUID(),
+                dateTimeUtil.timestampAsUtc(), UUID.randomUUID(), environment1Thread.getProjectId(),
+                new ArrayList<>(), UUID.randomUUID(), UUID.randomUUID(), Collections.emptyList());
 
         environment1.set(environment1Thread);
         environment2.set(environment2Thread);
@@ -230,11 +239,11 @@ public class EnvironmentServiceImplTest {
     public void copy_CopiedSuccessfully_UnSharedSystem() {
         when(environmentRepository.get().getById(any(UUID.class))).thenReturn(environment1.get());
         when(environmentRepository.get().create(anyString(), anyString(), anyString(), anyString(),
-                anyString(), anyString(),  anyLong(),
+                anyString(), anyString(), anyLong(),
                 any(UUID.class), any(UUID.class), any(UUID.class), anyList())).thenReturn(environmentCreated.get());
         when(systemRepository.get().create(any(), anyString(), anyString(), anyLong(), any(),
                 any(), any(ParametersGettingVersion.class), any(), any(ServerItf.class),
-                anyBoolean(), any(), any(),any()))
+                anyBoolean(), any(), any(), any()))
                 .thenReturn(system1.get())
                 .thenReturn(system2.get());
         when(connectionRepository.get().create(any(), anyString(), anyString(), any(), anyLong(), any(), anyString(), any(),
@@ -308,7 +317,7 @@ public class EnvironmentServiceImplTest {
                 any(UUID.class), any(UUID.class), any(UUID.class), anyList())).thenReturn(environmentCreated.get());
         when(systemRepository.get().create(any(), anyString(), anyString(), anyLong(), any(), any(),
                 any(ParametersGettingVersion.class), any(), any(ServerItf.class), anyBoolean(), any(),
-                any(),any())).thenReturn(system1.get());
+                any(), any())).thenReturn(system1.get());
         when(systemRepository.get().create(any(), anyString(), isNull(), anyLong(), any(), any(),
                 isNull(), isNull(), isNull(), isNull(), isNull(), isNull(), isNull()))
                 .thenReturn(system1.get());
@@ -403,7 +412,9 @@ public class EnvironmentServiceImplTest {
                 + "\">Unknown</td></tr></table></body></html>";
 
         Mockito.when(environmentRepository.get().getByIds(any())).thenReturn(listEnv);
-        String htmlVersion = environmentService.get().getHtmlVersionByEnvironments(listEnv.stream().map(Identified::getId).collect(Collectors.toList()));
+        String htmlVersion = environmentService.get().getHtmlVersionByEnvironments(
+                listEnv.stream().map(Identified::getId).collect(Collectors.toList())
+        );
 
         Assertions.assertEquals(expectedHtmlVersion, htmlVersion);
     }
@@ -448,7 +459,7 @@ public class EnvironmentServiceImplTest {
                 null, null, null,
                 null, "Unknown", null,
                 null,
-                null, null, false,null,null, null, null);
+                null, null, false, null, null, null, null);
         envTest1.setSystems(Collections.singletonList(systemOrigin));
         envTest2.setSystems(Collections.singletonList(systemOrigin));
         Mockito.when(systemService.get().getCachedVersionBySystem(any())).thenReturn(systemOrigin);
@@ -467,4 +478,315 @@ public class EnvironmentServiceImplTest {
         return listEnv;
     }
 
+    @Test
+    public void getSystemsYamlZipArchive_WithSystemType_ReturnsValidZipArchive() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        String systemType = "TEST_SYSTEM_TYPE";
+        System testSystem = createSystemWithConnections("TestSystem", "connection1");
+        Collection<System> systems = Collections.singletonList(testSystem);
+
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
+
+        // Then
+        assertNotNull(zipBytes);
+        assertThat(zipBytes.length).isGreaterThan(0);
+
+        // Verify ZIP structure
+        verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
+
+        // Verify repository was called with correct parameters
+        verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId, systemType);
+        verify(systemRepository.get(), times(0)).getAllByParentIdV2(environmentId);
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_WithoutSystemType_ReturnsValidZipArchive() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        System testSystem1 = createSystemWithConnections("System1", "conn1");
+        System testSystem2 = createSystemWithConnections("System2", "conn2");
+        Collection<System> systems = Arrays.asList(testSystem1, testSystem2);
+
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        assertNotNull(zipBytes);
+        assertThat(zipBytes.length).isGreaterThan(0);
+
+        // Verify ZIP structure
+        verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
+
+        // Verify repository was called with correct parameters
+        verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId);
+        verify(systemRepository.get(), times(0)).getAllByParentIdV2(any(UUID.class), anyString());
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_WithEmptySystems_ReturnsEmptyZipArchive() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        Collection<System> emptySystems = Collections.emptyList();
+
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(emptySystems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        assertNotNull(zipBytes);
+        assertThat(zipBytes.length).isGreaterThan(0);
+
+        // Verify ZIP structure still contains both files (empty YAML files)
+        verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
+
+        // Verify repository was called
+        verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId);
+        verify(systemService.get(), times(1)).generateSystemsYaml(emptySystems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_WithSystemTypeAndEmptySystems_ReturnsEmptyZipArchive() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        String systemType = "NON_EXISTENT_TYPE";
+        Collection<System> emptySystems = Collections.emptyList();
+
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId), eq(systemType))).thenReturn(emptySystems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, systemType);
+
+        // Then
+        assertNotNull(zipBytes);
+        assertThat(zipBytes.length).isGreaterThan(0);
+
+        // Verify ZIP structure
+        verifyZipContents(zipBytes, "deployment-parameters.yaml", "credentials.yaml");
+
+        // Verify repository was called with system type
+        verify(systemRepository.get(), times(1)).getAllByParentIdV2(environmentId, systemType);
+        verify(systemService.get(), times(1)).generateSystemsYaml(emptySystems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_ContainsDeploymentParametersYaml() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        System testSystem = createSystemWithConnections("TestSystem", "TestConnection");
+        ConnectionParameters params = testSystem.getConnections().get(0).getParameters();
+        params.put("host", "localhost");
+        params.put("port", "8080");
+
+        String deploymentParamsYaml =
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - TestSystem:\n" +
+                        "      connections:\n" +
+                        "      - TestConnection:\n" +
+                        "          host: localhost\n" +
+                        "          port: \"8080\"\n";
+        Collection<System> systems = Collections.singletonList(testSystem);
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        String deploymentParamsContent = extractZipEntryContent(zipBytes, "deployment-parameters.yaml");
+        assertNotNull(deploymentParamsContent);
+        assertThat(deploymentParamsContent).contains("ATP_ENVGENE_CONFIGURATION");
+        assertThat(deploymentParamsContent).contains("systems");
+        assertThat(deploymentParamsContent).contains("TestSystem");
+        assertThat(deploymentParamsContent).contains("host");
+        assertThat(deploymentParamsContent).contains("localhost");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_ContainsCredentialsYaml() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        System testSystem = createSystemWithConnections("TestSystem", "TestConnection");
+        ConnectionParameters params = testSystem.getConnections().get(0).getParameters();
+        params.put("password", "secret123");
+        params.put("token", "token123");
+        String encryptedValue = "{ENC}encrypted_value";
+        String decryptedValue = "decrypted_value";
+        params.put("encrypted_param", encryptedValue);
+
+        String credentialsYaml = String.format(
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - TestSystem:\n" +
+                        "      connections:\n" +
+                        "      - TestConnection:\n" +
+                        "          password: secret123\n" +
+                        "          token: token123\n" +
+                        "          encrypted_param: %s\n",
+                decryptedValue
+        );
+        Collection<System> systems = Collections.singletonList(testSystem);
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{"deployment-params-yaml", credentialsYaml});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        String credentialsContent = extractZipEntryContent(zipBytes, "credentials.yaml");
+        assertNotNull(credentialsContent);
+        assertThat(credentialsContent).contains("ATP_ENVGENE_CONFIGURATION");
+        assertThat(credentialsContent).contains("systems");
+        assertThat(credentialsContent).contains("password");
+        assertThat(credentialsContent).contains("secret123");
+        assertThat(credentialsContent).contains("token");
+        assertThat(credentialsContent).contains("token123");
+        assertThat(credentialsContent).contains("encrypted_param");
+        // Verify that encrypted value is decrypted in credentials.yaml
+        assertThat(credentialsContent).contains(decryptedValue);
+        assertThat(credentialsContent).doesNotContain(encryptedValue);
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_WithMultipleSystems_GeneratesCorrectYaml() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        System system1 = createSystemWithConnections("System1", "Conn1");
+        System system2 = createSystemWithConnections("System2", "Conn2");
+        Collection<System> systems = Arrays.asList(system1, system2);
+
+        String deploymentParamsYaml =
+                "ATP_ENVGENE_CONFIGURATION:\n" +
+                        "  systems:\n" +
+                        "  - System1:\n" +
+                        "      connections:\n" +
+                        "      - Conn1:\n" +
+                        "          key1: value1\n" +
+                        "  - System2:\n" +
+                        "      connections:\n" +
+                        "      - Conn2:\n" +
+                        "          key1: value1\n";
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        String deploymentParamsContent = extractZipEntryContent(zipBytes, "deployment-parameters.yaml");
+        assertNotNull(deploymentParamsContent);
+        assertThat(deploymentParamsContent).contains("System1");
+        assertThat(deploymentParamsContent).contains("System2");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    @Test
+    public void getSystemsYamlZipArchive_WithSystemWithoutConnections_GeneratesEmptyYaml() throws IOException {
+        // Given
+        UUID environmentId = UUID.randomUUID();
+        System systemWithoutConnections = new SystemImpl();
+        systemWithoutConnections.setId(UUID.randomUUID());
+        systemWithoutConnections.setName("SystemWithoutConnections");
+        systemWithoutConnections.setConnections(Collections.emptyList());
+
+        String deploymentParamsYaml = "ATP_ENVGENE_CONFIGURATION:\n" +
+                "  systems: []\n";
+        Collection<System> systems = Collections.singletonList(systemWithoutConnections);
+        when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
+        when(systemService.get().generateSystemsYaml(any()))
+                .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
+
+        // When
+        byte[] zipBytes = environmentService.get().getSystemsYamlZipArchive(environmentId, null);
+
+        // Then
+        assertNotNull(zipBytes);
+        String deploymentParamsContent = extractZipEntryContent(zipBytes, "deployment-parameters.yaml");
+        assertNotNull(deploymentParamsContent);
+        // Should contain empty systems list
+        assertThat(deploymentParamsContent).contains("ATP_ENVGENE_CONFIGURATION");
+        assertThat(deploymentParamsContent).contains("systems");
+        verify(systemService.get(), times(1)).generateSystemsYaml(systems);
+    }
+
+    /**
+     * Helper method to create a System with connections for testing.
+     */
+    private System createSystemWithConnections(String systemName, String connectionName) {
+        System system = new SystemImpl();
+        system.setId(UUID.randomUUID());
+        system.setName(systemName);
+
+        Connection connection = new ConnectionImpl();
+        connection.setId(UUID.randomUUID());
+        connection.setName(connectionName);
+        connection.setParameters(new ConnectionParameters());
+        connection.getParameters().put("key1", "value1");
+        connection.getParameters().put("key2", "value2");
+
+        system.setConnections(Collections.singletonList(connection));
+        return system;
+    }
+
+    /**
+     * Helper method to verify ZIP archive contains expected entries.
+     */
+    private void verifyZipContents(byte[] zipBytes, String... expectedEntries) throws IOException {
+        List<String> entryNames = new ArrayList<>();
+
+        try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                entryNames.add(entry.getName());
+                zis.closeEntry();
+            }
+        }
+
+        assertThat(entryNames).containsExactlyInAnyOrder(expectedEntries);
+    }
+
+    /**
+     * Helper method to extract content from a specific ZIP entry.
+     */
+    private String extractZipEntryContent(byte[] zipBytes, String entryName) throws IOException {
+        try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().equals(entryName)) {
+                    byte[] buffer = new byte[1024];
+                    StringBuilder content = new StringBuilder();
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        content.append(new String(buffer, 0, len, "UTF-8"));
+                    }
+                    zis.closeEntry();
+                    return content.toString();
+                }
+                zis.closeEntry();
+            }
+        }
+        return null;
+    }
 }

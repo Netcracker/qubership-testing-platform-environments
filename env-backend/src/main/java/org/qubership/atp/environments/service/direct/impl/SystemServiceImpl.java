@@ -19,6 +19,7 @@ package org.qubership.atp.environments.service.direct.impl;
 import static java.util.Objects.nonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +70,7 @@ import org.qubership.atp.environments.service.rest.server.dto.StatusDto;
 import org.qubership.atp.environments.service.rest.server.dto.SystemDto;
 import org.qubership.atp.environments.service.rest.server.response.ShortExternalService;
 import org.qubership.atp.environments.utils.DateTimeUtil;
+import org.qubership.atp.environments.utils.EnvgeneYamlGenerator;
 import org.qubership.atp.environments.utils.cloud.ExternalCloudClient;
 import org.qubership.atp.environments.utils.cloud.KubeClient;
 import org.qubership.atp.environments.utils.cloud.OpenshiftClient;
@@ -1057,5 +1059,14 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public System getSystemByNameAndEnvironmentId(String name, UUID environmentId) {
         return systemRepository.getSystemByNameAndEnvironmentId(name, environmentId);
+    }
+
+    @Override
+    @Nonnull
+    public String[] generateSystemsYaml(@Nonnull Collection<System> systems) {
+        EnvgeneYamlGenerator yamlGenerator = new EnvgeneYamlGenerator(decryptorService);
+        String deploymentParamsYaml = yamlGenerator.generateDeploymentParametersYaml(systems);
+        String credentialsYaml = yamlGenerator.generateCredentialsYaml(systems);
+        return new String[]{deploymentParamsYaml, credentialsYaml};
     }
 }
