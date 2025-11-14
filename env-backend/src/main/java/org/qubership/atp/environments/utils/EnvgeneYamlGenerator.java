@@ -28,6 +28,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.System;
+import org.qubership.atp.environments.service.direct.DecryptorService;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -47,13 +48,15 @@ public class EnvgeneYamlGenerator {
     private static final String ENC_PREFIX = "{ENC}";
 
     private final Yaml yaml;
+    private final DecryptorService decryptorService;
 
-    public EnvgeneYamlGenerator() {
+    public EnvgeneYamlGenerator(DecryptorService decryptorService) {
         DumperOptions options = new DumperOptions();
         options.setIndent(2);
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         this.yaml = new Yaml(options);
+        this.decryptorService = decryptorService;
     }
 
     /**
@@ -74,9 +77,10 @@ public class EnvgeneYamlGenerator {
     /**
      * Generates credentials YAML string from systems collection.
      * Contains only encrypted parameters (starting with {ENC}) and password/token fields.
+     * Encrypted values (with {ENC} prefix) are decrypted before being written to the YAML.
      *
      * @param systems collection of systems to process
-     * @return YAML string with credentials
+     * @return YAML string with credentials (decrypted values)
      */
     @Nonnull
     public String generateCredentialsYaml(@Nonnull Collection<System> systems) {
@@ -165,10 +169,11 @@ public class EnvgeneYamlGenerator {
 
     /**
      * Filters parameters based on whether we want credentials or deployment parameters.
+     * When credentialsOnly is true and a value starts with {ENC}, it is decrypted before being added to the filtered map.
      *
      * @param parameters the connection parameters to filter
      * @param credentialsOnly if true, return only credentials; if false, return only deployment parameters
-     * @return filtered map of parameters
+     * @return filtered map of parameters (with decrypted values if credentialsOnly is true)
      */
     @Nonnull
     private Map<String, String> filterParameters(@Nonnull ConnectionParameters parameters, boolean credentialsOnly) {
@@ -178,7 +183,7 @@ public class EnvgeneYamlGenerator {
             boolean isCredential = isCredentialParameter(key, value);
             
             if (credentialsOnly && isCredential) {
-                filtered.put(key, value);
+                filtered.put(key, decryptorService.decryptParameter(value));
             } else if (!credentialsOnly && !isCredential) {
                 filtered.put(key, value);
             }

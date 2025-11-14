@@ -274,9 +274,7 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
         byte[] zipBytes = environmentService.getSystemsYamlZipArchive(environmentId, systemType);
         
         // Get environment name for filename
-        String environmentName = environmentService.getEnvironmentNameById(environmentId);
-        String filename = (environmentName != null ? environmentName : environmentId.toString())
-                + "-envgene-configuration.zip";
+        String filename = environmentId + "-envgene-configuration.zip";
         
         ByteArrayResource resource = new ByteArrayResource(zipBytes);
         

@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.service.direct;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -168,4 +169,13 @@ public interface SystemService extends IdentifiedService<System> {
     System getShortSystem(UUID id);
 
     System getSystemByNameAndEnvironmentId(String name, UUID id);
+
+    /**
+     * Generates YAML strings for systems in envgene format.
+     * 
+     * @param systems collection of systems to process
+     * @return array with [deploymentParamsYaml, credentialsYaml]
+     */
+    @Nonnull
+    String[] generateSystemsYaml(@Nonnull Collection<System> systems);
 }
