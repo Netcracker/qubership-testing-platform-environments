@@ -18,11 +18,31 @@ on:
         description: "Target store for the artifact"
         required: false
         default: "github"
+      maven-command:
+        type: string
+        description: "Maven command to execute (default is 'deploy' for SNAPSHOT versions, 'install' otherwise)"
+        required: false
+        default: "deploy"
       additional-mvn-args:
         type: string
         description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=false')"
         required: false
         default: ""
+      working-directory:
+        type: string
+        description: "Working directory for the action"
+        required: false
+        default: ""
+      pom-file:
+        type: string
+        description: "Path to the pom.xml file"
+        required: false
+        default: "pom.xml"
+      upload-artifact:
+        type: string
+        description: "Upload the built artifact to GitHub Actions artifacts"
+        required: false
+        default: 'true'
       artifact-id:
         default: artifact
         required: false
@@ -195,6 +215,8 @@ jobs:
           cat ~/.m2/settings.xml
 
       - name: "Deploy to Maven Central"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
         run: |
           if [[ "${{ inputs.pom-file }}" == "" || "${{ inputs.pom-file }}" == "pom.xml" ]]; then
             echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'." >> $GITHUB_STEP_SUMMARY
