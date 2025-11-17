@@ -37,7 +37,7 @@ on:
         type: string
         description: "Path to the pom.xml file"
         required: false
-        default: "qubership-testing-platform-environments/pom.xml"
+        default: "pom.xml"
       upload-artifact:
         type: string
         description: "Upload the built artifact to GitHub Actions artifacts"
@@ -234,7 +234,7 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.maven-token }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
           GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Upload artifact to GitHub Actions artifacts"
         if: ${{ inputs.upload-artifact != 'false' && inputs.artifact-id != '' }}
