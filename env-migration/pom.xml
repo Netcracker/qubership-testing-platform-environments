@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db-properties</artifactId>
-        <version>1.5.97</version>
+        <version>1.5.98-SNAPSHOT</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
     <name>env-migration</name>
