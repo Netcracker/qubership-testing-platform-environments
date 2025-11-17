@@ -111,8 +111,7 @@ jobs:
           download-artifact: true
           custom-image-name: qubership-testing-platform-environments
           download-artifact-path: build-context
-          download-artifact-name: artifact
-          component: '[{"name": "artifact", "file": "./qubership-testing-platform-environments/Dockerfile", "context": "."}]'
+          component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -124,6 +123,6 @@ jobs:
           tags: ${{steps.metadata.outputs.result}}
           download-artifact: false
           custom-image-name: qubership-testing-platform-environments-transfer
-          component: '[{"name": "artifact", "file": "./qubership-testing-platform-environments-transfer/docker-transfer/Dockerfile", "context": "."}]'
+          component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
