@@ -230,8 +230,8 @@ jobs:
           echo "ℹ️ Executing Maven command: mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}" >> $GITHUB_STEP_SUMMARY
           mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}
         env:
-          MAVEN_USERNAME: ${{ inputs.profile == 'github' && github.actor || secrets.MAVEN_USER }}
-          MAVEN_PASSWORD: ${{ inputs.profile == 'github' && secrets.GITHUB_TOKEN || secrets.MAVEN_PASSWORD }}
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
 
       - name: "Upload artifact to GitHub Actions artifacts"
