@@ -136,6 +136,11 @@
                     <name>GitHub Packages</name>
                     <url>https://maven.pkg.github.com/Netcracker/qubership-testing-platform-environments</url>
                 </repository>
+                <snapshotRepository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/Netcracker/qubership-testing-platform-environments</url>
+                </snapshotRepository>
             </distributionManagement>
         </profile>
     </profiles>

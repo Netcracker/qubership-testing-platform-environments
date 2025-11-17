@@ -24,13 +24,6 @@
         <pmd.version>7.0.0</pmd.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>Central Maven Repository</name>
-        </repository>
-    </distributionManagement>
-
     <profiles>
         <profile>
             <id>default</id>
