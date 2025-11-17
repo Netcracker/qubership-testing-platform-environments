@@ -17,7 +17,7 @@ on:
         type: string
         description: "Target store for the artifact"
         required: false
-        default: "github-packages"
+        default: "github"
       additional-mvn-args:
         type: string
         description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=false')"
