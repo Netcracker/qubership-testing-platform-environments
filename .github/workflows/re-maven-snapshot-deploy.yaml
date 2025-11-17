@@ -218,6 +218,8 @@ jobs:
         shell: bash
         working-directory: ${{ inputs.working-directory }}
         run: |
+          ls -la
+          pwd
           if [[ "${{ inputs.pom-file }}" == "" || "${{ inputs.pom-file }}" == "pom.xml" ]]; then
             echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'." >> $GITHUB_STEP_SUMMARY
             echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'."
