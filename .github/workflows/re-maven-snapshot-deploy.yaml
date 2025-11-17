@@ -194,9 +194,7 @@ jobs:
           fi
           cat ~/.m2/settings.xml
 
-      - name: "Execute Maven command"
-        shell: bash
-        working-directory: ${{ inputs.working-directory }}
+      - name: "Deploy to Maven Central"
         run: |
           if [[ "${{ inputs.pom-file }}" == "" || "${{ inputs.pom-file }}" == "pom.xml" ]]; then
             echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'." >> $GITHUB_STEP_SUMMARY
@@ -208,15 +206,15 @@ jobs:
           echo "ℹ️ Executing Maven command: mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}" >> $GITHUB_STEP_SUMMARY
           mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}
         env:
-          MAVEN_USERNAME: ${{ inputs.maven-username }}
-          MAVEN_PASSWORD: ${{ inputs.maven-token }}
-          MAVEN_GPG_PASSPHRASE: ${{ inputs.gpg-passphrase }}
+          MAVEN_USERNAME: ${{ secrets.maven-username }}
+          MAVEN_PASSWORD: ${{ secrets.maven-token }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ github.token }}
-          SONAR_TOKEN: ${{ inputs.sonar-token }}
+
       - name: "Upload artifact to GitHub Actions artifacts"
         if: ${{ inputs.upload-artifact != 'false' && inputs.artifact-id != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: ${{ inputs.artifact-id }}
           path: '**/target'
