@@ -37,7 +37,7 @@ on:
         type: string
         description: "Path to the pom.xml file"
         required: false
-        default: "pom.xml"
+        default: "qubership-testing-platform-environments/pom.xml"
       upload-artifact:
         type: string
         description: "Upload the built artifact to GitHub Actions artifacts"
