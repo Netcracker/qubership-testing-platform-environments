@@ -98,6 +98,24 @@ jobs:
             echo "IS_SNAPSHOT=true" >> $GITHUB_ENV
             echo "MVN_COMMAND=deploy" >> $GITHUB_ENV
           fi
+          
+      - name: "Check if ${{ inputs.target-store }} profile exists in ${{ inputs.pom-file }}"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          echo "ℹ️ Checking if the '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}" >> $GITHUB_STEP_SUMMARY
+          PROFILE_CHECK=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:profiles/x:profile[x:id='${{ inputs.target-store }}']" ./${{ inputs.pom-file }} || echo "")
+          if [[ "${PROFILE_CHECK}" == "" ]]
+          then
+          echo "ℹ️ The '${{ inputs.target-store }}' profile does not exist in ${{ inputs.pom-file }}. Please create it if you plan to deploy artifacts." >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ The detailed instruction: https://github.com/Netcracker/.github/blob/main/docs/maven-publish-pom-preparation_doc.md" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ The '${{ inputs.target-store }}' profile does not exist in ${{ inputs.pom-file }}. Please create it if you plan to deploy artifacts."
+          echo "MVN_PROFILE=" >> $GITHUB_ENV
+          else
+          echo "✅ The '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ The '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}"
+          echo "MVN_PROFILE=-P${{ inputs.target-store }}" >> $GITHUB_ENV
+          fi
 
       - name: "Setup mvn additional args"
         shell: bash
@@ -159,17 +177,46 @@ jobs:
           gpg-private-key: ${{ secrets.gpg-private-key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: "Deploy to Maven Central"
+      - name: "Additional GitHub repository configuration"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
         run: |
-          mvn --batch-mode ${{ env.MVN_COMMAND }} ${ADDITIONAL_MVN_ARGS}
-        env:
-          MAVEN_USERNAME: ${{ secrets.maven-username }}
-          MAVEN_PASSWORD: ${{ secrets.maven-token }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+          if [ -n "$(xmlstarlet sel -N x="http://maven.apache.org/SETTINGS/1.0.0" -t -v "/x:settings/x:servers/x:server[x:id='github']" ~/.m2/settings.xml)" ]; then
+          echo "ℹ️ GitHub server configuration already exists in ~/.m2/settings.xml"
+          else
+          echo "✅ Adding GitHub server configuration to ~/.m2/settings.xml"
+          xmlstarlet ed -L -N x="http://maven.apache.org/SETTINGS/1.0.0" -s "/x:settings/x:servers" -t elem -n "serverNew" -v '' \
+          -s "//serverNew" -t elem -n "id" -v "github" \
+          -s "//serverNew" -t elem -n "username" -v '${env.GITHUB_ACTOR}' \
+          -s "//serverNew" -t elem -n "password" -v '${env.GITHUB_TOKEN}' \
+          -r "//serverNew" -v "server" \
+          ~/.m2/settings.xml
+          fi
+          cat ~/.m2/settings.xml
 
-      - name: Upload all Maven target directories
-        if: ${{ inputs.target-store == 'maven-central' }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - name: "Execute Maven command"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [[ "${{ inputs.pom-file }}" == "" || "${{ inputs.pom-file }}" == "pom.xml" ]]; then
+            echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'." >> $GITHUB_STEP_SUMMARY
+            echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'."
+            POM_FILE=""
+          else
+            POM_FILE="-f ${{ inputs.pom-file }}"
+          fi
+          echo "ℹ️ Executing Maven command: mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}" >> $GITHUB_STEP_SUMMARY
+          mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}
+        env:
+          MAVEN_USERNAME: ${{ inputs.maven-username }}
+          MAVEN_PASSWORD: ${{ inputs.maven-token }}
+          MAVEN_GPG_PASSPHRASE: ${{ inputs.gpg-passphrase }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ github.token }}
+          SONAR_TOKEN: ${{ inputs.sonar-token }}
+      - name: "Upload artifact to GitHub Actions artifacts"
+        if: ${{ inputs.upload-artifact != 'false' && inputs.artifact-id != '' }}
+        uses: actions/upload-artifact@v4
         with:
-          name: qubership-testing-platform-environments
+          name: ${{ inputs.artifact-id }}
           path: '**/target'
