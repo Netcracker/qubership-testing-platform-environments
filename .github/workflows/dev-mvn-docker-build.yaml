@@ -108,7 +108,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}
+          tags: ${{steps.metadata.outputs.result}}, latest
           download-artifact: true
           download-artifact-path: build-context
           component: ${{ toJson(matrix.component) }}
