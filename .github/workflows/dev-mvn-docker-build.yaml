@@ -102,27 +102,16 @@ jobs:
         with:
           default-template: '{{ref-name}}-{{timestamp}}'
 
-      - name: Build and Publish Docker Image For Environments
+      - name: Build and Publish Docker Image
+        id: docker_build
         uses: netcracker/qubership-workflow-hub/actions/docker-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
         with:
           ref: ${{ github.ref }}
           dry-run: false
           tags: ${{steps.metadata.outputs.result}}
           download-artifact: true
-          custom-image-name: qubership-testing-platform-environments
           download-artifact-path: build-context
-          component: '[{"name": "qubership-testing-platform-environments", "file": "./Dockerfile", "context": "."}]'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Publish Docker Image For Transfer
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
-        with:
-          ref: ${{ github.ref }}
-          dry-run: false
-          tags: ${{steps.metadata.outputs.result}}
-          download-artifact: false
-          custom-image-name: qubership-testing-platform-environments-transfer
-          component: '[{"name": "qubership-testing-platform-environments-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
+          component: ${{ toJson(matrix.component) }}
+          platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
