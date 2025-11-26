@@ -80,8 +80,6 @@ jobs:
           fi
           echo "components=${components}" >> $GITHUB_OUTPUT
           echo "platforms=${platforms}" >> $GITHUB_OUTPUT
-          echo "components=${components}"
-          echo "platforms=${platforms}"
 
   build-and-push:
     runs-on: ubuntu-latest
