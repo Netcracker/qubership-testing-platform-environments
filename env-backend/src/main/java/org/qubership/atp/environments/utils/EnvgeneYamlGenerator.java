@@ -28,7 +28,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.System;
-import org.qubership.atp.environments.service.direct.DecryptorService;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -43,20 +42,19 @@ public class EnvgeneYamlGenerator {
     private static final String ATP_ENVGENE_CONFIGURATION = "ATP_ENVGENE_CONFIGURATION";
     private static final String SYSTEMS_KEY = "systems";
     private static final String CONNECTIONS_KEY = "connections";
+    private static final String LOGIN_KEY = "login";
     private static final String PASSWORD_KEY = "password";
     private static final String TOKEN_KEY = "token";
     private static final String ENC_PREFIX = "{ENC}";
 
     private final Yaml yaml;
-    private final DecryptorService decryptorService;
 
-    public EnvgeneYamlGenerator(DecryptorService decryptorService) {
+    public EnvgeneYamlGenerator() {
         DumperOptions options = new DumperOptions();
         options.setIndent(2);
         options.setPrettyFlow(true);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         this.yaml = new Yaml(options);
-        this.decryptorService = decryptorService;
     }
 
     /**
@@ -183,7 +181,7 @@ public class EnvgeneYamlGenerator {
             boolean isCredential = isCredentialParameter(key, value);
             
             if (credentialsOnly && isCredential) {
-                filtered.put(key, decryptorService.decryptParameter(value));
+                filtered.put(key, "");
             } else if (!credentialsOnly && !isCredential) {
                 filtered.put(key, value);
             }
@@ -203,7 +201,7 @@ public class EnvgeneYamlGenerator {
      * @return true if the parameter is a credential
      */
     private boolean isCredentialParameter(@Nonnull String key, String value) {
-        if (key.equals(PASSWORD_KEY) || key.equals(TOKEN_KEY)) {
+        if (key.equals(LOGIN_KEY) || key.equals(PASSWORD_KEY) || key.equals(TOKEN_KEY)) {
             return true;
         }
         
