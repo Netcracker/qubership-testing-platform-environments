@@ -1064,7 +1064,7 @@ public class SystemServiceImpl implements SystemService {
     @Override
     @Nonnull
     public String[] generateSystemsYaml(@Nonnull Collection<System> systems) {
-        EnvgeneYamlGenerator yamlGenerator = new EnvgeneYamlGenerator(decryptorService);
+        EnvgeneYamlGenerator yamlGenerator = new EnvgeneYamlGenerator();
         String deploymentParamsYaml = yamlGenerator.generateDeploymentParametersYaml(systems);
         String credentialsYaml = yamlGenerator.generateCredentialsYaml(systems);
         return new String[]{deploymentParamsYaml, credentialsYaml};

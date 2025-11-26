@@ -27,6 +27,12 @@
             <type>zip</type>
             <classifier>dist</classifier>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>env-q-classes-generation</artifactId>
+            <version>${project.version}</version>
+            <classifier>pg</classifier>
+        </dependency>
     </dependencies>
 
     <build>
