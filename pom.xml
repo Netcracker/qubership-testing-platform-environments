@@ -16,6 +16,7 @@
         <spotbugs-maven-plugin.version>4.7.3.0</spotbugs-maven-plugin.version>
     </properties>
 
+
     <modules>
         <module>parent/parent-db-properties</module>
         <module>parent/parent-java</module>
