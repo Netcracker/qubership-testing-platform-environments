@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.environments</groupId>
     <artifactId>atp-environments</artifactId>
-    <version>1.5.99-SNAPSHOT</version>
+    <version>1.5.100v1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
