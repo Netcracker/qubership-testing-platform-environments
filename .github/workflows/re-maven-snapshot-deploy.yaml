@@ -146,7 +146,11 @@ jobs:
             echo "ℹ️ No additional mvn args provided. Using default ones." >> $GITHUB_STEP_SUMMARY
             echo "ℹ️ No additional mvn args provided. Using default ones."
           else
-            ADDITIONAL_MVN_ARGS=${{ inputs.additional-mvn-args }}
+            ADDITIONAL_MVN_ARGS=""
+            for arg in ${{ inputs.additional-mvn-args }}
+            do
+              ADDITIONAL_MVN_ARGS="${ADDITIONAL_MVN_ARGS} \"${arg}\""
+            done
             echo "✅ Additional mvn args provided: ${ADDITIONAL_MVN_ARGS}" >> $GITHUB_STEP_SUMMARY
             echo "✅ Additional mvn args provided: ${ADDITIONAL_MVN_ARGS}"
           fi
