@@ -55,7 +55,7 @@ jobs:
       - name: Clean Install Environments
         uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/helm_deploy
         with:
-          path_to_template: './qubership-testing-platform-helm-hook-helper/.github/deploy_templates/values-dev.yaml'
+          path_to_template: './qubership-testing-platform-environments/.github/deploy_templates/values-dev.yaml'
           service_branch: ${{ inputs.pipeline_branch }}
           service_name: 'atp-environments'
           repository_name: 'qubership-testing-platform-environments'
