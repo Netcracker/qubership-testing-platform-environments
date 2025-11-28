@@ -201,7 +201,7 @@ public class EnvgeneYamlGenerator {
      * @return true if the parameter is a credential
      */
     private boolean isCredentialParameter(@Nonnull String key, String value) {
-        if (key.equals(LOGIN_KEY) || key.equals(PASSWORD_KEY) || key.equals(TOKEN_KEY)) {
+        if (key.contains(LOGIN_KEY) || key.equals(PASSWORD_KEY) || key.equals(TOKEN_KEY)) {
             return true;
         }
         
