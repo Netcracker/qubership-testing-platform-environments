@@ -65,7 +65,7 @@ jobs:
           postgres: enable
 
       - name: Verify Environments installation
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/verify_installation
         with:
           namespace: 'env'
           max_attempts: 40
@@ -74,4 +74,4 @@ jobs:
 
       - name: Run tests
         if: env.RUN_TESTS == 'enable'
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/running_tests
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/running_tests
