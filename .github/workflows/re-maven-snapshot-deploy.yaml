@@ -58,6 +58,14 @@ on:
         required: false
 
 jobs:
+  call_postgres:
+    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
+    with:
+      postgresql_user: envconf
+      postgresql_password: envconf
+      postgresql_database: envconf
+      postgresql_admin_password: envconf
+
   mvn-deploy:
     runs-on: ubuntu-latest
 
@@ -71,20 +79,6 @@ jobs:
           ref: 'test_workflow'
           repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
           path: 'qubership-testing-platform-helm-hook-helper'
-
-      - name: Debug
-        shell: bash
-        if: always()
-        run: |
-          ls -la
-          pwd
-          cd qubership-testing-platform-helm-hook-helper
-          ls -la
-          cd .github
-          ls -la
-          cd workflows
-          ls -la
-          pwd
 
       - name: "Setup xmlstarlet"
         run: |
@@ -162,16 +156,6 @@ jobs:
             echo "✅ Additional mvn args provided: ${ADDITIONAL_MVN_ARGS}"
           fi
           echo "ADDITIONAL_MVN_ARGS=${ADDITIONAL_MVN_ARGS}" >> $GITHUB_ENV
-
-      - name: Postgres installation
-        uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
-        with:
-          service_branch: 'test_workflow'
-          repository_name: 'qubership-testing-platform-environments'
-          postgres_user: envconf
-          postgresql_password: envconf
-          postgresql_database: envconf
-          postgresql_admin_password: envconf
 
       - name: Cache local Maven repository
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
