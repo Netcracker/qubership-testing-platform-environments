@@ -94,6 +94,13 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Replace slash in service branch
+        id: replace_slash
+        run: |
+          service_branch="${GITHUB_REF_NAME//\//_}"
+          echo "Branch is: $service_branch"
+          echo "$service_branch" >> $GITHUB_ENV
+
       - name: Metadata
         id: metadata
         uses: netcracker/qubership-workflow-hub/actions/metadata-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
@@ -106,7 +113,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}, ${{ github.ref_name }}_latest
+          tags: ${{steps.metadata.outputs.result}}, ${{ github.service_branch }}_latest
           download-artifact: true
           download-artifact-path: build-context
           component: ${{ toJson(matrix.component) }}
