@@ -103,7 +103,7 @@ jobs:
             service_branch="${service_branch//\//_}"
           fi
           echo "Branch is: $service_branch"
-          echo "$service_branch" >> $GITHUB_ENV
+          echo "SERVICE_BRANCH=$service_branch" >> $GITHUB_ENV
 
       - name: Metadata
         id: metadata
