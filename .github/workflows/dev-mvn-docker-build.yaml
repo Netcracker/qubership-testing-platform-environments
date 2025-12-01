@@ -97,7 +97,11 @@ jobs:
       - name: Replace slash in service branch
         id: replace_slash
         run: |
-          service_branch="${GITHUB_REF_NAME//\//_}"
+          service_branch="$GITHUB_REF_NAME"
+
+          if [[ "$service_branch" == *"/"* ]]; then
+            service_branch="${service_branch//\//_}"
+          fi
           echo "Branch is: $service_branch"
           echo "$service_branch" >> $GITHUB_ENV
 
