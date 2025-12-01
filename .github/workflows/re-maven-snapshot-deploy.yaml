@@ -141,6 +141,13 @@ jobs:
           fi
           echo "ADDITIONAL_MVN_ARGS=${ADDITIONAL_MVN_ARGS}" >> $GITHUB_ENV
 
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'test_workflow'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
       - name: Postgres installation
         uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml
         with:
