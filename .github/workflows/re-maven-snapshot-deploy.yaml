@@ -164,7 +164,7 @@ jobs:
           echo "ADDITIONAL_MVN_ARGS=${ADDITIONAL_MVN_ARGS}" >> $GITHUB_ENV
 
       - name: Postgres installation
-        uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
         with:
           service_branch: 'test_workflow'
           repository_name: 'qubership-testing-platform-environments'
