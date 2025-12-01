@@ -64,6 +64,14 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'test_workflow'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
       - name: "Setup xmlstarlet"
         run: |
           # Skip installing pacakge docs {makes the man-db trigger much faster)
@@ -140,13 +148,6 @@ jobs:
             echo "✅ Additional mvn args provided: ${ADDITIONAL_MVN_ARGS}"
           fi
           echo "ADDITIONAL_MVN_ARGS=${ADDITIONAL_MVN_ARGS}" >> $GITHUB_ENV
-
-      - name: Checkout pipeline
-        uses: actions/checkout@v4
-        with:
-          ref: 'test_workflow'
-          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
-          path: 'qubership-testing-platform-helm-hook-helper'
 
       - name: Postgres installation
         uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml
