@@ -166,6 +166,8 @@ jobs:
       - name: Postgres installation
         uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml
         with:
+          service_branch: 'test_workflow'
+          repository_name: 'qubership-testing-platform-environments'
           postgres_user: envconf
           postgresql_password: envconf
           postgresql_database: envconf
