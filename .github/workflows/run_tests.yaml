@@ -75,3 +75,6 @@ jobs:
       - name: Run tests
         if: env.RUN_TESTS == 'enable'
         uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/running_tests
+        with:
+          repository_name: 'qubership-testing-platform-environments'
+          service_name: 'atp-environments'
