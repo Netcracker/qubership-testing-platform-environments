@@ -72,6 +72,20 @@ jobs:
           repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
           path: 'qubership-testing-platform-helm-hook-helper'
 
+      - name: Debug
+        shell: bash
+        if: always()
+        run: |
+          ls -la
+          pwd
+          cd qubership-testing-platform-helm-hook-helper
+          ls -la
+          cd .github
+          ls -la
+          cd workflows
+          ls -la
+          pwd
+
       - name: "Setup xmlstarlet"
         run: |
           # Skip installing pacakge docs {makes the man-db trigger much faster)
