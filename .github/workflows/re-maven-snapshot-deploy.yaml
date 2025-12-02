@@ -59,7 +59,7 @@ on:
 
 jobs:
   call_postgres:
-    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
     with:
       postgresql_user: envconf
       postgresql_password: envconf
