@@ -68,6 +68,7 @@ jobs:
 
   mvn-deploy:
     runs-on: ubuntu-latest
+    needs: [ call_postgres ]
 
     steps:
       - name: "Checkout code"
