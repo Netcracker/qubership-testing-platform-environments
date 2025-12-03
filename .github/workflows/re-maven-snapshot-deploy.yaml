@@ -58,14 +58,6 @@ on:
         required: false
 
 jobs:
-  call_postgres:
-    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/postgres-for-build.yaml@test_workflow
-    with:
-      postgresql_user: envconf
-      postgresql_password: envconf
-      postgresql_database: envconf
-      postgresql_admin_password: envconf
-
   mvn-deploy:
     runs-on: ubuntu-latest
     needs: [ call_postgres ]
@@ -90,6 +82,22 @@ jobs:
           path-exclude /usr/share/info/*
           EOF
           sudo apt install -y xmlstarlet
+
+
+      - name: Checkout pipeline
+        uses: actions/checkout@v4
+        with:
+          ref: 'test_workflow'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
+      - name: Postgres up
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        with:
+          postgresql_user: envconf
+          postgresql_password: envconf
+          postgresql_database: envconf
+          postgresql_admin_password: envconf
 
       - name: "Check that version is SNAPSHOT"
         shell: bash
