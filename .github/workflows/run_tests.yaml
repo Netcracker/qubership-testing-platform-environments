@@ -63,6 +63,7 @@ jobs:
           namespace: 'env'
           docker_tag: ${{ inputs.docker_tag }}
           postgres: enable
+          kafka: enable
 
       - name: Verify Environments installation
         uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/verify_installation
