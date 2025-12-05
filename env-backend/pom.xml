@@ -445,6 +445,12 @@
             <artifactId>byte-buddy</artifactId>
             <version>1.14.17</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>env-q-classes-generation</artifactId>
+            <version>${project.version}</version>
+            <classifier>pg</classifier>
+        </dependency>
     </dependencies>
 
     <build>
