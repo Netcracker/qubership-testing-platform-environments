@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.environments</groupId>
     <artifactId>atp-environments</artifactId>
-    <version>1.5.103-SNAPSHOT</version>
+    <version>1.5.98-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -51,7 +51,7 @@
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-environments.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments.git</developerConnection>
-        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments/tree/main</url>
+        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments.git</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -136,11 +136,6 @@
                     <name>GitHub Packages</name>
                     <url>https://maven.pkg.github.com/Netcracker/qubership-testing-platform-environments</url>
                 </repository>
-                <snapshotRepository>
-                    <id>github</id>
-                    <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/Netcracker/qubership-testing-platform-environments</url>
-                </snapshotRepository>
             </distributionManagement>
         </profile>
     </profiles>
