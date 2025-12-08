@@ -97,7 +97,7 @@ jobs:
           PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@3e428f45132119ce49d90f3770a45d4fe1d1078d #v2.0.4
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -158,7 +158,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@3e428f45132119ce49d90f3770a45d4fe1d1078d #v2.0.4
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -230,7 +230,7 @@ jobs:
     steps:
       - name: "Docker Build"
         id: docker_build
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@3e428f45132119ce49d90f3770a45d4fe1d1078d #v2.0.4
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           ref: v${{ needs.deploy.outputs.release-version }}
           download-artifact: true
