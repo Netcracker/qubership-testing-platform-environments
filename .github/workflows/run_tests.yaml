@@ -48,7 +48,7 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@v4
         with:
-          ref: 'test_workflow'
+          ref: 'main'
           repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
           path: 'qubership-testing-platform-helm-hook-helper'
 
@@ -68,8 +68,6 @@ jobs:
         uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/verify_installation
         with:
           namespace: 'env'
-          max_attempts: 40
-          timeout: '45s'
           service_branch: ${{ inputs.pipeline_branch }}
 
       - name: Run tests

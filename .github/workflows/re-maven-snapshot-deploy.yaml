@@ -63,14 +63,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-
-      - name: Checkout pipeline
-        uses: actions/checkout@v4
-        with:
-          ref: 'test_workflow'
-          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
-          path: 'qubership-testing-platform-helm-hook-helper'
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: "Setup xmlstarlet"
         run: |
@@ -83,9 +76,9 @@ jobs:
           sudo apt install -y xmlstarlet
 
       - name: Checkout pipeline
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          ref: 'test_workflow'
+          ref: 'main'
           repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
           path: 'qubership-testing-platform-helm-hook-helper'
 
@@ -180,7 +173,7 @@ jobs:
 
       # ================= Github packages deployment part
       - name: "Set up JDK for deployment"
-        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           java-version: ${{ inputs.java-version }}
           distribution: "temurin"
@@ -227,7 +220,7 @@ jobs:
 
       - name: "Upload artifact to GitHub Actions artifacts"
         if: ${{ inputs.upload-artifact != 'false' && inputs.artifact-id != '' }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: qubership-testing-platform-environments
           path: '**/target'
