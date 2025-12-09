@@ -56,11 +56,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log('=== Response Body ===');",
-              "console.log(pm.response.text());",
               "const json = pm.response.json();",
               "pm.environment.set('created_id', json[0].id);",
-              "console.log('Saved ID:', json[0].id);"
+              "console.log('Saved ID:', json[0].id);",
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -100,7 +103,10 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "console.log('Response body:', pm.response.text());"
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -138,8 +144,8 @@
       ]
     },
     {
-    "name": "POST /api/projects/{{created_id}}/tools",
-    "request": {
+      "name": "POST /api/projects/{{created_id}}/tools",
+      "request": {
         "method": "POST",
         "header": [
           {
@@ -171,7 +177,10 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "console.log('Response body:', pm.response.text());"
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -216,7 +225,10 @@
             "type": "text/javascript",
             "exec": [
               "console.log('Status:', pm.response.code);",
-              "console.log('Response body:', pm.response.text());"
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }

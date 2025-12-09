@@ -18,6 +18,9 @@ on:
         required: true
         default: 'main'
 
+env:
+  RUN_TESTS: enable
+
 jobs:
   Clean_Install_Environments:
     runs-on: ubuntu-latest
@@ -27,7 +30,7 @@ jobs:
         id: get_branch
         run: |
       - name: Checkout pipeline
-        uses: actions/checkout@v6
+        uses: actions/checkout8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: 'main'
           repository: 'Netcracker/qubership-test-pipelines'
@@ -36,14 +39,21 @@ jobs:
         uses: ./qubership-test-pipelines/actions/shared/create_cluster
 
       - name: Checkout pipeline
-        uses: actions/checkout@v6
+        uses: actions/checkout8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: ${{ inputs.pipeline_branch }}
           repository: 'Netcracker/qubership-testing-platform-environments'
           path: 'qubership-testing-platform-environments'
 
+      - name: Checkout pipeline
+        uses: actions/checkout8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
       - name: Clean Install Environments
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/helm_deploy
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/helm_deploy
         with:
           path_to_template: './qubership-testing-platform-environments/.github/deploy_templates/values-dev.yaml'
           service_branch: ${{ inputs.pipeline_branch }}
@@ -52,14 +62,17 @@ jobs:
           path_to_chart: 'deployments/charts/atp-environments'
           namespace: 'env'
           docker_tag: ${{ inputs.docker_tag }}
+          postgres: enable
 
       - name: Verify Environments installation
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/verify_installation
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/verify_installation
         with:
           namespace: 'env'
-          max_attempts: 40
-          timeout: '45s'
           service_branch: ${{ inputs.pipeline_branch }}
 
       - name: Run tests
-        uses: ./qubership-testing-platform-environments/.github/actions/shared/running_tests
+        if: env.RUN_TESTS == 'enable'
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/shared/running_tests
+        with:
+          repository_name: 'qubership-testing-platform-environments'
+          service_name: 'atp-environments'

@@ -17,12 +17,27 @@ on:
         type: string
         description: "Target store for the artifact"
         required: false
-        default: "maven-central"
+        default: "github"
       additional-mvn-args:
         type: string
         description: "Additional mvn cmd-line params (e.g. '-Dskip.tests=false')"
         required: false
         default: ""
+      working-directory:
+        type: string
+        description: "Working directory for the action"
+        required: false
+        default: ""
+      pom-file:
+        type: string
+        description: "Path to the pom.xml file"
+        required: false
+        default: "pom.xml"
+      upload-artifact:
+        type: string
+        description: "Upload the built artifact to GitHub Actions artifacts"
+        required: false
+        default: 'true'
       artifact-id:
         default: artifact
         required: false
@@ -40,25 +55,11 @@ on:
 jobs:
   mvn-deploy:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: envconf
-          POSTGRESQL_PASSWORD: envconf
-          POSTGRESQL_DATABASE: envconf
-          POSTGRESQL_ADMIN_PASSWORD: envconf
-        options: >-
-          --health-cmd="pg_isready -U envconf -d envconf"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
 
     steps:
       - name: "Checkout code"
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
       - name: "Setup xmlstarlet"
         run: |
           # Skip installing pacakge docs {makes the man-db trigger much faster)
@@ -69,34 +70,68 @@ jobs:
           EOF
           sudo apt install -y xmlstarlet
 
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
+      - name: Postgres up
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        with:
+          postgresql_user: envconf
+          postgresql_password: envconf
+          postgresql_database: envconf
+          postgresql_admin_password: envconf
+
       - name: "Check that version is SNAPSHOT"
         shell: bash
         run: |
+          echo "ℹ️ The target store is '${{ inputs.target-store }}'. Relevant only for 'deploy' command." >> $GITHUB_STEP_SUMMARY
           cd ${GITHUB_WORKSPACE}
           VERSION_CHECK=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version[contains(., '{revision}')]" ./pom.xml || echo "")
           # If project/version is not a reference to project/properties/revision, then check project/version if it contains '-SNAPSHOT'
           # Else check project/properties/revision if it contains '-SNAPSHOT'
           if [[ "${VERSION_CHECK}" == "" ]]
           then
-            IS_SNAPSHOT=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version[contains(., '-SNAPSHOT')]" ./pom.xml || echo "")
+            IS_SNAPSHOT=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:version[contains(., '-SNAPSHOT')]" ./${{ inputs.pom-file }} || echo "")
           else
-            IS_SNAPSHOT=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:properties/x:revision[contains(., '-SNAPSHOT')]" ./pom.xml || echo "")
+            IS_SNAPSHOT=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:properties/x:revision[contains(., '-SNAPSHOT')]" ./${{ inputs.pom-file }} || echo "")
           fi
           if [[ "${IS_SNAPSHOT}" == "" ]]
           then
-            echo "ℹ️ The project's version in the pom.xml has no '-SNAPSHOT' postfix." >> $GITHUB_STEP_SUMMARY
+            echo "ℹ️ The project's version in the ${{ inputs.pom-file }} has no '-SNAPSHOT' postfix." >> $GITHUB_STEP_SUMMARY
             echo "ℹ️ Workflow will not deploy any artifacts. It will execute 'mvn install' command." >> $GITHUB_STEP_SUMMARY
-            echo "ℹ️ The project's version in the pom.xml has no '-SNAPSHOT' postfix."
+            echo "ℹ️ The project's version in the ${{ inputs.pom-file }} has no '-SNAPSHOT' postfix."
             echo "ℹ️ Workflow will not deploy any artifacts. It will execute 'mvn install' command."
             echo "IS_SNAPSHOT=false" >> $GITHUB_ENV
             echo "MVN_COMMAND=install" >> $GITHUB_ENV
           else
-            echo "✅ The project's version in the pom.xml has '-SNAPSHOT' postfix" >> $GITHUB_STEP_SUMMARY
+            echo "✅ The project's version in the ${{ inputs.pom-file }} has '-SNAPSHOT' postfix" >> $GITHUB_STEP_SUMMARY
             echo "✅ Workflow will deploy SNAPSHOT artifact" >> $GITHUB_STEP_SUMMARY
-            echo "✅ The project's version in the pom.xml has '-SNAPSHOT' postfix."
+            echo "✅ The project's version in the ${{ inputs.pom-file }} has '-SNAPSHOT' postfix."
             echo "✅ Workflow will deploy SNAPSHOT artifact"
             echo "IS_SNAPSHOT=true" >> $GITHUB_ENV
             echo "MVN_COMMAND=deploy" >> $GITHUB_ENV
+          fi
+
+      - name: "Check if ${{ inputs.target-store }} profile exists in ${{ inputs.pom-file }}"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          echo "ℹ️ Checking if the '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}" >> $GITHUB_STEP_SUMMARY
+          PROFILE_CHECK=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v "/x:project/x:profiles/x:profile[x:id='${{ inputs.target-store }}']" ./${{ inputs.pom-file }} || echo "")
+          if [[ "${PROFILE_CHECK}" == "" ]]
+          then
+          echo "ℹ️ The '${{ inputs.target-store }}' profile does not exist in ${{ inputs.pom-file }}. Please create it if you plan to deploy artifacts." >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ The detailed instruction: https://github.com/Netcracker/.github/blob/main/docs/maven-publish-pom-preparation_doc.md" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ The '${{ inputs.target-store }}' profile does not exist in ${{ inputs.pom-file }}. Please create it if you plan to deploy artifacts."
+          echo "MVN_PROFILE=" >> $GITHUB_ENV
+          else
+          echo "✅ The '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ The '${{ inputs.target-store }}' profile exists in ${{ inputs.pom-file }}"
+          echo "MVN_PROFILE=-P${{ inputs.target-store }}" >> $GITHUB_ENV
           fi
 
       - name: "Setup mvn additional args"
@@ -117,22 +152,6 @@ jobs:
           fi
           echo "ADDITIONAL_MVN_ARGS=${ADDITIONAL_MVN_ARGS}" >> $GITHUB_ENV
 
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U envconf -d envconf; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
-
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-
       - name: Cache local Maven repository
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
@@ -147,30 +166,55 @@ jobs:
         with:
           maven-version: ${{ inputs.maven-version }}
 
-      # ================= Maven Central deployment part
-      - name: "Set up JDK for Maven Central deployment"
-        if: ${{ inputs.target-store == 'maven-central' }}
+      # ================= Github packages deployment part
+      - name: "Set up JDK for deployment"
         uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           java-version: ${{ inputs.java-version }}
           distribution: "temurin"
-          server-id: central
+          server-id: ${{ inputs.target-store }}
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.gpg-private-key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: "Deploy to Maven Central"
-        if: ${{ inputs.target-store == 'maven-central' }}
+      - name: "Additional GitHub repository configuration"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
         run: |
-          mvn --batch-mode ${{ env.MVN_COMMAND }} ${ADDITIONAL_MVN_ARGS}
+          if [ -n "$(xmlstarlet sel -N x="http://maven.apache.org/SETTINGS/1.0.0" -t -v "/x:settings/x:servers/x:server[x:id='github']" ~/.m2/settings.xml)" ]; then
+            echo "ℹ️ GitHub server configuration already exists in ~/.m2/settings.xml"
+          else
+            echo "✅ Adding GitHub server configuration to ~/.m2/settings.xml"
+            xmlstarlet ed -L -N x="http://maven.apache.org/SETTINGS/1.0.0" -s "/x:settings/x:servers" -t elem -n "serverNew" -v '' \
+            -s "//serverNew" -t elem -n "id" -v "github" \
+            -s "//serverNew" -t elem -n "username" -v '${env.GITHUB_ACTOR}' \
+            -s "//serverNew" -t elem -n "password" -v '${env.GITHUB_TOKEN}' \
+            -r "//serverNew" -v "server" \
+            ~/.m2/settings.xml
+          fi
+          cat ~/.m2/settings.xml
+
+      - name: "Execute Maven command"
+        shell: bash
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          if [[ "${{ inputs.pom-file }}" == "" || "${{ inputs.pom-file }}" == "pom.xml" ]]; then
+            echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'." >> $GITHUB_STEP_SUMMARY
+            echo "ℹ️ No pom.xml file specified. Using default 'pom.xml'."
+            POM_FILE=""
+          else
+            POM_FILE="-f ${{ inputs.pom-file }}"
+          fi
+          echo "ℹ️ Executing Maven command: mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}" >> $GITHUB_STEP_SUMMARY
+          mvn --batch-mode ${MVN_COMMAND} ${MVN_PROFILE} ${ADDITIONAL_MVN_ARGS} ${POM_FILE}
         env:
-          MAVEN_USERNAME: ${{ secrets.maven-username }}
-          MAVEN_PASSWORD: ${{ secrets.maven-token }}
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
 
-      - name: Upload all Maven target directories
-        if: ${{ inputs.target-store == 'maven-central' }}
+      - name: "Upload artifact to GitHub Actions artifacts"
+        if: ${{ inputs.upload-artifact != 'false' && inputs.artifact-id != '' }}
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: qubership-testing-platform-environments

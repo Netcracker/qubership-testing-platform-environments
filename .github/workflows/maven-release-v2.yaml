@@ -63,38 +63,22 @@ permissions:
 jobs:
   dry-run-build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: envconf
-          POSTGRESQL_PASSWORD: envconf
-          POSTGRESQL_DATABASE: envconf
-          POSTGRESQL_ADMIN_PASSWORD: envconf
-        options: >-
-          --health-cmd="pg_isready -U envconf -d envconf"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
 
     steps:
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U envconf -d envconf; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
 
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+      - name: Postgres up
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        with:
+          postgresql_user: envconf
+          postgresql_password: envconf
+          postgresql_database: envconf
+          postgresql_admin_password: envconf
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
         uses: netcracker/qubership-workflow-hub/actions/maven-release@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
@@ -118,36 +102,22 @@ jobs:
     outputs:
       release-version: ${{ steps.build-and-publish.outputs.release-version }}
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: envconf
-          POSTGRESQL_PASSWORD: envconf
-          POSTGRESQL_DATABASE: envconf
-          POSTGRESQL_ADMIN_PASSWORD: envconf
-        options: >-
-          --health-cmd="pg_isready -U envconf -d envconf"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
+
     steps:
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U envconf -d envconf; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=envconf psql -h localhost -U postgres -d envconf -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
+      - name: Postgres up
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        with:
+          postgresql_user: envconf
+          postgresql_password: envconf
+          postgresql_database: envconf
+          postgresql_admin_password: envconf
 
       - name: "Prepare app token"
         uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf #v2.2.1
