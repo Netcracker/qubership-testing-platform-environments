@@ -30,7 +30,8 @@
         <shedlock.spring>4.11.1</shedlock.spring>
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
-        <tomcat-embed.version>9.0.108</tomcat-embed.version>
+        <tomcat-embed.version>9.0.109</tomcat-embed.version>
+        <undertow.version>2.2.38.Final</undertow.version>
 
         <atp.common.version>0.0.43</atp.common.version>
         <atp.auth.version>1.2.75</atp.auth.version>
@@ -321,7 +322,7 @@
             <dependency>
                 <groupId>net.minidev</groupId>
                 <artifactId>json-smart</artifactId>
-                <version>2.2.1</version>
+                <version>2.4.9</version>
             </dependency>
             <dependency>
                 <groupId>org.qubership.atp</groupId>
@@ -439,7 +440,17 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.36.Final</version>
+                <version>${undertow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-servlet</artifactId>
+                <version>${undertow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-websockets-jsr</artifactId>
+                <version>${undertow.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
