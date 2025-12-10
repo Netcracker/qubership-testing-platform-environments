@@ -31,19 +31,40 @@ permissions:
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name || github.ref }}
+  additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
 
 jobs:
   mvn-snapshot-deploy:
-    uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
-    with:
-      java-version: "21"
-      additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
-      target-store: "github"
-    secrets:
-      maven-username: ${{ secrets.MAVEN_USER }}
-      maven-token: ${{ secrets.MAVEN_PASSWORD }}
-      gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-      gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
+
+      - name: Postgres up
+        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        with:
+          postgresql_user: envconf
+          postgresql_password: envconf
+          postgresql_database: envconf
+          postgresql_admin_password: envconf
+
+      - name: Maven Docker build
+        id: maven_build
+        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
+        with:
+          java-version: "21"
+          additional-mvn-args: ${{ inputs.additional-mvn-args }}
+          target-store: "github"
+          upload-artifact: 'true'
+        secrets:
+          maven-username: ${{ secrets.MAVEN_USER }}
+          maven-token: ${{ secrets.MAVEN_PASSWORD }}
+          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
   load-docker-build-components:
     runs-on: ubuntu-latest
