@@ -64,8 +64,8 @@ jobs:
           target-store: "github"
           upload-artifact: 'true'
         env:
-          maven-username: ${{ github.actor }}
-          maven-token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           gpg-passphrase: ${{ secrets.gpg-passphrase }}
 
   load-docker-build-components:
