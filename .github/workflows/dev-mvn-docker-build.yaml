@@ -62,7 +62,7 @@ jobs:
           java-version: "21"
           additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
           target-store: "github"
-          upload-artifact: 'true'"-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
+          upload-artifact: 'true'
         env:
           actor: ${{ github.ACTOR }}
           token: ${{ secrets.GITHUB_TOKEN }}
