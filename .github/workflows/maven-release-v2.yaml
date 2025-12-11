@@ -221,7 +221,7 @@ jobs:
       publish: true
 
   run-tests:
-    needs: [ build-and-push ]
+    needs: [ docker-build ]
     if: ${{ needs.build-and-push.result == 'success' }}
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yaml@main
     with:
