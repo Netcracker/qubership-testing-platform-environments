@@ -140,10 +140,20 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}, ${{ github.SERVICE_BRANCH }}_latest
+          tags: ${{steps.metadata.outputs.result}}, ${{ env.SERVICE_BRANCH }}_latest
           download-artifact: true
           download-artifact-path: build-context
           component: ${{ toJson(matrix.component) }}
           platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  run-tests:
+    needs: [ build-and-push ]
+    if: ${{ needs.build-and-push.result == 'success' }}
+    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yml@main
+    with:
+      repository_name: 'qubership-testing-platform-environments'
+      service_name: 'atp-environments'
+      namespace: 'env'
+      enable_test: enable
