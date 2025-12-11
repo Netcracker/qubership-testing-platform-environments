@@ -60,7 +60,7 @@ jobs:
         uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@fix/maven-snapshot-action
         with:
           java-version: "21"
-          additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
+          additional-mvn-args: ${{ env.additional-mvn-args }}
           target-store: "github"
           upload-artifact: 'true'
           maven-username: ${{ github.ACTOR }}
