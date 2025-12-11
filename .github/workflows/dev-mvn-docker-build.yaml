@@ -151,7 +151,7 @@ jobs:
   run-tests:
     needs: [ build-and-push ]
     if: ${{ needs.build-and-push.result == 'success' }}
-    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yml@main
+    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yml@test_workflow
     with:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
