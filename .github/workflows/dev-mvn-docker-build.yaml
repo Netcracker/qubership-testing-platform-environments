@@ -57,12 +57,12 @@ jobs:
 
       - name: Maven Docker build
         id: maven_build
-        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
+        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@fix/maven-snapshot-action
         with:
           java-version: "21"
           additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
           target-store: "github"
-          upload-artifact: 'true'
+          upload-artifact: 'true'"-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/envconf -Dpg.jdbc.User=envconf -Dpg.jdbc.Password=envconf"
         env:
           actor: ${{ github.ACTOR }}
           token: ${{ secrets.GITHUB_TOKEN }}
