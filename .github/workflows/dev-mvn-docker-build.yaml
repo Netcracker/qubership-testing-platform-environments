@@ -64,12 +64,10 @@ jobs:
           target-store: "github"
           upload-artifact: 'true'
         env:
-          actor: ${{ github.ACTOR }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          gpg-passphrase: ${{ secrets.gpg-passphrase }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG-PASSPHRASE }}
-          MAVEN_USERNAME: ${{ github.ACTOR }}
-          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          maven-username: ${{ github.ACTOR }}
+          maven-token: ${{ secrets.GITHUB_TOKEN }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG-PASSPHRASE }
 
   load-docker-build-components:
     runs-on: ubuntu-latest
