@@ -64,8 +64,8 @@ jobs:
           target-store: "github"
           upload-artifact: 'true'
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          actor: ${{ github.ACTOR }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           gpg-passphrase: ${{ secrets.gpg-passphrase }}
 
   load-docker-build-components:
