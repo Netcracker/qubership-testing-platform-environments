@@ -43,7 +43,7 @@ jobs:
       - name: Checkout pipeline
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          ref: 'main'
+          ref: 'test_workflow'
           repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
           path: 'qubership-testing-platform-helm-hook-helper'
 
@@ -151,7 +151,7 @@ jobs:
   run-tests:
     needs: [ build-and-push ]
     if: ${{ needs.build-and-push.result == 'success' }}
-    uses: ./qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yaml@test_workflow
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yaml@test_workflow
     with:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
