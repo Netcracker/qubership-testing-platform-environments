@@ -57,17 +57,16 @@ jobs:
 
       - name: Maven Docker build
         id: maven_build
-        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
+        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@fix/maven-snapshot-action
         with:
           java-version: "21"
-          additional-mvn-args: ${{ inputs.additional-mvn-args }}
+          additional-mvn-args: ${{ env.additional-mvn-args }}
           target-store: "github"
           upload-artifact: 'true'
-        env:
-          maven-username: ${{ secrets.MAVEN_USER }}
-          maven-token: ${{ secrets.MAVEN_PASSWORD }}
-          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          maven-username: ${{ github.ACTOR }}
+          maven-token: ${{ secrets.GITHUB_TOKEN }}
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG-PASSPHRASE }}
 
   load-docker-build-components:
     runs-on: ubuntu-latest
@@ -141,7 +140,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}, ${{ github.SERVICE_BRANCH }}_latest
+          tags: ${{steps.metadata.outputs.result}}, ${{ env.SERVICE_BRANCH }}_latest
           download-artifact: true
           download-artifact-path: build-context
           component: ${{ toJson(matrix.component) }}
