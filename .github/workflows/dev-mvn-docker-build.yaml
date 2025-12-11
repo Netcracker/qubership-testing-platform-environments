@@ -67,6 +67,9 @@ jobs:
           actor: ${{ github.ACTOR }}
           token: ${{ secrets.GITHUB_TOKEN }}
           gpg-passphrase: ${{ secrets.gpg-passphrase }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+          MAVEN_USERNAME: ${{ github.ACTOR }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
   load-docker-build-components:
     runs-on: ubuntu-latest
