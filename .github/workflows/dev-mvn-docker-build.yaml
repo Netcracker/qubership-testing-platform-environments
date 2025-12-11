@@ -67,7 +67,7 @@ jobs:
           actor: ${{ github.ACTOR }}
           token: ${{ secrets.GITHUB_TOKEN }}
           gpg-passphrase: ${{ secrets.gpg-passphrase }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg-passphrase }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG-PASSPHRASE }}
           MAVEN_USERNAME: ${{ github.ACTOR }}
           MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
