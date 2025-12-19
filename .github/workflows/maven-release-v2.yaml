@@ -223,7 +223,7 @@ jobs:
   run-tests:
     needs: [ docker-build ]
     if: ${{ needs.build-and-push.result == 'success' }}
-    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/run_tests.yaml@main
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
