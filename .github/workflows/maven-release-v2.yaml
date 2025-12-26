@@ -73,7 +73,7 @@ jobs:
           path: 'qubership-testing-platform-helm-hook-helper'
 
       - name: Postgres up
-        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build@e1cd991e40882890c89d400b837b4e40e8467200 # v1.0.1
         with:
           postgresql_user: envconf
           postgresql_password: envconf
@@ -112,7 +112,7 @@ jobs:
           path: 'qubership-testing-platform-helm-hook-helper'
 
       - name: Postgres up
-        uses: ./qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build@e1cd991e40882890c89d400b837b4e40e8467200 # v1.0.1
         with:
           postgresql_user: envconf
           postgresql_password: envconf
@@ -223,10 +223,11 @@ jobs:
   run-tests:
     needs: [ docker-build ]
     if: ${{ needs.docker-build.result == 'success' }}
-    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@e1cd991e40882890c89d400b837b4e40e8467200 # v1.0.1
     with:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
       namespace: 'env'
       pipeline_branch: 'main'
+      postgres: enable
       enable_test: enable
