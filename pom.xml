@@ -123,8 +123,6 @@
                 </repository>
             </distributionManagement>
         </profile>
-
-
         <profile>
             <id>github</id>
             <activation>
@@ -229,8 +227,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-
     <pluginRepositories>
         <pluginRepository>
             <id>oss.sonatype.org</id>
