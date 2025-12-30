@@ -44,7 +44,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.ClientConnectionStrategyConfig;
-import com.hazelcast.com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheBuilder;
 import com.hazelcast.core.DistributedObject;
 import com.hazelcast.core.HazelcastInstance;
 import lombok.extern.slf4j.Slf4j;
