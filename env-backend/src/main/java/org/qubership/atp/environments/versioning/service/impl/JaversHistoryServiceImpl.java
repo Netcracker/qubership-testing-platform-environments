@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.javers.core.Changes;
 import org.javers.core.ChangesByCommit;
 import org.javers.core.Javers;
@@ -88,9 +88,7 @@ public class JaversHistoryServiceImpl implements JaversHistoryService {
                 .stream()
                 .filter(change -> change instanceof PropertyChange)
                 .map(change -> (PropertyChange) change)
-                .forEach((PropertyChange change) -> {
-                    putChangeToHistoryItem(change, historyItemDto);
-                });
+                .forEach((PropertyChange change) -> putChangeToHistoryItem(change, historyItemDto));
         log.trace("Created historyItem. Input parameters: id = {}, type = {}, changesByCommit = {}. Result = {}",
                 id, type, changesByCommit, historyItemDto);
         return historyItemDto;

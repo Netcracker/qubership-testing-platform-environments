@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.ei.node.ImportExecutor;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ValidationResult;
@@ -57,7 +57,7 @@ public class EnvironmentsImportExecutor implements ImportExecutor {
     }
 
     @Override
-    public ValidationResult preValidateData(ExportImportData exportImportData, Path workDir) throws Exception {
+    public ValidationResult preValidateData(ExportImportData exportImportData, Path workDir) {
         log.info("Starting environments pre validation(workDir: {})", workDir);
         List<String> messages = environmentsImporter.preValidateEnvironments(workDir,
                 exportImportData.isInterProjectImport(),
@@ -67,7 +67,7 @@ public class EnvironmentsImportExecutor implements ImportExecutor {
     }
 
     @Override
-    public ValidationResult validateData(ExportImportData importData, Path workDir) throws Exception {
+    public ValidationResult validateData(ExportImportData importData, Path workDir) {
         Map<UUID, UUID> repMap = new HashMap<>(importData.getReplacementMap());
         List<String> messages = new ArrayList<>();
         if (importData.isImportFirstTime()) {

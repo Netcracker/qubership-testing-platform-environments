@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.environments.ei.model.Environment;
 import org.qubership.atp.environments.ei.model.System;
 import org.qubership.atp.environments.model.Identified;

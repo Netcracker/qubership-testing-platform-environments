@@ -22,7 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
+
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
 import org.qubership.atp.environments.enums.MdcField;
 import org.qubership.atp.integration.configuration.mdc.MdcUtils;
@@ -63,7 +64,7 @@ public class WebSocketSystemStatusUpdateController {
         try {
             webSocketSystemStatusService.processRequest(systemStatusRequest);
         } catch (FeignClientException e) {
-            log.error("Feign client exception in WS controller /system, msg: {}", e.getErrorMessage());
+            log.error("Feign client exception in WS controller/system, msg: {}", e.getErrorMessage());
             throw e;
         }
         }
