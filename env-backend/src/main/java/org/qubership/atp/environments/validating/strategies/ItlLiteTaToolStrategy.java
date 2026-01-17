@@ -19,8 +19,8 @@ package org.qubership.atp.environments.validating.strategies;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;

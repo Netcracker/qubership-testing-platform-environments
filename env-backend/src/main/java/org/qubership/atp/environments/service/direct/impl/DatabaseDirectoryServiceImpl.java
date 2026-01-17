@@ -18,8 +18,9 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.qubership.atp.environments.model.DatabaseDirectory;
 import org.qubership.atp.environments.repo.impl.DatabaseDirectoryRepositoryImpl;
 import org.qubership.atp.environments.service.direct.DatabaseDirectoryService;
@@ -38,11 +39,11 @@ public class DatabaseDirectoryServiceImpl implements DatabaseDirectoryService {
 
     @Nullable
     @Override
-    public DatabaseDirectory getName(@NotNull String name) {
+    public DatabaseDirectory getName(@Nonnull String name) {
         return databaseDirectoryRepository.getByName(name);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<DatabaseDirectory> getAll() {
         return databaseDirectoryRepository.getAll();

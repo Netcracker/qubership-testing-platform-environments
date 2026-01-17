@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  @Slf4j
  public class ConsistentControllerApiUnitTest {
 
-     final static List<String> controllersPackage = Arrays.asList("org.qubership.atp.environments.service.rest.server");
+     final static List<String> controllersPackage = Collections.singletonList("org.qubership.atp.environments.service.rest.server");
      final static String apiPackage = "org.qubership.atp.environments.service.rest.server.generated";
 
      final static Map<Class, List<String>> ctrlMethodsToSkip = new HashMap<>();
@@ -92,10 +93,7 @@ import lombok.extern.slf4j.Slf4j;
          return method.isAnnotationPresent(RequestMapping.class)
                  || method.isAnnotationPresent(PostMapping.class)
                  || method.isAnnotationPresent(PutMapping.class)
-                 || method.isAnnotationPresent(PostMapping.class)
                  || method.isAnnotationPresent(DeleteMapping.class)
-                 || method.isAnnotationPresent(GetMapping.class)
-                 || method.isAnnotationPresent(GetMapping.class)
                  || method.isAnnotationPresent(GetMapping.class)
                  || method.isAnnotationPresent(PatchMapping.class);
      }

@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,7 +39,6 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 import org.qubership.atp.environments.enums.MdcField;
@@ -212,18 +212,20 @@ public class EnvironmentServiceImpl implements EnvironmentService {
 
     private HashMap<UUID, UUID> getMapReferencesToCopy(Environment environmentToCopy, UUID newEnvironmentId) {
         HashMap<UUID, UUID> referencesMap = new HashMap<>();
-        environmentToCopy.getSystems().stream()
-                .filter(system -> system.getLinkToSystemId() != null)
-                .forEach(system -> {
-                    if (!referencesMap.containsKey(system.getLinkToSystemId())) {
-                        System parentSystem = getParentSystem(environmentToCopy, system.getLinkToSystemId());
-                        if (nonNull(parentSystem)) {
-                            referencesMap.put(parentSystem.getId(),
-                                    createSystem(newEnvironmentId, parentSystem).getId());
+        if (environmentToCopy.getSystems() != null) {
+            environmentToCopy.getSystems().stream()
+                    .filter(system -> system.getLinkToSystemId() != null)
+                    .forEach(system -> {
+                        if (!referencesMap.containsKey(system.getLinkToSystemId())) {
+                            System parentSystem = getParentSystem(environmentToCopy, system.getLinkToSystemId());
+                            if (nonNull(parentSystem)) {
+                                referencesMap.put(parentSystem.getId(),
+                                        createSystem(newEnvironmentId, parentSystem).getId());
+                            }
                         }
-                    }
-                });
-        environmentToCopy.getSystems().removeIf(system -> referencesMap.containsKey(system.getId()));
+                    });
+            environmentToCopy.getSystems().removeIf(system -> referencesMap.containsKey(system.getId()));
+        }
         return referencesMap;
     }
 
@@ -259,16 +261,18 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                 categoryId,
                 tags);
         HashMap<UUID, UUID> referencesMap = getMapReferencesToCopy(toCopy, newEnv.getId());
-        toCopy.getSystems().forEach(system -> {
-            if (system.getEnvironments().size() > 1 && toCopy.getProjectId().equals(projectId)) {
-                systemRepository.share(system.getId(), newEnv, dateTimeUtil.timestampAsUtc(), userId);
-            } else {
-                if (nonNull(system.getLinkToSystemId())) {
-                    system.setLinkToSystemId(referencesMap.get(system.getLinkToSystemId()));
+        if (toCopy.getSystems() != null) {
+            toCopy.getSystems().forEach(system -> {
+                if (system.getEnvironments().size() > 1 && toCopy.getProjectId().equals(projectId)) {
+                    systemRepository.share(system.getId(), newEnv, dateTimeUtil.timestampAsUtc(), userId);
+                } else {
+                    if (nonNull(system.getLinkToSystemId())) {
+                        system.setLinkToSystemId(referencesMap.get(system.getLinkToSystemId()));
+                    }
+                    createSystem(newEnv.getId(), system);
                 }
-                createSystem(newEnv.getId(), system);
-            }
-        });
+            });
+        }
         return newEnv;
     }
 
@@ -325,9 +329,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                 null,
                 null,
                 null);
-        system.getConnections().forEach(connection -> {
-            createConnection(newSys.getId(), connection);
-        });
+        system.getConnections().forEach(connection -> createConnection(newSys.getId(), connection));
     }
 
     private void createConnection(UUID systemId, ConnectionTemporaryDto connection) {
@@ -412,16 +414,18 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                         sourceEnv.getProjectId(),
                         this.categoryId,
                         sourceEnv.getTags());
-        sourceEnv.getSystems().forEach(system -> {
-            System toCopy = createSystem(temporaryEnv.getId(), system);
-            Optional<SystemTemporaryDto> toMerge = systemList.stream()
-                    .filter(sysUpd -> sysUpd.getName().equals(toCopy.getName()))
-                    .findAny();
-            if (toMerge.isPresent()) {
-                updateSystem(toCopy, toMerge.get().getSystemCategory(), toMerge.get().getConnections());
-                systemList.remove(toMerge.get());
-            }
-        });
+        if (sourceEnv.getSystems() != null) {
+            sourceEnv.getSystems().forEach(system -> {
+                System toCopy = createSystem(temporaryEnv.getId(), system);
+                Optional<SystemTemporaryDto> toMerge = systemList.stream()
+                        .filter(sysUpd -> sysUpd.getName().equals(toCopy.getName()))
+                        .findAny();
+                if (toMerge.isPresent()) {
+                    updateSystem(toCopy, toMerge.get().getSystemCategory(), toMerge.get().getConnections());
+                    systemList.remove(toMerge.get());
+                }
+            });
+        }
         systemList.forEach(sysNew -> createSystem(temporaryEnv.getId(), sysNew));
         return temporaryEnv;
     }
@@ -438,7 +442,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     }
 
     @Override
-    public List<Environment> getByProjectId(@NotNull UUID projectId) {
+    public List<Environment> getByProjectId(@Nonnull UUID projectId) {
         return environmentRepository.getAllByParentId(projectId);
     }
 
@@ -616,13 +620,13 @@ public class EnvironmentServiceImpl implements EnvironmentService {
             // Add deployment-parameters.yaml
             ZipEntry deploymentEntry = new ZipEntry("deployment-parameters.yaml");
             zos.putNextEntry(deploymentEntry);
-            zos.write(deploymentParamsYaml.getBytes("UTF-8"));
+            zos.write(deploymentParamsYaml.getBytes(StandardCharsets.UTF_8));
             zos.closeEntry();
             
             // Add credentials.yaml
             ZipEntry credentialsEntry = new ZipEntry("credentials.yaml");
             zos.putNextEntry(credentialsEntry);
-            zos.write(credentialsYaml.getBytes("UTF-8"));
+            zos.write(credentialsYaml.getBytes(StandardCharsets.UTF_8));
             zos.closeEntry();
             
             zos.finish();

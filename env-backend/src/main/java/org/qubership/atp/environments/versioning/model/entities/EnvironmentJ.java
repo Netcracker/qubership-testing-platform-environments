@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.javers.core.metamodel.annotation.TypeName;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.Identified;

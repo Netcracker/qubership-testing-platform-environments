@@ -21,7 +21,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jetbrains.annotations.NotNull;
 import org.qubership.atp.environments.model.UserSetting;
 
 public interface UserSettingService {
@@ -29,7 +28,7 @@ public interface UserSettingService {
     @Nullable
     UserSetting get(@Nonnull UUID userId);
 
-    UserSetting create(@NotNull UUID userId, @NotNull UserSetting.ViewType view);
+    UserSetting create(@Nonnull UUID userId, @Nonnull UserSetting.ViewType view);
 
-    UserSetting update(@NotNull UUID userId, @NotNull UserSetting.ViewType view);
+    UserSetting update(@Nonnull UUID userId, @Nonnull UserSetting.ViewType view);
 }

@@ -18,8 +18,9 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.qubership.atp.environments.model.UserSetting;
 import org.qubership.atp.environments.repo.impl.UserSettingRepositoryImpl;
 import org.qubership.atp.environments.service.direct.UserSettingService;
@@ -35,17 +36,17 @@ public class UserSettingServiceImpl implements UserSettingService {
 
     @Nullable
     @Override
-    public UserSetting get(@NotNull UUID userId) {
+    public UserSetting get(@Nonnull UUID userId) {
         return userSettingRepository.getByUserId(userId);
     }
 
     @Override
-    public UserSetting create(@NotNull UUID userId, @NotNull UserSetting.ViewType view) {
+    public UserSetting create(@Nonnull UUID userId, @Nonnull UserSetting.ViewType view) {
         return userSettingRepository.create(userId, view.getName());
     }
 
     @Override
-    public UserSetting update(@NotNull UUID userId, @NotNull UserSetting.ViewType view) {
+    public UserSetting update(@Nonnull UUID userId, @Nonnull UserSetting.ViewType view) {
         return userSettingRepository.update(userId, view.getName());
     }
 

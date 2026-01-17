@@ -33,6 +33,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 import org.qubership.atp.environments.config.HazelcastConfig;
@@ -54,7 +55,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import clover.org.apache.commons.collections.map.CaseInsensitiveMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
@@ -187,7 +187,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         return create(systemId, name, description, parameters, connectionType, sourceTemplateId, null, services);
     }
 
-
     @Nonnull
     @Override
     public Connection replicate(@Nonnull UUID systemId, UUID connectionId, @Nonnull String name, String description,
@@ -302,7 +301,6 @@ public class ConnectionServiceImpl implements ConnectionService {
                 userInfoProvider.get().getId(), services);
     }
 
-
     @Override
     public void validateTaEngineProviderParameters(UUID sourceTemplateId, ConnectionParameters parameters) {
         if (parameters.validationIsEnabled()
@@ -320,7 +318,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             validateParameter((String) firstLevelParameters.get("image"), "image", null, invalidFields);
             validateParameter((String) firstLevelParameters.get("name"), "name", null, invalidFields);
             List<String> argsList = (List<String>) firstLevelParameters.get("args");
-            if (argsList != null && argsList.size() > 0) {
+            if (argsList != null && !argsList.isEmpty()) {
                 log.info("Args not empty");
                 validateParameter(getMatchingParameter(argsList, "version"), "version", "args", invalidFields);
                 checkUrlRules("Nexus", 2, 4, argsList, "args", invalidFields);
@@ -328,7 +326,7 @@ public class ConnectionServiceImpl implements ConnectionService {
                 checkUrlRules("Git", 3, 5, argsList, "args", invalidFields);
                 checkUrlRules("CP", 1, 1, argsList, "args", invalidFields);
             }
-            if (invalidFields.size() > 0) {
+            if (!invalidFields.isEmpty()) {
                 log.error("Failed to validate connection because of incorrect fields: {}", invalidFields);
                 throw new EnvironmentTaEngineValidationException(invalidFields);
             }
@@ -348,8 +346,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     @SuppressWarnings("unchecked")
     private Map<String, ?> parseJsonAsMap(String jsonBody, Class<? extends Map> mapClass) {
         try {
-            return new ObjectMapper()
-                    .readValue(jsonBody, mapClass);
+            return new ObjectMapper().readValue(jsonBody, mapClass);
         } catch (IOException e) {
             log.error("Failed to parse JSON data", e);
             throw new EnvironmentJsonParseException("Failed to parse JSON data");
