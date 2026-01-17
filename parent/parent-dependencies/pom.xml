@@ -33,11 +33,11 @@
         <tomcat-embed.version>9.0.109</tomcat-embed.version>
         <undertow.version>2.2.38.Final</undertow.version>
 
-        <atp.common.version>0.0.43</atp.common.version>
+        <atp.common.version>0.0.47</atp.common.version>
         <atp.auth.version>1.2.75</atp.auth.version>
-        <atp.crypt.version>0.0.21</atp.crypt.version>
-        <atp.integration.version>0.2.38</atp.integration.version>
-        <ei.version>0.2.45</ei.version>
+        <atp.crypt.version>0.0.24</atp.crypt.version>
+        <atp.integration.version>0.2.42</atp.integration.version>
+        <ei.version>0.2.46</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>
@@ -409,11 +409,6 @@
                 <version>${kotlin.stdlib.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-stdlib-jdk7</artifactId>
-                <version>${kotlin.stdlib.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.kubernetes</groupId>
                 <artifactId>client-java</artifactId>
                 <version>${kubernetes.client.java.version}</version>
@@ -467,11 +462,6 @@
                 <artifactId>spring-security-core</artifactId>
                 <version>5.7.12</version>
             </dependency>
-            <!-- <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-core</artifactId>
-                <version>26.0.6</version>
-            </dependency> -->
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
                 <artifactId>snappy-java</artifactId>
@@ -526,6 +516,17 @@
                 <groupId>org.lz4</groupId>
                 <artifactId>lz4-java</artifactId>
                 <version>1.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>3.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.json-lib</groupId>
+                <artifactId>json-lib</artifactId>
+                <version>2.4</version>
+                <classifier>jdk15</classifier>
             </dependency>
         </dependencies>
     </dependencyManagement>
