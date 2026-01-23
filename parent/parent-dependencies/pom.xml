@@ -30,7 +30,7 @@
         <shedlock.spring>4.11.1</shedlock.spring>
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
-        <tomcat-embed.version>9.0.109</tomcat-embed.version>
+        <tomcat-embed.version>9.0.110</tomcat-embed.version>
         <undertow.version>2.2.38.Final</undertow.version>
 
         <atp.common.version>0.0.47</atp.common.version>
