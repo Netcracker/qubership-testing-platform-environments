@@ -162,6 +162,6 @@ jobs:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
       namespace: 'env'
-      pipeline_branch: 'main'
+      pipeline_branch: ${{ github.ref }}
       postgres: enable
       enable_test: enable
