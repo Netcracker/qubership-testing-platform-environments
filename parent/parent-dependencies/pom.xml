@@ -34,7 +34,7 @@
         <undertow.version>2.2.39.Final</undertow.version>
 
         <atp.common.version>0.0.47</atp.common.version>
-        <atp.auth.version>1.2.81-SNAPSHOT</atp.auth.version>
+        <atp.auth.version>1.2.80</atp.auth.version>
         <atp.crypt.version>0.0.24</atp.crypt.version>
         <atp.integration.version>0.2.42</atp.integration.version>
         <ei.version>0.2.46</ei.version>
