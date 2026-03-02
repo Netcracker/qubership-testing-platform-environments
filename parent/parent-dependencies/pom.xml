@@ -22,7 +22,7 @@
         <junit.version>4.13</junit.version>
         <hikariCP.version>3.4.5</hikariCP.version>
         <querydsl.version>5.0.0</querydsl.version>
-        <postgesql.version>42.3.9</postgesql.version>
+        <postgresql.version>42.3.9</postgresql.version>
         <oracle.version>11.2.0.4</oracle.version>
         <liquibase.version>4.19.0</liquibase.version>
         <guice.version>4.1.0</guice.version>
@@ -211,7 +211,7 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>${postgesql.version}</version>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.oracle.database.jdbc</groupId>
