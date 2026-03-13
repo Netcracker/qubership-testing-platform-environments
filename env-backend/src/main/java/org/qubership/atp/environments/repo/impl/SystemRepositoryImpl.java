@@ -41,6 +41,7 @@ import org.qubership.atp.environments.model.impl.EnvironmentImpl;
 import org.qubership.atp.environments.model.impl.SystemCategoryImpl;
 import org.qubership.atp.environments.model.impl.SystemImpl;
 import org.qubership.atp.environments.model.utils.HazelcastMapName;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.model.utils.enums.Status;
 import org.qubership.atp.environments.repo.projections.FullSystemProjection;
 import org.qubership.atp.environments.repo.projections.LazySystemProjection;
@@ -62,7 +63,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
 import com.mysema.commons.lang.CloseableIterator;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
@@ -106,7 +106,6 @@ public class SystemRepositoryImpl extends AbstractRepository implements Projecti
     private final ShortSystemProjection shortSystemProjection = new ShortSystemProjection(this);
     private final ShortSystemProjection lazySystemProjection = new LazySystemProjection(this);
     private final SystemProjectionWithoutProxy systemProjectionWithoutProxy = new SystemProjectionWithoutProxy(this);
-    private Gson gson = new Gson();
     private final Cache systemCachedMap;
     private final Cache systemsByEnvironmentIdCachedMap;
 
@@ -449,8 +448,8 @@ public class SystemRepositoryImpl extends AbstractRepository implements Projecti
                          UUID externalId,
                          String externalName) {
         Timestamp createdTimestamp = new Timestamp(created);
-        String parameters = parametersGettingVersion != null ? gson.toJson(parametersGettingVersion) : null;
-        String parametersToItf = serverItf != null ? gson.toJson(serverItf) : null;
+        String parameters = parametersGettingVersion != null ? Utils.GSON.toJson(parametersGettingVersion) : null;
+        String parametersToItf = serverItf != null ? Utils.GSON.toJson(serverItf) : null;
         UUID uuid = queryFactory.insert(SYSTEMS)
                 .set(SYSTEMS.name, name)
                 .set(SYSTEMS.description, description)
@@ -514,8 +513,8 @@ public class SystemRepositoryImpl extends AbstractRepository implements Projecti
                          UUID sourceId,
                          String externalName) {
         Timestamp createdTimestamp = new Timestamp(created);
-        String parameters = parametersGettingVersion != null ? gson.toJson(parametersGettingVersion) : null;
-        String parametersToItf = serverItf != null ? gson.toJson(serverItf) : null;
+        String parameters = parametersGettingVersion != null ? Utils.GSON.toJson(parametersGettingVersion) : null;
+        String parametersToItf = serverItf != null ? Utils.GSON.toJson(serverItf) : null;
         queryFactory.insert(SYSTEMS)
                 .set(SYSTEMS.name, name)
                 .set(SYSTEMS.description, description)
@@ -648,8 +647,8 @@ public class SystemRepositoryImpl extends AbstractRepository implements Projecti
         Timestamp modifiedTimestamp = new Timestamp(modified);
         Timestamp dateOfLastCheckTimestamp = dateOfLastCheck != null ? new Timestamp(dateOfLastCheck) : null;
         Timestamp dateOfCheckVersionTimestamp = dateOfCheckVersion != null ? new Timestamp(dateOfCheckVersion) : null;
-        String parameters = parametersGettingVersion != null ? gson.toJson(parametersGettingVersion) : null;
-        String parametersToItf = serverItf != null ? gson.toJson(serverItf) : null;
+        String parameters = parametersGettingVersion != null ? Utils.GSON.toJson(parametersGettingVersion) : null;
+        String parametersToItf = serverItf != null ? Utils.GSON.toJson(serverItf) : null;
         long update = queryFactory.update(SYSTEMS)
                 .set(SYSTEMS.name, name)
                 .set(SYSTEMS.description, description)

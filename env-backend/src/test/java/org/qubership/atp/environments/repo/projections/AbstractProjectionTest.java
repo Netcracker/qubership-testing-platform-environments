@@ -35,16 +35,17 @@ import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 
 public class AbstractProjectionTest {
+    private static final Gson GSON = new Gson();
 
     protected Tuple mockTupleForConnection(Connection connection) {
         Tuple tuple = mock(Tuple.class);
         when(tuple.get(CONNECTIONS.id)).thenReturn(connection.getId());
         when(tuple.get(CONNECTIONS.name)).thenReturn(connection.getName());
         when(tuple.get(CONNECTIONS.description)).thenReturn(connection.getDescription());
-        when(tuple.get(CONNECTIONS.parameters)).thenReturn(new Gson().toJson(connection.getParameters()));
+        when(tuple.get(CONNECTIONS.parameters)).thenReturn(GSON.toJson(connection.getParameters()));
         when(tuple.get(CONNECTIONS.connectionType)).thenReturn(connection.getConnectionType());
         when(tuple.get(CONNECTIONS.sourceTemplateId)).thenReturn(connection.getSourceTemplateId());
-        when(tuple.get(CONNECTIONS.services)).thenReturn(new Gson().toJson(connection.getServices()));
+        when(tuple.get(CONNECTIONS.services)).thenReturn(GSON.toJson(connection.getServices()));
         when(tuple.get(CONNECTIONS.systemId)).thenReturn(connection.getSystemId());
         when(tuple.get(CONNECTIONS.created)).thenReturn(new Timestamp(connection.getCreated()));
         when(tuple.get(CONNECTIONS.createdBy)).thenReturn(connection.getCreatedBy());
@@ -69,9 +70,9 @@ public class AbstractProjectionTest {
         when(tuple.get(SYSTEMS.dateOfLastCheck)).thenReturn(system.getDateOfLastCheck() != null ? new Timestamp(system.getDateOfLastCheck()) : null);
         when(tuple.get(SYSTEMS.version)).thenReturn(system.getVersion());
         when(tuple.get(SYSTEMS.dateOfCheckVersion)).thenReturn(system.getDateOfCheckVersion() != null ? new Timestamp(system.getDateOfCheckVersion()) : null);
-        when(tuple.get(SYSTEMS.parametersGettingVersion)).thenReturn(new Gson().toJson(system.getParametersGettingVersion()));
+        when(tuple.get(SYSTEMS.parametersGettingVersion)).thenReturn(GSON.toJson(system.getParametersGettingVersion()));
         when(tuple.get(SYSTEMS.parentSystemId)).thenReturn(system.getParentSystemId());
-        when(tuple.get(SYSTEMS.serverItf)).thenReturn(new Gson().toJson(system.getServerItf()));
+        when(tuple.get(SYSTEMS.serverItf)).thenReturn(GSON.toJson(system.getServerItf()));
         when(tuple.get(SYSTEMS.mergeByName)).thenReturn(system.getMergeByName());
         when(tuple.get(SYSTEMS.linkToSystemId)).thenReturn(system.getLinkToSystemId());
         when(tuple.get(SYSTEMS.externalId)).thenReturn(system.getExternalId());

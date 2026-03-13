@@ -110,8 +110,7 @@ public class ShortSystemProjection extends MappingProjection<System> {
         SystemCategory systemCategory = null;
         if (systemCategoryId != null) {
             systemCategory = Proxies.withId(SystemCategory.class, systemCategoryId,
-                    id -> repo.getSystemCategoryRepo().get()
-                            .getById(id));
+                    id -> repo.getSystemCategoryRepo().get().getById(id));
         }
         return create(uuid, name, description, created, createdBy, modified, modifiedBy, systemCategory, status,
                 dateOfLastCheck, version, dateOfCheckVersion, parametersGettingVersion, parentSystemId,

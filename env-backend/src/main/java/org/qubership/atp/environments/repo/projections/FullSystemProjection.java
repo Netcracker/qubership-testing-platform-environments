@@ -32,7 +32,6 @@ import org.qubership.atp.environments.model.impl.SystemImpl;
 import org.qubership.atp.environments.model.utils.enums.Status;
 import org.qubership.atp.environments.repo.impl.SystemRepositoryImpl;
 
-import com.google.gson.Gson;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
@@ -94,9 +93,9 @@ public class FullSystemProjection extends ShortSystemProjection {
                 dateOfLastCheck == null ? null : dateOfLastCheck.getTime(),
                 version,
                 dateOfCheckVersion == null ? null : dateOfCheckVersion.getTime(),
-                new Gson().fromJson(parametersGettingVersion, ParametersGettingVersion.class),
+                gson.fromJson(parametersGettingVersion, ParametersGettingVersion.class),
                 parentSystemId,
-                new Gson().fromJson(serverItf, ServerItf.class),
+                gson.fromJson(serverItf, ServerItf.class),
                 mergeByName,
                 linkToSystemId,
                 externalId,
@@ -127,8 +126,7 @@ public class FullSystemProjection extends ShortSystemProjection {
                              UUID sourceId,
                              String externalName) {
         if (environments == null) {
-            environments = Proxies.list(() -> repo.getEnvironmentRepo()
-                    .get().getAllBySystemId(uuid));
+            environments = Proxies.list(() -> repo.getEnvironmentRepo().get().getAllBySystemId(uuid));
         }
         List<Connection> connectionsListId = Proxies.list(()
                 -> repo.getConnectionRepo().get().getAllByParentId(uuid));

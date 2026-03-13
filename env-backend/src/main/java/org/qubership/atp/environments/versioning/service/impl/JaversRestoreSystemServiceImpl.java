@@ -142,7 +142,7 @@ public class JaversRestoreSystemServiceImpl extends AbstractJaversRestoreService
                 .set(CONNECTIONS.parameters, gson.toJson(connectionJ.getParameters()))
                 .set(CONNECTIONS.connectionType, connectionJ.getConnectionType())
                 .set(CONNECTIONS.sourceTemplateId, connectionJ.getSourceTemplateId())
-                .set(CONNECTIONS.services, new Gson().toJson(CollectionUtils.isEmpty(connectionJ.getServices())
+                .set(CONNECTIONS.services, gson.toJson(CollectionUtils.isEmpty(connectionJ.getServices())
                         ? Collections.emptyList() : connectionJ.getServices(), List.class))
                 .execute();
     }

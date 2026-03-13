@@ -20,12 +20,12 @@ import org.qubership.atp.environments.errorhandling.internal.EnvironmentJsonPars
 import org.qubership.atp.environments.errorhandling.project.EnvironmentIllegalProjectEventTypeException;
 import org.qubership.atp.environments.model.Project;
 import org.qubership.atp.environments.model.impl.ProjectImpl;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.service.direct.ProjectService;
 import org.qubership.atp.environments.service.rest.server.dto.EventType;
 import org.qubership.atp.environments.service.rest.server.dto.ProjectEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -41,7 +41,7 @@ public class ProjectEventKafkaListener implements ProjectEventListener {
     public void listen(String event) {
         ProjectEvent projectEvent;
         try {
-            projectEvent = new Gson().fromJson(event, ProjectEvent.class);
+            projectEvent = Utils.GSON.fromJson(event, ProjectEvent.class);
         } catch (Exception e) {
             log.error("Failed to parse json and get project event entity", e);
             throw new EnvironmentJsonParseException("Failed to parse JSON and get project event entity");

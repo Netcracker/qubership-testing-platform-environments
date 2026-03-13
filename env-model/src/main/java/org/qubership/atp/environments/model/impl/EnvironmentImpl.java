@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.model.impl;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -26,8 +27,9 @@ import javax.annotation.Nullable;
 import org.javers.core.metamodel.annotation.TypeName;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.System;
+import org.qubership.atp.environments.model.utils.Utils;
 
-import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.Builder;
 
 @TypeName("Environment")
@@ -47,7 +49,7 @@ public class EnvironmentImpl extends AbstractCreatedModified implements Environm
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Constructor.
      */
     @Builder
     public EnvironmentImpl(UUID uuid, String name, String graylogName, String description, String ssmSolutionAlias,
@@ -78,7 +80,7 @@ public class EnvironmentImpl extends AbstractCreatedModified implements Environm
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Constructor.
      */
     public EnvironmentImpl(UUID uuid, String name, String graylogName, String description, String ssmSolutionAlias,
                            String ssmInstanceAlias, String consulEgressConfigPath, Long created,
@@ -104,7 +106,14 @@ public class EnvironmentImpl extends AbstractCreatedModified implements Environm
         setSystems(systemsList);
         setCategoryId(categoryId);
         setSourceId(sourceId);
-        setTags(tags == null ? Collections.emptyList() : new Gson().fromJson(tags.toString(), List.class));
+
+        if (tags == null) {
+            setTags(Collections.emptyList());
+        } else {
+            // TypeToken preserves generic type information
+            Type listType = new TypeToken<List<String>>(){}.getType();
+            setTags(Utils.GSON.fromJson(tags.toString(), listType));
+        }
     }
 
     @Nonnull

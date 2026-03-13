@@ -26,9 +26,11 @@ import javax.annotation.Nullable;
 import org.qubership.atp.environments.model.Identified;
 
 import com.google.common.base.Joiner;
+import com.google.gson.Gson;
 
 public class Utils {
 
+    public static final Gson GSON = new Gson();
     public static final Joiner JOINER_DOT = Joiner.on('.');
     private static final Supplier<?> EMPTY_SUP = new Supplier<Object>() {
 
@@ -50,7 +52,7 @@ public class Utils {
     }
 
     /**
-     * To not to copy paste {@link Object#equals(Object)} logic.
+     * To avoid to copy/paste {@link Object#equals(Object)} logic.
      *
      * @param o1 object to compare with o2
      * @param o2 object to compare with o1
@@ -61,7 +63,7 @@ public class Utils {
     }
 
     /**
-     * To not to copy paste {@link Object#equals(Object)} logic.
+     * To avoid to copy/paste {@link Object#equals(Object)} logic.
      *
      * @param clazz general superclass of o1 and o2
      * @param o1    object to compare with o2

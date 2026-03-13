@@ -25,10 +25,10 @@ import javax.annotation.Nonnull;
 
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.impl.EnvironmentImpl;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.repo.impl.AbstractRepository;
 import org.qubership.atp.environments.repo.impl.EnvironmentRepositoryImpl;
 
-import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -68,7 +68,7 @@ public class ShortEnvironmentProjection extends MappingProjection<Environment> {
         assert categoryId != null;
         return create(uuid, name, graylogName, description, ssmSolutionAlias, ssmInstanceAlias,
                 consulEgressConfigPath, created, createdBy, modified, modifiedBy, projectId, categoryId,
-                sourceId,  tags == null ? Collections.emptyList() : new Gson().fromJson(tags.toString(), List.class));
+                sourceId,  tags == null ? Collections.emptyList() : Utils.GSON.fromJson(tags.toString(), List.class));
     }
 
     /**

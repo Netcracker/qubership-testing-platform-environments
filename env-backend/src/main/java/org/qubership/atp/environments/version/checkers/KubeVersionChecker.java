@@ -22,12 +22,12 @@ import java.util.Set;
 
 import org.qubership.atp.environments.errorhandling.clients.EnvironmentKuberClientConfigMapFetchException;
 import org.qubership.atp.environments.model.Connection;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.model.utils.enums.TypeGettingVersion;
 import org.qubership.atp.environments.utils.cloud.KubeClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
@@ -51,8 +51,7 @@ public class KubeVersionChecker implements VersionChecker {
         try {
             if (gettingType == TypeGettingVersion.BY_KUBERNETES_CONFIGMAP) {
                 Map<String, String> configMap = Objects.requireNonNull(kubeClient.getConfigMap(this.mapName).getData());
-                Gson gson = new Gson();
-                JsonElement json = gson.toJsonTree(configMap);
+                JsonElement json = Utils.GSON.toJsonTree(configMap);
                 version = new GsonBuilder().setPrettyPrinting().create().toJson(json);
             } else {
                 Set<String> images = kubeClient.getImages();

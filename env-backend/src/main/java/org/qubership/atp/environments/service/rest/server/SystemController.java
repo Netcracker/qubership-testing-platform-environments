@@ -89,7 +89,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Get cached version of the System identified by id.
      */
     @GetMapping("/public/v1/systems/{systemId}/version")
     @JsonView({View.FullVer1.class})
@@ -101,7 +101,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Get System identified by id.
      */
     @GetMapping("/systems/{systemId}")
     @JsonView({View.FullVer1.class})
@@ -113,7 +113,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Get short information of the System identified by id.
      */
     @GetMapping("/systems/short/{systemId}")
     @JsonView({View.FullVer1.class})
@@ -127,7 +127,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Get System identified by system name and environment id.
      */
     @GetMapping("/systems/byName/{environmentId}/{name}")
     @JsonView({View.FullVer1.class})
@@ -173,6 +173,13 @@ public class SystemController /*implements SystemControllerApi*/ {
         return systemService.getAll();
     }
 
+    private void checkParameters(CreateSystemDto system) {
+        Preconditions.checkNotNull(system.getName(), "System name can't be null");
+        Preconditions.checkArgument(!system.getName().isEmpty(), "System name can't be empty");
+        Preconditions.checkNotNull(system.getEnvironmentId(), "Environment ID can't be empty");
+        MdcUtils.put(MdcField.ENVIRONMENT_ID.name(), system.getEnvironmentId());
+    }
+
     /**
      * Creating new system.
      */
@@ -184,21 +191,15 @@ public class SystemController /*implements SystemControllerApi*/ {
     @AuditAction(auditAction = "Create system with name {{#system.name}} in environment id  {{#system"
             + ".environmentId.toString()}}")
     public System createSystem(@RequestBody CreateSystemDto system) {
-        Preconditions.checkNotNull(system.getName(), "System name can't be null");
-        Preconditions.checkArgument(!system.getName().isEmpty(), "System name can't be "
-                + "empty");
-        Preconditions.checkNotNull(system.getEnvironmentId(), "Environment ID can't be empty");
-        MdcUtils.put(MdcField.ENVIRONMENT_ID.name(), system.getEnvironmentId());
+        checkParameters(system);
         return systemService.create(system.getEnvironmentId(), system.getName(), system.getDescription(),
-                system.getSystemCategoryId(), system.getParametersGettingVersion(),
-                system.getParentSystemId(),
+                system.getSystemCategoryId(), system.getParametersGettingVersion(), system.getParentSystemId(),
                 system.getServerItf(), system.getMergeByName(), system.getLinkToSystemId(),
-                system.getExternalId(),
-                system.getExternalName());
+                system.getExternalId(), system.getExternalName());
     }
 
     /**
-     * Copying the system.
+     * Make copy of the system.
      */
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
@@ -207,21 +208,15 @@ public class SystemController /*implements SystemControllerApi*/ {
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Copy system with id {{#id.toString()}}")
     public System copy(@PathVariable("systemId") UUID id, @RequestBody CreateSystemDto system) {
-        Preconditions.checkNotNull(system.getName(), "System name can't be null");
-        Preconditions.checkArgument(!system.getName().isEmpty(), "System name can't be "
-                + "empty");
-        Preconditions.checkNotNull(system.getEnvironmentId(), "Environment ID can't be empty");
-        MdcUtils.put(MdcField.ENVIRONMENT_ID.name(), system.getEnvironmentId());
+        checkParameters(system);
         return systemService.copy(id, system.getEnvironmentId(), system.getName(), system.getDescription(),
-                system.getSystemCategoryId(), system.getParametersGettingVersion(),
-                system.getParentSystemId(),
+                system.getSystemCategoryId(), system.getParametersGettingVersion(), system.getParentSystemId(),
                 system.getServerItf(), system.getMergeByName(), system.getLinkToSystemId(),
-                system.getExternalId(),
-                system.getExternalName());
+                system.getExternalId(), system.getExternalName());
     }
 
     /**
-     * Sharing the system.
+     * Share the system.
      */
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
@@ -268,13 +263,11 @@ public class SystemController /*implements SystemControllerApi*/ {
             + "@environmentService.getProjectIdBySystemId(#systemDto.getId()),'UPDATE')")
     @PutMapping("/systems")
     @JsonView({View.FullVer1.class})
-    @AuditAction(auditAction = "Update system {{#systemDto.getName()}} with system id: {{#systemDto.id"
-            + ".toString()}}")
+    @AuditAction(auditAction = "Update system {{#systemDto.getName()}} with system id: {{#systemDto.id.toString()}}")
     public ResponseEntity<System> updateSystem(@RequestBody SystemDto systemDto) {
         Preconditions.checkNotNull(systemDto.getId(), "System id can't be empty");
         Preconditions.checkNotNull(systemDto.getName(), "System name can't be null");
-        Preconditions.checkArgument(!systemDto.getName().isEmpty(), "System name can't be "
-                + "empty");
+        Preconditions.checkArgument(!systemDto.getName().isEmpty(), "System name can't be empty");
         contextRepository.getContext().setFieldsToUnfold("connections");
         HttpStatus status = concurrentModificationService.getConcurrentModificationHttpStatus(
                 systemDto.getId(), systemDto.getModified(), systemService);
@@ -321,12 +314,11 @@ public class SystemController /*implements SystemControllerApi*/ {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Update version of the System identified by id.
      */
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
-            + "@environmentService.getProjectIdBySystemId(#id),"
-            + "'UPDATE')")
+            + "@environmentService.getProjectIdBySystemId(#id),'UPDATE')")
     @GetMapping("/systems/{systemId}/version")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Check system version by system id {{#systemId.toString()}}")
@@ -341,12 +333,10 @@ public class SystemController /*implements SystemControllerApi*/ {
      */
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
-            + "@environmentService.getProjectIdBySystemId(#id),"
-            + "'UPDATE')")
+            + "@environmentService.getProjectIdBySystemId(#id),'UPDATE')")
     @RequestMapping(value = "/systems/{systemId}/htmlVersion", method = GET, produces = "text/plain")
     @JsonView({View.FullVer1.class})
-    @AuditAction(auditAction = "Check system version and convert to html by system id {{#systemId.toString"
-            + "()}}")
+    @AuditAction(auditAction = "Check system version and convert to html by system id {{#systemId.toString()}}")
     public ResponseEntity<String> getHtmlVersion(@PathVariable("systemId") UUID id) {
         return Optional.ofNullable(systemService
                 .transformSystemVersionToHtml(systemService.updateVersionBySystemId(id, true))
@@ -358,8 +348,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     /**
      * Get version with HTML-marking without authorization.
      */
-    @RequestMapping(value = "/public/v1/systems/{systemId}/htmlVersion", method = GET, produces = "text"
-            + "/plain")
+    @RequestMapping(value = "/public/v1/systems/{systemId}/htmlVersion", method = GET, produces = "text/plain")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "(Public V1 API) Check system version and convert to html"
             + " by system id {{#systemId.toString()}}")
@@ -373,8 +362,7 @@ public class SystemController /*implements SystemControllerApi*/ {
 
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
-            + "@environmentService.getProjectIdBySystemId(#systemId),"
-            + "'UPDATE')")
+            + "@environmentService.getProjectIdBySystemId(#systemId),'UPDATE')")
     @PutMapping("/systems/{systemId}/parametersGettingVersion")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Update parameters getting version for system Id {{#systemId.toString()}}")
@@ -402,8 +390,7 @@ public class SystemController /*implements SystemControllerApi*/ {
 
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
-            + "@environmentService.getProjectIdBySystemId(#systemId),"
-            + "'UPDATE')")
+            + "@environmentService.getProjectIdBySystemId(#systemId),'UPDATE')")
     @GetMapping("/systems/kubeServices/{systemId}")
     @JsonView({View.FullVer2.class})
     @AuditAction(auditAction = "Update services from kubernetes by system id {{#systemId.toString()}}")
@@ -431,8 +418,7 @@ public class SystemController /*implements SystemControllerApi*/ {
 
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
-            + "@environmentService.getProjectIdBySystemId(#systemId),"
-            + "'UPDATE')")
+            + "@environmentService.getProjectIdBySystemId(#systemId),'UPDATE')")
     @GetMapping("/systems/openshiftServices/{systemId}")
     @JsonView({View.FullVer2.class})
     @AuditAction(auditAction = "Update services from openshift by system id {{#systemId.toString()}}")

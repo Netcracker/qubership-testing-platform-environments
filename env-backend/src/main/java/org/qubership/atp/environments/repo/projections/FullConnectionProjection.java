@@ -27,9 +27,9 @@ import javax.annotation.Nonnull;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.impl.ConnectionImpl;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.repo.impl.ConnectionRepositoryImpl;
 
-import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -53,7 +53,6 @@ public class FullConnectionProjection extends MappingProjection<Connection> {
         String name = tuple.get(CONNECTIONS.name);
         assert name != null;
         String description = tuple.get(CONNECTIONS.description);
-        //String parameters = bytesToJson(mapper, tuple.get(CONNECTIONS.parameters)).asText();
         String parameters = tuple.get(CONNECTIONS.parameters);
         String connectionType = tuple.get(CONNECTIONS.connectionType);
         UUID sourceTemplateId = tuple.get(CONNECTIONS.sourceTemplateId);
@@ -66,9 +65,9 @@ public class FullConnectionProjection extends MappingProjection<Connection> {
         Timestamp modified = tuple.get(CONNECTIONS.modified);
         UUID modifiedBy = (UUID) tuple.get(CONNECTIONS.modifiedBy);
         UUID sourceId = (UUID) tuple.get(CONNECTIONS.sourceId);
-        return create(uuid, name, description, new Gson().fromJson(parameters, ConnectionParameters.class),
+        return create(uuid, name, description, Utils.GSON.fromJson(parameters, ConnectionParameters.class),
                 created, createdBy, modified, modifiedBy, systemId, connectionType, sourceTemplateId,
-                new Gson().fromJson(services, List.class), sourceId);
+                Utils.GSON.fromJson(services, List.class), sourceId);
     }
 
     /**

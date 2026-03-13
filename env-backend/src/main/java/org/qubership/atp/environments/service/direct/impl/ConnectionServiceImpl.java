@@ -227,8 +227,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             validateTaEngineProviderParameters(sourceTemplateId, parameters);
         }
         Connection connection = connectionRepository.update(id, systemId, name.trim(), description, parameters,
-                dateTimeUtil.timestampAsUtc(), userId,
-                connectionType, sourceTemplateId, services);
+                dateTimeUtil.timestampAsUtc(), userId, connectionType, sourceTemplateId, services);
         if (catalogueIntegration && projectId != null) {
             catalogClient.updateActions(projectId);
         }
@@ -252,8 +251,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             validateTaEngineProviderParameters(sourceTemplateId, parameters);
         }
         Connection connection = connectionRepository.update(id, systemId, name.trim(), description, parameters,
-                dateTimeUtil.timestampAsUtc(), userId,
-                connectionType, sourceTemplateId, services, sourceId);
+                dateTimeUtil.timestampAsUtc(), userId, connectionType, sourceTemplateId, services, sourceId);
         if (catalogueIntegration && projectId != null) {
             catalogClient.updateActions(projectId);
         }

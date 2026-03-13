@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
@@ -377,7 +378,8 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     private void updateConnection(UUID id, ConnectionTemporaryDto connection) {
         environmentRepository.getContext().setFullDbFetching(true);
         UUID userId = userInfoProvider.get().getId();
-        Connection connUpdate = connectionRepository.getById(id);
+        Connection connUpdate = Objects.requireNonNull(connectionRepository.getById(id),
+                "Connection (to be updated) not found by id!");
         ConnectionParameters parameters = connection.getParameters();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             connUpdate.getParameters().put(entry.getKey(), entry.getValue());
@@ -580,8 +582,6 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         return new ValidateTaToolsResponse(toolResponses);
     }
 
-
-
     @Override
     @Nullable
     public List<Connection> getConnections(UUID environmentId) {
@@ -595,13 +595,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                 environmentId, systemType);
         
         // Fetch systems data
-        Collection<System> systems;
-        if (systemType != null) {
-            systems = getSystemsV2(environmentId, systemType);
-        } else {
-            systems = getSystemsV2(environmentId);
-        }
-        
+        Collection<System> systems = systemType != null
+                ? getSystemsV2(environmentId, systemType) : getSystemsV2(environmentId);
+
         if (CollectionUtils.isEmpty(systems)) {
             log.warn("No systems found for environment '{}'", environmentId);
             // Return empty ZIP archive with empty YAML files

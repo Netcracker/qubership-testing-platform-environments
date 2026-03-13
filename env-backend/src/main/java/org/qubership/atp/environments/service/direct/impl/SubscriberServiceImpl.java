@@ -40,7 +40,7 @@ public class SubscriberServiceImpl implements SubscriberService {
     private final DateTimeUtil dateTimeUtil;
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Constructor.
      */
     @Autowired
     public SubscriberServiceImpl(SubscriberRepositoryImpl subscriberRepository,
@@ -70,29 +70,16 @@ public class SubscriberServiceImpl implements SubscriberService {
     @Nonnull
     @Override
     public Subscriber create(Subscriber subscriber) {
-        return subscriberRepository.create(subscriber.getName(),
-                subscriber.getHost(),
-                subscriber.getSubscriberType(),
-                subscriber.getSignature(),
-                subscriber.getTagList(),
-                subscriber.getHostStatus(),
-                subscriber.getNotificationURL(),
-                dateTimeUtil.timestampAsUtc()
-        );
+        return subscriberRepository.create(subscriber.getName(), subscriber.getHost(), subscriber.getSubscriberType(),
+                subscriber.getSignature(), subscriber.getTagList(), subscriber.getHostStatus(),
+                subscriber.getNotificationURL(), dateTimeUtil.timestampAsUtc());
     }
 
     @Override
     public void update(Subscriber subscriber) {
-        subscriberRepository.update(subscriber.getId(),
-                subscriber.getName(),
-                subscriber.getHost(),
-                subscriber.getSubscriberType(),
-                subscriber.getSignature(),
-                subscriber.getTagList(),
-                subscriber.getHostStatus(),
-                subscriber.getNotificationURL(),
-                dateTimeUtil.timestampAsUtc()
-        );
+        subscriberRepository.update(subscriber.getId(), subscriber.getName(), subscriber.getHost(),
+                subscriber.getSubscriberType(), subscriber.getSignature(), subscriber.getTagList(),
+                subscriber.getHostStatus(), subscriber.getNotificationURL(), dateTimeUtil.timestampAsUtc());
     }
 
     @Override

@@ -35,6 +35,7 @@ import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.model.impl.ConnectionImpl;
 import org.qubership.atp.environments.model.utils.Constants;
 import org.qubership.atp.environments.model.utils.HazelcastMapName;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.repo.projections.FullConnectionProjection;
 import org.qubership.atp.environments.repo.projections.IdConnectionProjection;
 import org.qubership.atp.environments.service.direct.EncryptorService;
@@ -48,7 +49,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.sql.SQLQuery;
@@ -296,7 +296,7 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Create connection.
      */
     @Nonnull
     @CacheEvict(value = HazelcastMapName.CONNECTIONS_BY_SYSTEM_ID, key = "#systemId", condition = "#systemId!=null")
@@ -320,8 +320,8 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
         UUID uuid = queryFactory.insert(CONNECTIONS)
                 .set(CONNECTIONS.name, name)
                 .set(CONNECTIONS.description, description)
-                .set(CONNECTIONS.parameters, new Gson().toJson(parameters))
-                .set(CONNECTIONS.services, new Gson().toJson(CollectionUtils.isEmpty(services)
+                .set(CONNECTIONS.parameters, Utils.GSON.toJson(parameters))
+                .set(CONNECTIONS.services, Utils.GSON.toJson(CollectionUtils.isEmpty(services)
                         ? Collections.emptyList() : services))
                 .set(CONNECTIONS.created, createdTimestamp)
                 .set(CONNECTIONS.createdBy, createdBy)
@@ -377,8 +377,8 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
         queryFactory.insert(CONNECTIONS)
                 .set(CONNECTIONS.name, name)
                 .set(CONNECTIONS.description, description)
-                .set(CONNECTIONS.parameters, new Gson().toJson(parameters))
-                .set(CONNECTIONS.services, new Gson().toJson(CollectionUtils.isEmpty(services)
+                .set(CONNECTIONS.parameters, Utils.GSON.toJson(parameters))
+                .set(CONNECTIONS.services, Utils.GSON.toJson(CollectionUtils.isEmpty(services)
                         ? Collections.emptyList() : services))
                 .set(CONNECTIONS.created, createdTimestamp)
                 .set(CONNECTIONS.systemId, systemId)
@@ -394,7 +394,7 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Update connection.
      */
     @Nonnull
     @CacheEvict(value = HazelcastMapName.CONNECTIONS_BY_SYSTEM_ID, key = "#systemId", condition = "#systemId!=null")
@@ -419,8 +419,8 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
         long update = queryFactory.update(CONNECTIONS)
                 .set(CONNECTIONS.name, name)
                 .set(CONNECTIONS.description, description)
-                .set(CONNECTIONS.parameters, new Gson().toJson(parameters))
-                .set(CONNECTIONS.services, new Gson().toJson(CollectionUtils.isEmpty(services)
+                .set(CONNECTIONS.parameters, Utils.GSON.toJson(parameters))
+                .set(CONNECTIONS.services, Utils.GSON.toJson(CollectionUtils.isEmpty(services)
                         ? Collections.emptyList() : services, List.class))
                 .set(CONNECTIONS.modified, modifiedTimestamp)
                 .set(CONNECTIONS.modifiedBy, modifiedBy)
@@ -471,8 +471,8 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
         long update = queryFactory.update(CONNECTIONS)
                 .set(CONNECTIONS.name, name)
                 .set(CONNECTIONS.description, description)
-                .set(CONNECTIONS.parameters, new Gson().toJson(parameters))
-                .set(CONNECTIONS.services, new Gson().toJson(CollectionUtils.isEmpty(services)
+                .set(CONNECTIONS.parameters, Utils.GSON.toJson(parameters))
+                .set(CONNECTIONS.services, Utils.GSON.toJson(CollectionUtils.isEmpty(services)
                         ? Collections.emptyList() : services, List.class))
                 .set(CONNECTIONS.modified, modifiedTimestamp)
                 .set(CONNECTIONS.modifiedBy, modifiedBy)
@@ -498,7 +498,7 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
     }
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Update parameter of the connection.
      */
     @Nonnull
     @CacheEvict(value = HazelcastMapName.CONNECTIONS_BY_SYSTEM_ID, key = "#systemId", condition = "#systemId!=null")
@@ -515,7 +515,7 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
         query.set(CONNECTIONS.modified, modifiedTimestamp);
         query.set(CONNECTIONS.modifiedBy, modifiedBy);
         if (!CollectionUtils.isEmpty(services)) {
-            query.set(CONNECTIONS.services, new Gson().toJson(services, List.class));
+            query.set(CONNECTIONS.services, Utils.GSON.toJson(services, List.class));
         }
         long update = query.execute();
         Preconditions.checkArgument(update > 0, "Information about connection not updated");
@@ -531,7 +531,7 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
     public SQLUpdateClause getUpdateParametersQuery(@Nonnull UUID id,
                                                     ConnectionParameters parameters) {
         return queryFactory.update(CONNECTIONS)
-                .set(CONNECTIONS.parameters, new Gson().toJson(parameters))
+                .set(CONNECTIONS.parameters, Utils.GSON.toJson(parameters))
                 .where(CONNECTIONS.id.eq(id));
     }
 

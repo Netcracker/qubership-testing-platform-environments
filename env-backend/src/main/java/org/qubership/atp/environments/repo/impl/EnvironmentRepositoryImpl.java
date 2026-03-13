@@ -35,6 +35,7 @@ import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.impl.Context;
 import org.qubership.atp.environments.model.impl.EnvironmentImpl;
 import org.qubership.atp.environments.model.utils.HazelcastMapName;
+import org.qubership.atp.environments.model.utils.Utils;
 import org.qubership.atp.environments.repo.mapper.EnvironmentMapper;
 import org.qubership.atp.environments.repo.projections.FullEnvironmentProjection;
 import org.qubership.atp.environments.repo.projections.GenericEnvironmentProjection;
@@ -51,7 +52,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -81,7 +81,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
     private final EnvironmentMapper environmentMapper;
 
     /**
-     * TODO Make javadoc documentation for this method.
+     * Constructor.
      */
     @Autowired
     public EnvironmentRepositoryImpl(SQLQueryFactory queryFactory,
@@ -184,9 +184,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
      * @return list of system names
      */
     public List<String> getSystemNamesByProjectId(@Nonnull UUID projectId) {
-        List<String> systemNames = new ArrayList<>();
-        systemNames.addAll(systemRepo.get().getSystemNamesByProjectId(projectId));
-        return systemNames;
+        return new ArrayList<>(systemRepo.get().getSystemNamesByProjectId(projectId));
     }
 
     /**
@@ -196,9 +194,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
      * @return list of connection names
      */
     public List<String> getConnectionNamesByProjectId(UUID projectId) {
-        List<String> connectionNames = new ArrayList<>();
-        connectionNames.addAll(connectionRepo.get().getConnectionNameByProjectId(projectId));
-        return connectionNames;
+        return new ArrayList<>(connectionRepo.get().getConnectionNameByProjectId(projectId));
     }
 
     /**
@@ -212,7 +208,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
      * @param projectId     projectId
      * @param categoryId    categoryId
      * @param sourceId      sourceId
-     * @return an istance of {@link Environment}
+     * @return an instance of {@link Environment}
      */
     @Nonnull
     public Environment create(@Nonnull UUID environmentId,
@@ -265,7 +261,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
      * @param createdBy   createdBy
      * @param projectId   projectId
      * @param categoryId  categoryId
-     * @return an istance of {@link Environment}
+     * @return an instance of {@link Environment}
      */
     @Nonnull
     public Environment create(@Nonnull String name,
@@ -387,10 +383,8 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
                 .set(ENVIRONMENTS.modifiedBy, modifiedBy)
                 .where(ENVIRONMENTS.id.eq(environmentId))
                 .execute();
-        kafkaService.sendEnvironmentKafkaNotification(environmentId,
-                EventType.UPDATE,
-                projectId == null ? getProjectId(environmentId) :
-                        projectId);
+        kafkaService.sendEnvironmentKafkaNotification(environmentId, EventType.UPDATE,
+                projectId == null ? getProjectId(environmentId) : projectId);
     }
 
     /**
@@ -511,7 +505,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
      * @return found environments
      */
     public List<Environment> findBySearchRequest(BaseSearchRequestDto searchRequest,
-                                                 List<UUID> projectIdsWithAccess) throws Exception {
+                                                 List<UUID> projectIdsWithAccess) {
         SQLQuery<Environment> sqlQuery = queryFactory.select(resolveProjection()).from(ENVIRONMENTS);
         List<BooleanExpression> searchExpressions = new ArrayList<>();
         UUID projectId = searchRequest.getProjectId();
@@ -609,7 +603,7 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
         PGobject tagsPgObject = new PGobject();
         tagsPgObject.setType("jsonb");
         try {
-            tagsPgObject.setValue(new Gson().toJson(tags == null ? Collections.emptyList() : tags));
+            tagsPgObject.setValue(Utils.GSON.toJson(tags == null ? Collections.emptyList() : tags));
         } catch (SQLException e) {
             log.error("Error occurred while \"tags\" field processing in Environment", e);
             throw new RuntimeException();

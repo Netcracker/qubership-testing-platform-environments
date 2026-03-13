@@ -32,8 +32,6 @@ import org.qubership.atp.environments.model.impl.SystemImpl;
 import org.qubership.atp.environments.model.utils.enums.Status;
 import org.qubership.atp.environments.repo.impl.SystemRepositoryImpl;
 
-import com.google.gson.Gson;
-
 @SuppressWarnings("CPD-START")
 public class LazySystemProjection extends ShortSystemProjection {
 
@@ -87,9 +85,9 @@ public class LazySystemProjection extends ShortSystemProjection {
                 dateOfLastCheck == null ? null : dateOfLastCheck.getTime(),
                 version,
                 dateOfCheckVersion == null ? null : dateOfCheckVersion.getTime(),
-                new Gson().fromJson(parametersGettingVersion, ParametersGettingVersion.class),
+                gson.fromJson(parametersGettingVersion, ParametersGettingVersion.class),
                 parentSystemId,
-                new Gson().fromJson(serverItf, ServerItf.class),
+                gson.fromJson(serverItf, ServerItf.class),
                 mergeByName,
                 linkToSystemId,
                 externalId,
