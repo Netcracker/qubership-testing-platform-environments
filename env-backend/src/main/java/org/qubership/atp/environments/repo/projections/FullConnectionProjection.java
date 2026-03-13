@@ -71,7 +71,7 @@ public class FullConnectionProjection extends MappingProjection<Connection> {
     }
 
     /**
-     * Create connection with paramenters.
+     * Create connection with parameters.
      *
      * @return {@link ConnectionImpl} instance
      */

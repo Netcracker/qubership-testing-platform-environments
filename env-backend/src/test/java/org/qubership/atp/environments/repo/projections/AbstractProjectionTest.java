@@ -49,7 +49,8 @@ public class AbstractProjectionTest {
         when(tuple.get(CONNECTIONS.systemId)).thenReturn(connection.getSystemId());
         when(tuple.get(CONNECTIONS.created)).thenReturn(new Timestamp(connection.getCreated()));
         when(tuple.get(CONNECTIONS.createdBy)).thenReturn(connection.getCreatedBy());
-        when(tuple.get(CONNECTIONS.modified)).thenReturn(new Timestamp(connection.getModified() == null ? 0 : connection.getModified()));
+        when(tuple.get(CONNECTIONS.modified)).thenReturn(new Timestamp(
+                connection.getModified() == null ? 0 : connection.getModified()));
         when(tuple.get(CONNECTIONS.modifiedBy)).thenReturn(connection.getModifiedBy());
         when(tuple.get(CONNECTIONS.sourceId)).thenReturn(connection.getSourceId());
         return tuple;
@@ -62,14 +63,17 @@ public class AbstractProjectionTest {
         when(tuple.get(SYSTEMS.description)).thenReturn(system.getDescription());
         when(tuple.get(SYSTEMS.created)).thenReturn(new Timestamp(system.getCreated()));
         when(tuple.get(SYSTEMS.createdBy)).thenReturn(system.getCreatedBy());
-        when(tuple.get(SYSTEMS.modified)).thenReturn(new Timestamp(system.getModified() == null ? 0 : system.getModified()));
+        when(tuple.get(SYSTEMS.modified)).thenReturn(new Timestamp(
+                system.getModified() == null ? 0 : system.getModified()));
         when(tuple.get(SYSTEMS.modifiedBy)).thenReturn(system.getModifiedBy());
         when(tuple.get(SYSTEMS.sourceId)).thenReturn(system.getSourceId());
         when(tuple.get(SYSTEMS.categoryId)).thenReturn(system.getSystemCategoryId());
         when(tuple.get(SYSTEMS.status)).thenReturn(Objects.requireNonNull(system.getStatus()).toString());
-        when(tuple.get(SYSTEMS.dateOfLastCheck)).thenReturn(system.getDateOfLastCheck() != null ? new Timestamp(system.getDateOfLastCheck()) : null);
+        when(tuple.get(SYSTEMS.dateOfLastCheck)).thenReturn(
+                system.getDateOfLastCheck() != null ? new Timestamp(system.getDateOfLastCheck()) : null);
         when(tuple.get(SYSTEMS.version)).thenReturn(system.getVersion());
-        when(tuple.get(SYSTEMS.dateOfCheckVersion)).thenReturn(system.getDateOfCheckVersion() != null ? new Timestamp(system.getDateOfCheckVersion()) : null);
+        when(tuple.get(SYSTEMS.dateOfCheckVersion)).thenReturn(
+                system.getDateOfCheckVersion() != null ? new Timestamp(system.getDateOfCheckVersion()) : null);
         when(tuple.get(SYSTEMS.parametersGettingVersion)).thenReturn(GSON.toJson(system.getParametersGettingVersion()));
         when(tuple.get(SYSTEMS.parentSystemId)).thenReturn(system.getParentSystemId());
         when(tuple.get(SYSTEMS.serverItf)).thenReturn(GSON.toJson(system.getServerItf()));
@@ -91,7 +95,8 @@ public class AbstractProjectionTest {
         when(tuple.get(ENVIRONMENTS.projectId)).thenReturn(environment.getProjectId());
         when(tuple.get(ENVIRONMENTS.created)).thenReturn(new Timestamp(environment.getCreated()));
         when(tuple.get(ENVIRONMENTS.createdBy)).thenReturn(environment.getCreatedBy());
-        when(tuple.get(ENVIRONMENTS.modified)).thenReturn(new Timestamp(environment.getModified() == null ? 0 : environment.getModified()));
+        when(tuple.get(ENVIRONMENTS.modified)).thenReturn(new Timestamp(
+                environment.getModified() == null ? 0 : environment.getModified()));
         when(tuple.get(ENVIRONMENTS.modifiedBy)).thenReturn(environment.getModifiedBy());
         when(tuple.get(ENVIRONMENTS.sourceId)).thenReturn(environment.getSourceId());
         when(tuple.get(ENVIRONMENTS.categoryId)).thenReturn(environment.getCategoryId());
@@ -105,7 +110,8 @@ public class AbstractProjectionTest {
         when(tuple.get(PROJECTS.shortName)).thenReturn(project.getShortName());
         when(tuple.get(PROJECTS.description)).thenReturn(project.getDescription());
         when(tuple.get(PROJECTS.created)).thenReturn(new Timestamp(0L));
-        when(tuple.get(PROJECTS.modified)).thenReturn(new Timestamp(project.getModified() == null ? 0 : project.getModified()));
+        when(tuple.get(PROJECTS.modified)).thenReturn(new Timestamp(
+                project.getModified() == null ? 0 : project.getModified()));
         return tuple;
     }
 

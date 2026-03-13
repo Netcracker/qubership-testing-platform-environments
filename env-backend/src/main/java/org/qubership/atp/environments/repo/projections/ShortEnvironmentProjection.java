@@ -92,8 +92,7 @@ public class ShortEnvironmentProjection extends MappingProjection<Environment> {
                                   UUID sourceId,
                                   List<String> tags) {
         return new EnvironmentImpl(uuid, name, graylogName, description, ssmSolutionAlias, ssmInstanceAlias,
-                consulEgressConfigPath, created.getTime(), createdBy, modified == null ? null :
-                modified.getTime(), modifiedBy, projectId,
-                null, categoryId, sourceId, tags);
+                consulEgressConfigPath, created.getTime(), createdBy, modified == null ? null : modified.getTime(),
+                modifiedBy, projectId, null, categoryId, sourceId, tags);
     }
 }

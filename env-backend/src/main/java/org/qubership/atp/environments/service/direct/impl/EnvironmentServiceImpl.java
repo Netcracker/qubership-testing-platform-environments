@@ -662,7 +662,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         Map<String, GroupedByTagEnvironmentResponse> resultMap = new HashMap<>();
         GroupedByTagEnvironmentResponse noTagResponse =
                 new GroupedByTagEnvironmentResponse(new ArrayList<>(), NO_TAG);
-        for (Environment environment: environments) {
+        for (Environment environment : environments) {
             List<String> tags = environment.getTags();
             if (!CollectionUtils.isEmpty(tags)) {
                 tags.forEach(tag -> processEnvironmentByTag(environment, tag, resultMap));
