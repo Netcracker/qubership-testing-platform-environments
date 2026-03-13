@@ -69,7 +69,7 @@ public class ActionsEnvironmentsToCataloguePactUnitTest {
     @PactVerification()
     public void allPass() {
         ResponseEntity<Void> result1 = catalogFeignClient.updateActions(actionUUID);
-        Assert.assertEquals(result1.getStatusCode().value(), 200);
+        Assert.assertEquals(200, result1.getStatusCode().value());
     }
 
     @Pact(consumer = "atp-environments")

@@ -75,7 +75,7 @@ public class HealthcheckStatusFeignClientPactUnitTest {
 
         ResponseEntity<SystemStatusDto> expectedSystemStatusDto = healthcheckFeignClient
                 .checkSystem(projectId.toString(), environmentId.toString(), systemId.toString(), null, null, null);
-        Assert.assertEquals(expectedSystemStatusDto.getStatusCode().value(), 200);
+        Assert.assertEquals(200, expectedSystemStatusDto.getStatusCode().value());
         Assert.assertTrue(expectedSystemStatusDto.getHeaders().get("Content-Type").contains("application/json"));
     }
 
@@ -87,43 +87,14 @@ public class HealthcheckStatusFeignClientPactUnitTest {
         DslPart resultDataSetStorage = new PactDslJsonBody()
                 .uuid("systemId")
                 .stringType("name")
-                .minArrayLike("processStatuses", 0, new PactDslJsonBody()
-                        .stringType("process")
-                        .stringType("actual")
-                        .stringType("expected")
-                        .booleanType("isHtml")
-                        .booleanType("notAffectStatus")
-                        .booleanType("isMandatory")
-                        .array("attachments").closeArray())
-                .minArrayLike("configurationStatuses", 0, new PactDslJsonBody()
-                        .stringType("process")
-                        .stringType("actual")
-                        .stringType("expected")
-                        .booleanType("isHtml")
-                        .booleanType("notAffectStatus")
-                        .booleanType("isMandatory")
-                        .array("attachments").closeArray())
+                .minArrayLike("processStatuses", 0, constructDslPart())
+                .minArrayLike("configurationStatuses", 0, constructDslPart())
                 .minArrayLike("connectionStatuses", 0, new PactDslJsonBody()
                         .stringType("connectionId")
                         .stringType("name")
                         .stringType("host")
-                        .minArrayLike("processStatuses", 0, new PactDslJsonBody()
-                                .stringType("process")
-                                .stringType("actual")
-                                .stringType("expected")
-                                .booleanType("isHtml")
-                                .booleanType("notAffectStatus")
-                                .booleanType("isMandatory")
-                                .array("attachments").closeArray())
-                        .minArrayLike("configurationStatuses", 0, new PactDslJsonBody()
-                                .stringType("process")
-                                .stringType("actual")
-                                .stringType("expected")
-                                .booleanType("isHtml")
-                                .booleanType("notAffectStatus")
-                                .booleanType("isMandatory")
-                                .array("attachments").closeArray()))
-                ;
+                        .minArrayLike("processStatuses", 0, constructDslPart())
+                        .minArrayLike("configurationStatuses", 0, constructDslPart()));
 
         PactDslResponse response = builder
                 .given("all ok")
@@ -133,9 +104,19 @@ public class HealthcheckStatusFeignClientPactUnitTest {
                 .willRespondWith()
                 .status(200)
                 .headers(headers)
-                .body(resultDataSetStorage)
-                ;
+                .body(resultDataSetStorage);
 
         return response.toPact();
+    }
+
+    private DslPart constructDslPart() {
+        return new PactDslJsonBody()
+                .stringType("process")
+                .stringType("actual")
+                .stringType("expected")
+                .booleanType("isHtml")
+                .booleanType("notAffectStatus")
+                .booleanType("isMandatory")
+                .array("attachments").closeArray();
     }
 }
