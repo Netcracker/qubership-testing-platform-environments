@@ -52,7 +52,7 @@
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-environments.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-environments.git</url>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <profiles>
