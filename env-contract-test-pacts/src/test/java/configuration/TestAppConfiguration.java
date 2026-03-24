@@ -17,10 +17,9 @@
 package configuration;
 
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.springframework.cloud.commons.httpclient.ApacheHttpClientConnectionManagerFactory;
-import org.springframework.cloud.commons.httpclient.ApacheHttpClientFactory;
-import org.springframework.cloud.commons.httpclient.DefaultApacheHttpClientConnectionManagerFactory;
-import org.springframework.cloud.commons.httpclient.DefaultApacheHttpClientFactory;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,12 +27,16 @@ import org.springframework.context.annotation.Configuration;
 public class TestAppConfiguration {
 
     @Bean
-    public ApacheHttpClientConnectionManagerFactory connectionManagerFactory() {
-        return new DefaultApacheHttpClientConnectionManagerFactory();
-    }
+    public HttpClientBuilder httpClientBuilder() {
+        HttpClientBuilder builder = HttpClients.custom();
 
-    @Bean
-    public ApacheHttpClientFactory httpClientFactory() {
-        return new DefaultApacheHttpClientFactory(HttpClientBuilder.create());
+        // Optional: Configure connection pooling
+        PoolingHttpClientConnectionManager connectionManager =
+                PoolingHttpClientConnectionManagerBuilder.create()
+                        .setMaxConnTotal(100)
+                        .setMaxConnPerRoute(20)
+                        .build();
+
+        return builder.setConnectionManager(connectionManager);
     }
 }
