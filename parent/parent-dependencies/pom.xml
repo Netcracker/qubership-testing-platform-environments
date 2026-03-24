@@ -24,7 +24,7 @@
         <querydsl.version>5.0.0</querydsl.version>
         <postgresql.version>42.3.9</postgresql.version>
         <oracle.version>11.2.0.4</oracle.version>
-        <liquibase.version>4.19.0</liquibase.version>
+        <liquibase.version>4.23.2</liquibase.version>
         <guice.version>6.0.0</guice.version>
         <javers.spring.boot.starter.sql.version>6.14.0</javers.spring.boot.starter.sql.version>
         <shedlock.spring>4.11.1</shedlock.spring>
