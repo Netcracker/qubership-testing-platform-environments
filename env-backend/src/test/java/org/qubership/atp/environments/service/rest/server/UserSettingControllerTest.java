@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
@@ -40,7 +39,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -50,7 +48,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * UserSettingControllerTest - test for {@link UserSettingController}
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)

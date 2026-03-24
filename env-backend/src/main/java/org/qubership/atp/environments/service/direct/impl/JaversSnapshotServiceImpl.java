@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import org.qubership.atp.environments.repo.impl.JaversCommitRepositoryImpl;
 import org.qubership.atp.environments.repo.impl.JaversGlobalIdRepositoryImpl;
 import org.qubership.atp.environments.repo.impl.JaversSnapshotRepositoryImpl;
 import org.qubership.atp.environments.service.direct.JaversSnapshotService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +52,6 @@ public class JaversSnapshotServiceImpl implements JaversSnapshotService {
      * @param javersCommitPropertyRepository javersCommitProperty repository.
      * @param javersGlobalIdRepository       javersGlobalId repository.
      */
-    @Autowired
     public JaversSnapshotServiceImpl(JaversSnapshotRepositoryImpl repository,
                                      JaversCommitRepositoryImpl javersCommitRepository,
                                      JaversCommitPropertyRepositoryImpl javersCommitPropertyRepository,

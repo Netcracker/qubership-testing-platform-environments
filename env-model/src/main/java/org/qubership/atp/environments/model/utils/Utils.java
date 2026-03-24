@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,19 +20,18 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.environments.model.Identified;
 
 import com.google.common.base.Joiner;
 import com.google.gson.Gson;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class Utils {
 
     public static final Gson GSON = new Gson();
     public static final Joiner JOINER_DOT = Joiner.on('.');
-    private static final Supplier<?> EMPTY_SUP = new Supplier<Object>() {
+    private static final Supplier<?> EMPTY_SUP = new Supplier<>() {
 
         @Override
         public String toString() {

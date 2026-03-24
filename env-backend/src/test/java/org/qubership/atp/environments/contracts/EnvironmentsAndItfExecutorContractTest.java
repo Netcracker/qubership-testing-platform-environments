@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 
 package org.qubership.atp.environments.contracts;
 
-import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -62,7 +62,7 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {SystemController.class, ProjectController.class,
         EnvironmentController.class, ConnectionController.class})
-@ContextConfiguration(classes = {PactConfiguration.TestApp.class})
+@SpringJUnitConfig(classes = {PactConfiguration.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         SystemController.class, ProjectController.class, EnvironmentController.class, ConnectionController.class})
@@ -89,23 +89,23 @@ public class EnvironmentsAndItfExecutorContractTest {
         Connection connection = PactTestUtils.formConnection();
         System system = PactTestUtils.formSystem();
 
-        when(projectController.getAllShort()).thenReturn(asList(project));
+        when(projectController.getAllShort()).thenReturn(List.of(project));
 
         when(projectController.getProject(any(UUID.class))).thenReturn(project);
 
-        when(projectController.getEnvironmentsShort(any(UUID.class))).thenReturn(asList(environment));
+        when(projectController.getEnvironmentsShort(any(UUID.class))).thenReturn(List.of(environment));
 
-        when(projectController.getEnvironments(any(UUID.class))).thenReturn(asList(environment));
+        when(projectController.getEnvironments(any(UUID.class))).thenReturn(List.of(environment));
 
         when(environmentController.getEnvironment(any(UUID.class))).thenReturn(environment);
 
-        when(environmentController.getSystemsShort(any(UUID.class))).thenReturn(asList(system));
+        when(environmentController.getSystemsShort(any(UUID.class))).thenReturn(List.of(system));
 
         when(connectionController.getConnection(any(UUID.class))).thenReturn(connection);
 
         when(systemController.getSystem(any(UUID.class))).thenReturn(new ResponseEntity<>(system, HttpStatus.OK));
 
-        when(systemController.getSystemConnections(any(UUID.class))).thenReturn(asList(connection));
+        when(systemController.getSystemConnections(any(UUID.class))).thenReturn(List.of(connection));
     }
 
     @TestTemplate

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,10 +26,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
-
 import org.qubership.atp.environments.db.Proxies;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.ParametersGettingVersion;
@@ -50,7 +46,6 @@ import org.qubership.atp.environments.repo.projections.SystemProjectionWithoutPr
 import org.qubership.atp.environments.service.direct.KafkaService;
 import org.qubership.atp.environments.service.rest.server.dto.EventType;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -74,6 +69,9 @@ import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -112,7 +110,6 @@ public class SystemRepositoryImpl extends AbstractRepository implements Projecti
     /**
      * TODO Make javadoc documentation for this method.
      */
-    @Autowired
     public SystemRepositoryImpl(SQLQueryFactory queryFactory,
                                 Provider<EnvironmentRepositoryImpl> environmentRepo,
                                 Provider<SystemCategoryRepositoryImpl> systemCategoryRepo,

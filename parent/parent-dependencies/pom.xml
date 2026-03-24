@@ -14,36 +14,30 @@
     <packaging>pom</packaging>
 
     <properties>
-        <springframework.boot.version>2.7.18</springframework.boot.version>
-        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <springframework.boot.version>3.3.13</springframework.boot.version>
+        <spring.cloud.version>2023.0.6</spring.cloud.version>
        <!-- <hazelcast.version>4.2.6</hazelcast.version>-->
         <slf4j.version>1.7.25</slf4j.version>
-        <logback.version>1.2.13</logback.version>
+        <logback.version>1.5.18</logback.version>
         <junit.version>4.13</junit.version>
         <hikariCP.version>3.4.5</hikariCP.version>
         <querydsl.version>5.0.0</querydsl.version>
         <postgresql.version>42.3.9</postgresql.version>
         <oracle.version>11.2.0.4</oracle.version>
         <liquibase.version>4.19.0</liquibase.version>
-        <guice.version>4.1.0</guice.version>
+        <guice.version>6.0.0</guice.version>
         <javers.spring.boot.starter.sql.version>6.14.0</javers.spring.boot.starter.sql.version>
         <shedlock.spring>4.11.1</shedlock.spring>
         <kotlin.stdlib.version>1.9.10</kotlin.stdlib.version>
         <kubernetes.client.java.version>18.0.1</kubernetes.client.java.version>
         <tomcat-embed.version>9.0.110</tomcat-embed.version>
-        <undertow.version>2.2.39.Final</undertow.version>
+        <undertow.version>2.3.21.Final</undertow.version>
 
-        <atp.common.version>0.0.47</atp.common.version>
-        <atp.auth.version>1.2.80</atp.auth.version>
-        <atp.crypt.version>0.0.24</atp.crypt.version>
-        <atp.integration.version>0.2.42</atp.integration.version>
-        <ei.version>0.2.46</ei.version>
-<!--
         <atp.common.version>1.0.0-SNAPSHOT</atp.common.version>
         <atp.auth.version>2.0.2-SNAPSHOT</atp.auth.version>
         <atp.crypt.version>1.0.0-SNAPSHOT</atp.crypt.version>
         <atp.integration.version>1.0.0-SNAPSHOT</atp.integration.version>
-        <ei.version>1.0.0-SNAPSHOT</ei.version> -->
+        <ei.version>1.0.0-SNAPSHOT</ei.version>
 
         <atp.ocs.contract.tests>1.2.25</atp.ocs.contract.tests>
     </properties>
@@ -85,7 +79,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
+                <version>6.3.10</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -100,52 +94,21 @@
                 <version>3.24.0-GA</version>
             </dependency>
             <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-api-mockito2</artifactId>
-                <version>2.0.2</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>objenesis</artifactId>
-                        <groupId>org.objenesis</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.mockito</groupId>
-                        <artifactId>mockito-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.mockito</groupId>
-                        <artifactId>mockito-junit-jupiter</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>3.12.4</version>
+                <version>5.23.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>3.12.4</version>
+                <version>5.23.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-module-junit4</artifactId>
-                <version>2.0.2</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>4.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>2.0.1.Final</version>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>6.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.zaxxer</groupId>
@@ -307,7 +270,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.5</version>
+                <version>4.5.14</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -431,6 +394,10 @@
                         <groupId>io.prometheus</groupId>
                         <artifactId>simpleclient_httpserver</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger.core.v3</groupId>
+                        <artifactId>swagger-*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -461,12 +428,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>5.3.34</version>
+                <version>6.1.21</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>5.7.12</version>
+                <version>6.3.10</version>
             </dependency>
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
@@ -476,7 +443,7 @@
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
-                <version>2.9.11</version>
+                <version>3.0.17</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jettison</groupId>

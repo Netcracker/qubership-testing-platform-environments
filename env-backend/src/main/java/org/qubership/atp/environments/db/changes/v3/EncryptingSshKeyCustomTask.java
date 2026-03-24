@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.db.changes.v3;
 
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.errorhandling.ssh.EnvironmentSqlConnectionSshKeyEncryptException;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.utils.Constants;
@@ -23,7 +24,6 @@ import org.qubership.atp.environments.repo.impl.ConnectionRepositoryImpl;
 import org.qubership.atp.environments.service.direct.EncryptorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
 public class EncryptingSshKeyCustomTask {
 

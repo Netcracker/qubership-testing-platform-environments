@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,10 +22,12 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -48,7 +50,7 @@ public class FullSystemProjectionTest {
     SystemCategoryRepositoryImpl systemCategoryRepository;
     ConnectionRepositoryImpl connectionRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         environmentRepository = mock(EnvironmentRepositoryImpl.class);
         projectRepo = mock(ProjectRepositoryImpl.class);
@@ -97,10 +99,12 @@ public class FullSystemProjectionTest {
                 system.getSourceId(),
                 system.getExternalName(),
                 environments);
-        Assert.assertEquals(system.getId(), resultSystem.getId());
-        Assert.assertEquals(system.getName(), resultSystem.getName());
-        Assert.assertEquals(resultSystem.getConnections().size(), 1);
-        Assert.assertEquals(resultSystem.getSystemCategory().getId(), systemCategory.getId());
+        Assertions.assertEquals(system.getId(), resultSystem.getId());
+        Assertions.assertEquals(system.getName(), resultSystem.getName());
+        Assertions.assertEquals(1, resultSystem.getConnections().size());
+        Assertions.assertEquals(
+                Objects.requireNonNull(resultSystem.getSystemCategory()).getId(),
+                systemCategory.getId());
     }
 
     @Test
@@ -142,9 +146,11 @@ public class FullSystemProjectionTest {
                 system.getSourceId(),
                 system.getExternalName(),
                 environments);
-        Assert.assertEquals(system.getId(), resultSystem.getId());
-        Assert.assertEquals(system.getName(), resultSystem.getName());
-        Assert.assertEquals(resultSystem.getConnections().size(), 1);
-        Assert.assertEquals(resultSystem.getSystemCategory().getId(), systemCategory.getId());
+        Assertions.assertEquals(system.getId(), resultSystem.getId());
+        Assertions.assertEquals(system.getName(), resultSystem.getName());
+        Assertions.assertEquals(1, resultSystem.getConnections().size());
+        Assertions.assertEquals(
+                Objects.requireNonNull(resultSystem.getSystemCategory()).getId(),
+                systemCategory.getId());
     }
 }

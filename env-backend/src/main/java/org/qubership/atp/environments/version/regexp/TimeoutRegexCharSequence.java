@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -41,9 +41,8 @@ public class TimeoutRegexCharSequence implements CharSequence {
      */
     public char charAt(int index) {
         if (System.currentTimeMillis() > timeoutTime) {
-            String message = String
-                    .format("Timeout occurred after %s ms while processing regular expression %s.", timeoutMillis,
-                            inner);
+            String message = "Timeout occurred after %s ms while processing regular expression %s."
+                    .formatted(timeoutMillis, inner);
             throw new RuntimeException(message);
         }
         return inner.charAt(index);

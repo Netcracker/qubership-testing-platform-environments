@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,15 +16,12 @@
 
 package org.qubership.atp.environments.utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.environments.model.Connection;
@@ -33,6 +30,7 @@ import org.qubership.atp.environments.model.System;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -206,12 +204,7 @@ public class EnvgeneYamlGenerator {
         if (FORBIDDEN_KEYS.contains(key)) {
             return true;
         }
-
-        if (value != null && value.startsWith(ENC_PREFIX)) {
-            return true;
-        }
-
-        return false;
+        return value != null && value.startsWith(ENC_PREFIX);
     }
 }
 

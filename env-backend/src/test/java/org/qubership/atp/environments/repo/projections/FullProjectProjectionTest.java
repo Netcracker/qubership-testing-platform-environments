@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,9 +23,10 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.Project;
@@ -41,7 +42,7 @@ public class FullProjectProjectionTest {
     ProjectRepositoryImpl repo;
     EnvironmentRepositoryImpl environmentRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repo = mock(ProjectRepositoryImpl.class);
         fullProjectProjection = new FullProjectProjection(repo);
@@ -61,8 +62,8 @@ public class FullProjectProjectionTest {
         Project resultProject = fullProjectProjection.create(project.getId(),
                 project.getName(), project.getShortName(), project.getDescription(),
                 new Timestamp(0L), new Timestamp(0L));
-        Assert.assertEquals(project.getId(), resultProject.getId());
-        Assert.assertEquals(project.getName(), resultProject.getName());
+        Assertions.assertEquals(project.getId(), resultProject.getId());
+        Assertions.assertEquals(project.getName(), resultProject.getName());
     }
 
     @Test
@@ -78,7 +79,7 @@ public class FullProjectProjectionTest {
         Project resultProject = fullProjectProjection.create(project.getId(),
                 project.getName(), project.getShortName(),
                 new Timestamp(0L), new Timestamp(0L));
-        Assert.assertEquals(project.getId(), resultProject.getId());
-        Assert.assertEquals(project.getName(), resultProject.getName());
+        Assertions.assertEquals(project.getId(), resultProject.getId());
+        Assertions.assertEquals(project.getName(), resultProject.getName());
     }
 }

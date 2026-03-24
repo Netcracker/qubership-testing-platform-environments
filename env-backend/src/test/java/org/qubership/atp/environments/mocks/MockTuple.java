@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -60,8 +60,8 @@ public class MockTuple implements Tuple {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (obj instanceof Tuple) {
-            return Arrays.equals(a, ((Tuple) obj).toArray());
+        } else if (obj instanceof Tuple tuple) {
+            return Arrays.equals(a, tuple.toArray());
         } else {
             return false;
         }

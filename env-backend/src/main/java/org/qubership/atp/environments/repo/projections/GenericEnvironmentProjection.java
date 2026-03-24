@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.repo.projections;
 
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -39,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressFBWarnings({"SE_TRANSIENT_FIELD_NOT_RESTORED", "SE_BAD_FIELD"})
 public class GenericEnvironmentProjection extends MappingProjection<Environment> {
 
+    @Serial
     private static final long serialVersionUID = 42L;
     protected final transient EnvironmentRepositoryImpl repo;
     private final List<String> fields;
@@ -73,11 +75,9 @@ public class GenericEnvironmentProjection extends MappingProjection<Environment>
                 Object value = tuple.get(environmentMapper.getField(fieldName,
                         AbstractRepository.ENVIRONMENTS));
 
-                PropertyUtils.setProperty(environment, fieldName, value instanceof Timestamp
-                        ? ((Timestamp) value).getTime() : value);
+                PropertyUtils.setProperty(environment, fieldName, value instanceof Timestamp t ? t.getTime() : value);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                String message = String.format("Incorrect field name: %s",
-                        fieldName);
+                String message = "Incorrect field name: %s".formatted(fieldName);
                 log.error(message, e);
                 throw new EnvironmentsWithFilterRequestException(message);
             }

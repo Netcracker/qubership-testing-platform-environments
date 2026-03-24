@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
 
 import org.qubership.atp.environments.model.Identified;
 import org.qubership.atp.environments.repo.impl.ContextRepository;
@@ -59,6 +57,7 @@ import com.fasterxml.jackson.databind.ser.impl.WritableObjectId;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 @Configuration
 public class AppConfiguration implements WebMvcConfigurer {
@@ -66,11 +65,11 @@ public class AppConfiguration implements WebMvcConfigurer {
     private final ContextRepository repo;
     private final MetricService metricService;
 
-    @Value("${spring.resources.static-locations}")
+    @Value("${spring.web.resources.static-locations}")
     private String webLocation;
     @Value("${application.web.root-page}")
     private String rootPage;
-    @Value("${spring.resources.cache.period}")
+    @Value("${spring.web.resources.cache.period}")
     private Integer cachePeriodInSec;
 
     public AppConfiguration(ContextRepository repo, MetricService metricService) {
@@ -153,8 +152,8 @@ public class AppConfiguration implements WebMvcConfigurer {
         public JsonSerializer<?> modifySerializer(
                 SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
             if (Identified.class.isAssignableFrom(beanDesc.getBeanClass())
-                    && serializer instanceof BeanSerializerBase) {
-                return new FlatSerializer(contextRepo, (BeanSerializerBase) serializer);
+                    && serializer instanceof BeanSerializerBase base) {
+                return new FlatSerializer(contextRepo, base);
             }
             return serializer;
         }

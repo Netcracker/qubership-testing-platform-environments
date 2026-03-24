@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import org.qubership.atp.environments.service.rest.server.dto.generated.PageInfo
 import org.qubership.atp.environments.versioning.model.entities.AbstractJaversEntity;
 import org.qubership.atp.environments.versioning.model.values.ConnectionJ;
 import org.qubership.atp.environments.versioning.service.JaversHistoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +47,6 @@ public class JaversHistoryServiceImpl implements JaversHistoryService {
 
     private final Javers javers;
 
-    @Autowired
     public JaversHistoryServiceImpl(Javers javers) {
         this.javers = javers;
     }
@@ -97,8 +95,7 @@ public class JaversHistoryServiceImpl implements JaversHistoryService {
     private void putChangeToHistoryItem(PropertyChange change, HistoryItemDtoGenerated historyItemDto) {
         log.trace("Processing propertyChange = {}", change);
         String propertyName = change.getPropertyName();
-        if (change instanceof ContainerChange) {
-            ContainerChange containerChange = (ContainerChange) change;
+        if (change instanceof ContainerChange containerChange) {
             List<?> addedValues = convertToSignificantValues(containerChange.getAddedValues());
             List<?> removedValues = convertToSignificantValues(containerChange.getRemovedValues());
             Collection<?> intersection = CollectionUtils.intersection(addedValues, removedValues);

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,15 +19,14 @@ package org.qubership.atp.environments.service.direct.impl;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.environments.model.AlertEvent;
 import org.qubership.atp.environments.repo.impl.AlertEventRepositoryImpl;
 import org.qubership.atp.environments.service.direct.AlertEventService;
 import org.qubership.atp.environments.utils.DateTimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Service("alertEventService")
 public class AlertEventServiceImpl implements AlertEventService {
@@ -35,7 +34,6 @@ public class AlertEventServiceImpl implements AlertEventService {
     private final AlertEventRepositoryImpl alertEventRepository;
     private final DateTimeUtil dateTimeUtil;
 
-    @Autowired
     public AlertEventServiceImpl(AlertEventRepositoryImpl alertEventRepository, DateTimeUtil dateTimeUtil) {
         this.alertEventRepository = alertEventRepository;
         this.dateTimeUtil = dateTimeUtil;

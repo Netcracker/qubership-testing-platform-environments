@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -37,8 +37,7 @@ public interface TrackedMethodStrategy {
         Optional<UUID> first = Arrays.stream(invocation.getArguments())
                 .filter(arg -> arg instanceof Identified || arg instanceof UUID)
                 .findFirst()
-                .map(firstArg -> firstArg instanceof Identified
-                        ? ((Identified) firstArg).getId() : (UUID) firstArg);
+                .map(firstArg -> firstArg instanceof Identified i ? i.getId() : (UUID) firstArg);
         return first.orElseThrow(() ->
                 new IllegalArgumentException("Method arguments should contain Identified or UUID for method "
                         + invocation.getMethod()));

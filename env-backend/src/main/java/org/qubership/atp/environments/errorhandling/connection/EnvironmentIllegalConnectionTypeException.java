@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,6 +26,6 @@ public class EnvironmentIllegalConnectionTypeException extends AtpEnvironmentExc
     public static final String DEFAULT_MESSAGE = "Failed to find connection for type: %s";
 
     public EnvironmentIllegalConnectionTypeException(String type) {
-        super(String.format(DEFAULT_MESSAGE, type));
+        super(DEFAULT_MESSAGE.formatted(type));
     }
 }

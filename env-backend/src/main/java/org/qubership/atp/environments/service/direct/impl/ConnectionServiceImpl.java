@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -30,9 +30,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
@@ -49,7 +46,6 @@ import org.qubership.atp.environments.service.direct.ConnectionService;
 import org.qubership.atp.environments.service.rest.client.CatalogFeignClient;
 import org.qubership.atp.environments.service.rest.server.dto.TaEngineAbstractParam;
 import org.qubership.atp.environments.utils.DateTimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -57,6 +53,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 
@@ -76,7 +74,6 @@ public class ConnectionServiceImpl implements ConnectionService {
     /**
      * Autowired constructor.
      */
-    @Autowired
     public ConnectionServiceImpl(ConnectionRepositoryImpl connectionRepository, DateTimeUtil dateTimeUtil,
                                  CatalogFeignClient catalogClient, Provider<UserInfo> userInfoProvider) {
         this.connectionRepository = connectionRepository;
@@ -362,9 +359,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             Object valueJson = jsonObject.get(key);
             if (valueMap.equals(valueJson)) {
                 continue;
-            } else if (valueMap instanceof List && valueJson instanceof List) {
-                List<?> listFromMap = (List<?>) valueMap;
-                List<?> listFromJson = (List<?>) valueJson;
+            } else if (valueMap instanceof List<?> listFromMap && valueJson instanceof List<?> listFromJson) {
                 if (listFromMap.equals(listFromJson)) {
                     continue;
                 }
@@ -457,10 +452,9 @@ public class ConnectionServiceImpl implements ConnectionService {
         String regexParsingSeparator = "(\\s+-*)|(\\s?,\\s?)";
         String regexSectionName = "^[-]{0,2}(([^=](?=.))+=)";
 
-        if (parameter instanceof List) {
-            ((List<?>) parameter).forEach(listElement -> {
-                if (listElement instanceof String) {
-                    String stringParameter = (String) listElement;
+        if (parameter instanceof List<?> list) {
+            list.forEach(listElement -> {
+                if (listElement instanceof String stringParameter) {
                     if (stringParameter.matches(regexCanExtractParameterName)) {
                         Matcher matcher = Pattern.compile(regexParameterName)
                                 .matcher(stringParameter);
@@ -482,8 +476,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         } else if (parameter instanceof Map) {
             Map<String, ?> parameterMap = (Map<String, ?>) parameter;
             decomposeMapForValidation(parameterSection, excludeList, invalidFields, stringList, parameterMap);
-        } else if (parameter instanceof String) {
-            String stringParameter = (String) parameter;
+        } else if (parameter instanceof String stringParameter) {
             if (stringParameter.matches(regexCanBeParsedAsArray)) {
                 Matcher matcher = Pattern.compile(regexSectionName)
                         .matcher(stringParameter);

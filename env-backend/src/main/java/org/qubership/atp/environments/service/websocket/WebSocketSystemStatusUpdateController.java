@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
 import org.qubership.atp.environments.enums.MdcField;
 import org.qubership.atp.integration.configuration.mdc.MdcUtils;
@@ -36,6 +34,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -81,8 +80,8 @@ public class WebSocketSystemStatusUpdateController {
     public MultiErrorResponse<String> handleException(Exception e, @Nullable @Headers Map<String, Object> headers) {
         log.error("Error during handling socket message. headers {}", headers, e);
         final String msg;
-        if (e instanceof FeignClientException) {
-            msg = ((FeignClientException) e).getErrorMessage();
+        if (e instanceof FeignClientException exception) {
+            msg = exception.getErrorMessage();
         } else {
             msg = e.getMessage() != null && !e.getMessage().equals("null")
                     ? e.getMessage()

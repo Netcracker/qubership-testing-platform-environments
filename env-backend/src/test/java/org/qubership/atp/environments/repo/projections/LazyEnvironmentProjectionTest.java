@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,10 +22,12 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.Project;
@@ -43,7 +45,7 @@ public class LazyEnvironmentProjectionTest {
     ProjectRepositoryImpl projectRepo;
     SystemRepositoryImpl systemRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repo = mock(EnvironmentRepositoryImpl.class);
         lazyEnvironmentProjection = new LazyEnvironmentProjection(repo);
@@ -70,8 +72,8 @@ public class LazyEnvironmentProjectionTest {
                 environment.getCreatedBy(), new Timestamp(0L),
                 environment.getModifiedBy(), environment.getProjectId(), environment.getCategoryId(),
                 environment.getSourceId(), environment.getTags());
-        Assert.assertEquals(environment.getId(), resultEnvironment.getId());
-        Assert.assertEquals(environment.getName(), resultEnvironment.getName());
-        Assert.assertEquals(environment.getSystems().size(), 1);
+        Assertions.assertEquals(environment.getId(), resultEnvironment.getId());
+        Assertions.assertEquals(environment.getName(), resultEnvironment.getName());
+        Assertions.assertEquals(1, Objects.requireNonNull(environment.getSystems()).size());
     }
 }

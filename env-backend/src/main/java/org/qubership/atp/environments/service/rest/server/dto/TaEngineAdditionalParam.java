@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.service.rest.server.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.qubership.atp.environments.enums.TaEngineParamSectionEnum;
@@ -29,6 +30,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class TaEngineAdditionalParam extends TaEngineAbstractParam implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

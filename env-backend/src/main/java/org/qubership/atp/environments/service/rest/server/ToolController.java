@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -34,7 +34,6 @@ import org.qubership.atp.environments.service.rest.server.request.ValidateTaTool
 import org.qubership.atp.environments.service.rest.server.response.ValidateTaToolsResponse;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
 import org.qubership.atp.integration.configuration.mdc.MdcUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,7 +65,6 @@ public class ToolController /*implements ToolControllerApi*/ {
     /**
      * Constructor.
      */
-    @Autowired
     public ToolController(EnvironmentService service,
                           SystemService systemService,
                           ConcurrentModificationService concurrentModificationService,

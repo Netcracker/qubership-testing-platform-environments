@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,29 +20,26 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.crypt.exception.AtpEncryptException;
 import org.qubership.atp.environments.errorhandling.internal.EnvironmentEncryptionException;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.service.direct.EncryptorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("encryptorService")
 public class EncryptorServiceImpl implements EncryptorService {
 
-    private boolean useEncryption;
+    private final boolean useEncryption;
     protected Encryptor encryptor;
     private final String isEncryptFlag = "{2ENC}";
 
-    @Autowired
     public EncryptorServiceImpl(@Nonnull Encryptor encryptor,
                                 @Value("${atp.crypto.enabled:false}") boolean useEncryption) {
         this.encryptor = encryptor;

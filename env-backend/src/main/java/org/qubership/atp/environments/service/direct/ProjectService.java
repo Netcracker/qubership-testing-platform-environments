@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,9 +19,6 @@ package org.qubership.atp.environments.service.direct;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.auth.springbootstarter.exceptions.AtpException;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -29,6 +26,9 @@ import org.qubership.atp.environments.model.Project;
 import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.service.rest.server.dto.EnvironmentDto;
 import org.qubership.atp.environments.service.rest.server.request.ProjectSearchRequest;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public interface ProjectService extends IdentifiedService<Project> {
 

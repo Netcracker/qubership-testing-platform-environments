@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ package org.qubership.atp.environments.db.migration;
 import java.io.Closeable;
 import java.io.IOException;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.annotation.Nullable;
 
 public class Utils {
 
@@ -38,7 +38,7 @@ public class Utils {
         try {
             closeable.close();
         } catch (IOException e) {
-            LOGGER.warn("Can not close resource: " + closeable, e);
+            LOGGER.warn("Can not close resource: {}", closeable, e);
         }
     }
 }

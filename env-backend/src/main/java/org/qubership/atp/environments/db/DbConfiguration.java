@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import java.util.function.Supplier;
 import javax.sql.DataSource;
 
 import org.qubership.atp.environments.errorhandling.connection.EnvironmentSqlConnectionCloseException;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -65,6 +66,7 @@ public class DbConfiguration {
     }
 
     @Bean
+    @DependsOnDatabaseInitialization
     public SQLQueryFactory queryFactory(DataSource dataSource, Configuration configuration) {
         Supplier<Connection> springConnectionProvider = new SpringConnectionProvider(dataSource);
         return new SQLQueryFactory(configuration, springConnectionProvider);

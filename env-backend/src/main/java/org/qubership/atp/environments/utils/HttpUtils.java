@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,18 +19,24 @@ package org.qubership.atp.environments.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.ssl.SSLContexts;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +50,8 @@ public class HttpUtils {
      *
      * @param httpResponse response object
      */
-    public static String getResponse(HttpResponse httpResponse, HttpRequest httpRequest) {
+    public static String getResponse(ClassicHttpResponse httpResponse, ClassicHttpRequest httpRequest)
+            throws URISyntaxException {
         String result = null;
         HttpEntity httpEntity;
         if (httpResponse != null) {
@@ -53,11 +60,8 @@ public class HttpUtils {
                 try {
                     result = IOUtils.toString(httpEntity.getContent(), charset);
                 } catch (IOException e) {
-                    log.error("Can't read http entity. "
-                                    + "Method[" + httpRequest.getRequestLine().getMethod() + "]. "
-                                    + "URI[" + httpRequest.getRequestLine().getUri() + "]. "
-                                    + "Status Code[" + httpResponse.getStatusLine().getStatusCode() + "]",
-                            e);
+                    log.error("Can't read http entity. Method[{}]. URI[{}]. Status Code[{}]", httpRequest.getMethod(),
+                            httpRequest.getUri(), httpResponse.getCode(), e);
                 }
             }
         }
@@ -67,15 +71,14 @@ public class HttpUtils {
     /**
      * TODO Make javadoc documentation for this method.
      */
-    public static String convertToHtml(HttpEntity httpEntity) throws Exception {
+    public static String convertToHtml(HttpEntity httpEntity) {
         StringBuilder result = new StringBuilder();
         try (BufferedReader rd = new BufferedReader(new InputStreamReader(httpEntity.getContent(),
                 StandardCharsets.UTF_8))) {
-            String line = "";
+            String line;
             while ((line = rd.readLine()) != null) {
                 result.append(line);
             }
-            rd.close();
         } catch (IOException ex) {
             log.error("Error on convert to html", ex);
         }
@@ -87,15 +90,31 @@ public class HttpUtils {
      */
     public static HttpClientBuilder createTrustAllHttpClientBuilder() {
         try {
-            SSLContextBuilder builder = new SSLContextBuilder();
-            builder.loadTrustMaterial(null, (chain, authType) -> true);
-            SSLConnectionSocketFactory sslsf = new
-                    SSLConnectionSocketFactory(builder.build(), NoopHostnameVerifier.INSTANCE);
-            return HttpClients.custom().setSSLSocketFactory(sslsf);
+            // The below #1-4 steps code is written by KAG using AI assistance, after upgrading to httpclient5
+            // 1. Create an SSLContext that trusts all certificates
+            SSLContext sslContext = SSLContexts.custom()
+                    .loadTrustMaterial(null, TrustAllStrategy.INSTANCE)
+                    .build();
+
+            // 2. Create an SSLConnectionSocketFactory using the SSLContext
+            SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
+                    .setSslContext(sslContext)
+                    .build();
+
+            // 3. Create a ConnectionManager and set the SSL socket factory on it
+            PoolingHttpClientConnectionManager connectionManager =
+                    PoolingHttpClientConnectionManagerBuilder.create()
+                            .setSSLSocketFactory(sslSocketFactory)
+                            .build();
+
+            // 4. Build the HttpClient and set the custom ConnectionManager
+            return HttpClients.custom()
+                    .setConnectionManager(connectionManager)
+                    .setConnectionManagerShared(true); // Important for resource management
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
-            log.error("Error on creating HttpClientBuilder.", e);
+            log.error("Error on creating HttpClient with trust-all SSL strategy.", e);
             return HttpClientBuilder.create();
         }
     }

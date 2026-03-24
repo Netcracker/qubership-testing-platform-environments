@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -39,12 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SshConnectionManager implements Closeable, AutoCloseable {
 
-    private String host;
-    private int port;
-    private String login;
-    private String password;
-    private String key;
-    private String passphrase;
+    private final String host;
+    private final int port;
+    private final String login;
+    private final String password;
+    private final String key;
+    private final String passphrase;
     private Session session;
     private int sessionTimeout;
 
@@ -82,7 +82,7 @@ public class SshConnectionManager implements Closeable, AutoCloseable {
             session.connect();
         } catch (JSchException e) {
             String messageTemplate = "Can't open ssh connection. Host: [%s], Port: [%s], Login: [%s].";
-            String message = String.format(messageTemplate, login, host, port);
+            String message = messageTemplate.formatted(login, host, port);
             log.error(message, e);
         }
     }

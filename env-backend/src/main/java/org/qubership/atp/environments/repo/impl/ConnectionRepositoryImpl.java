@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,10 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
-
 import org.qubership.atp.environments.db.Proxies;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
@@ -42,7 +38,6 @@ import org.qubership.atp.environments.service.direct.EncryptorService;
 import org.qubership.atp.environments.service.direct.KafkaService;
 import org.qubership.atp.environments.service.rest.server.dto.EventType;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -55,6 +50,9 @@ import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 @Repository
 @SuppressWarnings("CPD-START")
@@ -73,7 +71,6 @@ public class ConnectionRepositoryImpl extends AbstractRepository {
     /**
      * Constructor of Connection Repository.
      */
-    @Autowired
     public ConnectionRepositoryImpl(SQLQueryFactory queryFactory,
                                     Provider<ConnectionRepositoryImpl> connectionRepo,
                                     EncryptorService encryptorService,

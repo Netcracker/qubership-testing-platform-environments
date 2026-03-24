@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,15 +20,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
-
 import org.qubership.atp.environments.db.Proxies;
 import org.qubership.atp.environments.model.Subscriber;
 import org.qubership.atp.environments.model.Subscription;
 import org.qubership.atp.environments.model.impl.SubscriptionImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -39,6 +34,9 @@ import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQueryFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 @Repository
 @SuppressWarnings("CPD-START")
@@ -65,7 +63,6 @@ public class SubscriptionRepositoryImpl extends AbstractRepository {
     /**
      * TODO Make javadoc documentation for this method.
      */
-    @Autowired
     public SubscriptionRepositoryImpl(SQLQueryFactory queryFactory,
                                       Provider<ProjectRepositoryImpl> projectRepo,
                                       Provider<EnvironmentRepositoryImpl> environmentRepo,

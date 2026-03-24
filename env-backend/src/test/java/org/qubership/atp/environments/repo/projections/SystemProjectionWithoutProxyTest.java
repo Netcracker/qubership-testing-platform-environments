@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,9 +22,10 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -48,10 +49,7 @@ public class SystemProjectionWithoutProxyTest extends AbstractProjectionTest {
     SystemCategoryRepositoryImpl systemCategoryRepository;
     ConnectionRepositoryImpl connectionRepository;
 
-
-
-
-    @Before
+    @BeforeEach
     public void setUp() {
         environmentRepository = mock(EnvironmentRepositoryImpl.class);
         projectRepo = mock(ProjectRepositoryImpl.class);
@@ -80,9 +78,9 @@ public class SystemProjectionWithoutProxyTest extends AbstractProjectionTest {
         when(connectionRepository.getAllByParentId(system.getId())).thenReturn(connections);
         Tuple tuple = mockTupleForSystem(system);
         System resultSystem = systemProjectionWithoutProxy.map(tuple);
-        Assert.assertEquals(resultSystem.getId(), system.getId());
-        Assert.assertEquals(resultSystem.getName(), system.getName());
-        Assert.assertNotNull(resultSystem.getEnvironments());
-        Assert.assertNotNull(resultSystem.getConnections());
+        Assertions.assertEquals(resultSystem.getId(), system.getId());
+        Assertions.assertEquals(resultSystem.getName(), system.getName());
+        Assertions.assertNotNull(resultSystem.getEnvironments());
+        Assertions.assertNotNull(resultSystem.getConnections());
     }
 }

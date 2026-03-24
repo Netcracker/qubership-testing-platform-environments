@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import org.qubership.atp.environments.model.Project;
 import org.qubership.atp.environments.model.impl.ProjectImpl;
 import org.qubership.atp.environments.service.direct.ProjectService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +35,6 @@ public class CatalogController  /*implements CatalogControllerApi*/ {
 
     private final ProjectService projectService;
 
-    @Autowired
     public CatalogController(ProjectService projectService) {
         this.projectService = projectService;
     }

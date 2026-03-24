@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,13 +16,11 @@
 
 package org.qubership.atp.environments.model.impl;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -33,10 +31,13 @@ import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.model.SystemCategory;
 import org.qubership.atp.environments.model.utils.enums.Status;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.Builder;
 
 public class SystemImpl extends AbstractCreatedModified implements System, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private List<Environment> environments;

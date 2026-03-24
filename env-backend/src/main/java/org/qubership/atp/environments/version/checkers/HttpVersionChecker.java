@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -107,20 +107,30 @@ public class HttpVersionChecker implements VersionChecker {
                     httpRequest.addHeader("x-client-application-name", "NCECARE");
                 }
             }
-            HttpResponse response = httpClient.execute(httpRequest);
-            HttpEntity entity = response.getEntity();
-            String content = EntityUtils.toString(entity);
-            if (!content.contains("<!DOCTYPE html")) {
+
+            // Define how to handle the response
+            HttpClientResponseHandler<String> responseHandler = (ClassicHttpResponse response) -> {
+                int status = response.getCode();
+                if (status >= 200 && status < 300) {
+                    return EntityUtils.toString(response.getEntity());
+                } else {
+                    log.error("getVersion: Unexpected response status: {}", status);
+                    return StringUtils.EMPTY;
+                }
+            };
+
+            String responseEntity = httpClient.execute(httpRequest, responseHandler);
+            if (!responseEntity.contains("<!DOCTYPE html")) {
                 if ("/version_history.txt".equals(parameters)
                         || "/version.txt".equals(parameters)) {
-                    version.addAll(parseVersions(content, BUILD_VERSION_PATTERN));
+                    version.addAll(parseVersions(responseEntity, BUILD_VERSION_PATTERN));
                 } else if (parameters.matches(".*portal-info.jsp")) {
-                    version.addAll(parseVersions(content, BUILD_VERSION_PORTAL));
+                    version.addAll(parseVersions(responseEntity, BUILD_VERSION_PORTAL));
                 } else {
-                    version.add(content);
+                    version.add(responseEntity);
                 }
             }
-            return !version.isEmpty() ? version.get(0) : "Unknown";
+            return !version.isEmpty() ? version.getFirst() : "Unknown";
         } catch (IOException | PathNotFoundException | ParseException e) {
             log.error(e.getMessage());
         }

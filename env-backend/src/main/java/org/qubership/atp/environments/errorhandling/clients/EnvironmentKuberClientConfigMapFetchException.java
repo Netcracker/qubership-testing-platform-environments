@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "ENV-2503")
 public class EnvironmentKuberClientConfigMapFetchException extends AtpEnvironmentException {
 
-    public static final String DEFAULT_MESSAGE = "Failed to get config map with name '%' and namespace '%' "
+    public static final String DEFAULT_MESSAGE = "Failed to get config map with name '%s' and namespace '%s' "
             + "from the Kuber client";
 
     public EnvironmentKuberClientConfigMapFetchException(String configMapName, String namespace) {
-        super(String.format(DEFAULT_MESSAGE, configMapName, namespace));
+        super(DEFAULT_MESSAGE.formatted(configMapName, namespace));
     }
 }

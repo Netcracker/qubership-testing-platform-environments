@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,11 +16,14 @@
 
 package org.qubership.atp.environments.service.rest.server.response;
 
+import java.io.Serial;
+
 import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.model.impl.SystemImpl;
 
 @SuppressWarnings("CPD-START")
 public class SystemVersionResponse extends SystemImpl {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     String versionError;

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class ResourceAccessor {
@@ -83,7 +82,7 @@ public class ResourceAccessor {
     }
 
     public Path getPath(String... path) {
-        return Paths.get(getRootFilePath(), path);
+        return Path.of(getRootFilePath(), path);
     }
 
     public String getRootFilePath() {
@@ -95,8 +94,7 @@ public class ResourceAccessor {
     }
 
     public Path getRootPath() {
-        String[] allSegments = aClass.getName()
-                .split("[.]");
-        return Paths.get(resourcesPath, allSegments);
+        String[] allSegments = aClass.getName().split("[.]");
+        return Path.of(resourcesPath, allSegments);
     }
 }

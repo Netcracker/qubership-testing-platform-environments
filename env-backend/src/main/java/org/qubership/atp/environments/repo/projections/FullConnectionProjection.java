@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.impl.ConnectionImpl;
@@ -33,6 +31,7 @@ import org.qubership.atp.environments.repo.impl.ConnectionRepositoryImpl;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 @SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 @SuppressWarnings("CPD-START")

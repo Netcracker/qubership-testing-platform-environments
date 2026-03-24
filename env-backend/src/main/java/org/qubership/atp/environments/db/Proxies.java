@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import org.qubership.atp.environments.model.Identified;
@@ -34,6 +33,7 @@ import org.qubership.atp.environments.model.utils.Utils;
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.Reflection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 public class Proxies {
 
@@ -117,7 +117,7 @@ public class Proxies {
 
         @Override
         public String toString() {
-            return String.format("[%s with id: %s]", type.getSimpleName(), id);
+            return "[%s with id: %s]".formatted(type.getSimpleName(), id);
         }
     }
 

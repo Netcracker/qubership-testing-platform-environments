@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class UserSettingsAlreadyExistsException extends AtpEnvironmentException 
             + "settings for user with id %s already exists";
 
     public UserSettingsAlreadyExistsException(UUID userId) {
-        super(String.format(DEFAULT_MESSAGE, userId));
+        super(DEFAULT_MESSAGE.formatted(userId));
     }
 
 }

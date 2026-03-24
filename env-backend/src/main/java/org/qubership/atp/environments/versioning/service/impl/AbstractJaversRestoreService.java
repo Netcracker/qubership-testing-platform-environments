@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,9 +20,6 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
 import org.javers.core.Javers;
 import org.javers.repository.jql.JqlQuery;
 import org.javers.repository.jql.QueryBuilder;
@@ -38,6 +35,8 @@ import org.qubership.atp.environments.versioning.service.JaversRestoreService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

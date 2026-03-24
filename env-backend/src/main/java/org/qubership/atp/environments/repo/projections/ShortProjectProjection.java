@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.repo.projections;
 
+import java.io.Serial;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -31,6 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 public class ShortProjectProjection extends MappingProjection<Project> {
 
+    @Serial
     private static final long serialVersionUID = 42L;
     protected final transient ProjectRepositoryImpl repo;
 

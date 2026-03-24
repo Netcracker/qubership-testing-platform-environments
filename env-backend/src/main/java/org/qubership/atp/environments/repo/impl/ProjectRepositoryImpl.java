@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,10 +23,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
-
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.Project;
 import org.qubership.atp.environments.model.System;
@@ -38,7 +34,6 @@ import org.qubership.atp.environments.repo.projections.ShortProjectProjection;
 import org.qubership.atp.environments.service.direct.KafkaService;
 import org.qubership.atp.environments.service.rest.server.dto.EventType;
 import org.qubership.atp.environments.service.rest.server.request.ProjectSearchRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -49,6 +44,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQueryFactory;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 @Repository
 @SuppressWarnings("CPD-START")
@@ -69,7 +67,6 @@ public class ProjectRepositoryImpl extends AbstractRepository implements Project
     /**
      * Constructor of ProjectRepository.
      */
-    @Autowired
     public ProjectRepositoryImpl(SQLQueryFactory queryFactory, Provider<EnvironmentRepositoryImpl> environmentRepo,
                                  Provider<SystemRepositoryImpl> systemRepo,
                                  ContextRepository repository, KafkaService kafkaService) {

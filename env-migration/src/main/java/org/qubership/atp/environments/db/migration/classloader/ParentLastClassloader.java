@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ package org.qubership.atp.environments.db.migration.classloader;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ParentLastClassloader extends URLClassLoader {
     private static final String Q_CLASSES_JAR_EXPRESSION = "env-q-classes-generation.+\\.jar";
     private final String sourcePath;
     private URLClassLoader urlClassLoader;
-    private String jdbcType;
+    private final String jdbcType;
 
     /**
      * ClassLoader based on {@link URLClassLoader} for loading classes from self.
@@ -70,7 +71,7 @@ public class ParentLastClassloader extends URLClassLoader {
                     + "env-q-classes-generation-pg.jar - there is jdbc_type is 'pg'");
         }
         this.sourcePath = sourcePath;
-        try (Stream<Path> walk = Files.walk(Paths.get(sourcePath))) {
+        try (Stream<Path> walk = Files.walk(Path.of(sourcePath))) {
             walk
                     .filter(path -> !isJarFile(path))
                     .forEach(path -> {
@@ -138,7 +139,7 @@ public class ParentLastClassloader extends URLClassLoader {
         String jarPath = className
                 .replaceAll("\\.", "/").replaceFirst("\\w+$", "");
         try {
-            Path dir = Paths.get(sourcePath, jarPath);
+            Path dir = Path.of(sourcePath, jarPath);
             List<Path> jarList = Files.list(dir).filter(this::isJarFile).collect(Collectors.toList());
             if (urlClassLoader != null) {
                 urlClassLoader.close();
@@ -159,22 +160,22 @@ public class ParentLastClassloader extends URLClassLoader {
                 } else {
                     urls.add(getUrl(path));
                 }
-            } catch (IOException e) {
-                LOGGER.error("Can't convert path to URL. File path:" + path, e);
+            } catch (IOException | URISyntaxException e) {
+                LOGGER.error("Can't convert path to URL. File path: {}", path, e);
             }
         });
         return new FindFirstClassLoader(urls.toArray(new URL[urls.size()]), getClass().getClassLoader());
     }
 
-    private void loadGeneratedQClasses(List<URL> urls, String name, Path path) throws IOException {
+    private void loadGeneratedQClasses(List<URL> urls, String name, Path path) throws IOException, URISyntaxException {
         if (name.endsWith(jdbcType + JAR)) {
             urls.add(getUrl(path)); //load jar with q-classes
         }
     }
 
-    private URL getUrl(Path jarFile) throws IOException {
+    private URL getUrl(Path jarFile) throws IOException, URISyntaxException {
         //The syntax of a JAR URL is: jar:${path}!/
-        return new URL("jar:file:" + jarFile.toString() + "!/");
+        return new URI("jar:file:" + jarFile.toString() + "!/").toURL();
     }
 
     private static class FindFirstClassLoader extends URLClassLoader {

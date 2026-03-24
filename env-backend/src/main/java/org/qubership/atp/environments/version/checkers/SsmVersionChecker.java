@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,12 +20,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.qubership.atp.environments.model.Connection;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -78,12 +80,19 @@ public class SsmVersionChecker implements VersionChecker {
             log.info("Get version for {} microservice from SSM by solution: {} and instance: {}", systemName,
                     ssmSolutionAlias, ssmInstanceAlias);
             HttpGet httpRequest = new HttpGet(Validate.notNull(url)
-                    + String.format(basePath, ssmSolutionAlias, ssmInstanceAlias));
+                    + basePath.formatted(ssmSolutionAlias, ssmInstanceAlias));
             setAuthHeaders(httpRequest);
             httpRequest.addHeader("x-client-application-name", "NCECARE");
-            HttpResponse response = httpClient.execute(httpRequest);
-            HttpEntity entity = response.getEntity();
-            String content = EntityUtils.toString(entity);
+
+            HttpClientResponseHandler<String> responseHandler = (ClassicHttpResponse response) -> {
+                try {
+                    return EntityUtils.toString(response.getEntity());
+                } catch (IOException | ParseException e) {
+                    log.error(e.getMessage());
+                    return StringUtils.EMPTY;
+                }
+            };
+            String content = httpClient.execute(httpRequest, responseHandler);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode microservicesArrayNode = mapper.readTree(content);
             if (microservicesArrayNode.isArray()) {
@@ -110,8 +119,7 @@ public class SsmVersionChecker implements VersionChecker {
 
     private void setAuthHeaders(HttpGet httpRequest) {
         String auth = this.login + ":" + this.password;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.UTF_8));
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth, StandardCharsets.UTF_8);
         httpRequest.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public class WebSocketSystemStatusService {
     public void processRequest(SystemStatusCheckRequest request) {
         String nullError = "Aborting sending request to Healthcheck service. %s is null. Request: %s";
         final UUID projectId = Preconditions.checkNotNull(request.getProjectId(),
-                String.format(nullError, "Project Id", request));
+                nullError.formatted("Project Id", request));
         if (request.getSystemId() == null && request.getEnvironmentId() != null) {
             for (System system : environmentService.getSystems(request.getEnvironmentId())) {
                 processRequest(projectId, request.getEnvironmentId(), system.getId());
@@ -76,7 +76,7 @@ public class WebSocketSystemStatusService {
             final String errTemplate = "Make sure that at least one connection of the system with id [%s]"
                     + " in environment %s has set 'HealthCheck' as 'use in service' field";
             log.error(e.getErrorMessage());
-            throw new FeignClientException(e.getStatus(), String.format(errTemplate, systemId, env),
+            throw new FeignClientException(e.getStatus(), errTemplate.formatted(systemId, env),
                     e.getHttpMethod(), e.getHeaders(), e.getRequest());
         } catch (Exception e) {
             log.error("Error get healthcheck status: ", e);

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,19 +19,17 @@ package org.qubership.atp.environments.versioning.validation;
 import java.util.Collection;
 import java.util.UUID;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import org.qubership.atp.environments.service.direct.IdentifiedService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class ReferenceExistsValidator implements ConstraintValidator<ReferenceExists, Object> {
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
     private ReferenceExists annotation;
 
-    @Autowired
     public ReferenceExistsValidator(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -53,8 +51,8 @@ public class ReferenceExistsValidator implements ConstraintValidator<ReferenceEx
             return ((Collection<UUID>) value)
                     .stream()
                     .allMatch(service::existsById);
-        } else if (value instanceof UUID) {
-            return service.existsById((UUID) value);
+        } else if (value instanceof UUID iD) {
+            return service.existsById(iD);
         } else {
             return false;
         }

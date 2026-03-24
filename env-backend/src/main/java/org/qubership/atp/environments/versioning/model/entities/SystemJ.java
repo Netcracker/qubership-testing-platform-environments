@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import org.javers.core.metamodel.annotation.TypeName;
 import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.service.direct.SystemCategoriesService;
@@ -33,22 +31,23 @@ import org.qubership.atp.environments.versioning.validation.ReferenceExists;
 import org.springframework.util.CollectionUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 
 @Getter
 @TypeName("System")
 public class SystemJ extends AbstractJaversEntity {
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     @SuppressFBWarnings("EI_EXPOSE_REP")
-    private Date modified;
+    private final Date modified;
     @ReferenceExists(service = SystemCategoriesService.class, message = "system category")
-    private UUID systemCategoryId;
+    private final UUID systemCategoryId;
     @Nullable
     private Set<ConnectionJ> connections;
-    private ParametersGettingVersionJ parametersGettingVersion;
-    private ServerItfJ serverItf;
+    private final ParametersGettingVersionJ parametersGettingVersion;
+    private final ServerItfJ serverItf;
 
     /**
      * The main constructor.

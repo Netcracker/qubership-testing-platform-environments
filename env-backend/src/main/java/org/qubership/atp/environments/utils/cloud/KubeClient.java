@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.qubership.atp.environments.utils.cloud;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.springframework.util.StringUtils.isEmpty;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -328,7 +328,7 @@ public class KubeClient extends ExternalCloudClient {
             service.setName(serviceName);
         } else {
             LOGGER.error("Service with name {} has invalid configuration", serviceName);
-            throw new EnvironmentKubeClientEntityFetchException(String.format("'%s' service", serviceName));
+            throw new EnvironmentKubeClientEntityFetchException("'%s' service".formatted(serviceName));
         }
         service.setHost(getIngressHost(serviceName));
         return service;

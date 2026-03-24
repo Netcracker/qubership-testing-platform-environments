@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.qubership.atp.environments.contracts;
 
-import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.qubership.atp.environments.utils.PactTestUtils.formConnection;
@@ -56,7 +55,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -72,7 +71,7 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = {EnvironmentController.class, SystemController.class, ToolController.class,
         SystemCategoryController.class, ConnectionController.class})
-@ContextConfiguration(classes = {PactConfiguration.TestApp.class})
+@SpringJUnitConfig(classes = {PactConfiguration.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         ModelMapperConfig.class, EnvironmentController.class, SystemController.class, ToolController.class,
@@ -108,13 +107,13 @@ public class EnvironmentsAndOrchestratorContractTest {
         SystemCategory systemCategory = formSystemCategory();
         when(systemCategoriesService.get(any(UUID.class))).thenReturn(systemCategory);
 
-        List<SystemCategory> systemCategories = asList(formSystemCategory());
+        List<SystemCategory> systemCategories = List.of(formSystemCategory());
         when(systemCategoriesService.getAll()).thenReturn(systemCategories);
 
         List<System> systems = formSystems();
         when(environmentService.getSystems(any(UUID.class))).thenReturn(systems);
 
-        List<Connection> connections = asList(formConnection());
+        List<Connection> connections = List.of(formConnection());
         when(systemService.getConnections(any(UUID.class))).thenReturn(connections);
 
     }

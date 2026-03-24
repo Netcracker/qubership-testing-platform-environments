@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,15 +21,13 @@ import java.util.List;
 import org.qubership.atp.environments.versioning.model.entities.AbstractJaversEntity;
 import org.qubership.atp.environments.versioning.service.JaversRestoreService;
 import org.qubership.atp.environments.versioning.service.JaversRestoreServiceFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JaversRestoreServiceFactoryImpl implements JaversRestoreServiceFactory {
 
-    private List<JaversRestoreService<? extends AbstractJaversEntity>> restoreServices;
+    private final List<JaversRestoreService<? extends AbstractJaversEntity>> restoreServices;
 
-    @Autowired
     public JaversRestoreServiceFactoryImpl(List<JaversRestoreService<? extends AbstractJaversEntity>> restoreServices) {
         this.restoreServices = restoreServices;
     }

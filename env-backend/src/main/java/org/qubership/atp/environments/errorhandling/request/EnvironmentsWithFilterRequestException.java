@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -29,17 +29,17 @@ public class EnvironmentsWithFilterRequestException extends AtpEnvironmentExcept
     public EnvironmentsWithFilterRequestException(
             EnvironmentsWithFilterRequest request
     ) {
-        super(String.format(DEFAULT_MESSAGE, request));
+        super(DEFAULT_MESSAGE.formatted(request));
     }
 
     public EnvironmentsWithFilterRequestException(
             EnvironmentsWithFilterRequest request, String message
     ) {
-        super(String.format(DEFAULT_MESSAGE, request) + "\n" + message);
+        super(DEFAULT_MESSAGE.formatted(request) + "\n" + message);
     }
 
     public EnvironmentsWithFilterRequestException(String message
     ) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

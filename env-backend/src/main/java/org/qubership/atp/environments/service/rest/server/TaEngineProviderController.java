@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.qubership.atp.environments.service.direct.TaEngineProviderService;
 import org.qubership.atp.environments.service.rest.server.dto.TaEngineTemplate;
 import org.qubership.atp.environments.service.rest.server.dto.TaEngineType;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,6 @@ public class TaEngineProviderController {
 
     private final TaEngineProviderService taEngineProviderService;
 
-    @Autowired
     public TaEngineProviderController(TaEngineProviderService taEngineProviderService) {
         this.taEngineProviderService = taEngineProviderService;
     }

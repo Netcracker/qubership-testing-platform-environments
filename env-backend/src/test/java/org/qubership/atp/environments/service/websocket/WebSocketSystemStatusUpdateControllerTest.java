@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.auth.springbootstarter.feign.exception.FeignClientException;
 import org.qubership.atp.environments.service.websocket.config.WebSocketSystemStatusTestConfig;
@@ -44,13 +43,11 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.AbstractSubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Request;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {WebSocketSystemStatusUpdateController.class, LoggingHelpersConfiguration.class,
         MdcInterceptorsHelperConfiguration.class,
         WebSocketConfig.class,
@@ -119,7 +116,7 @@ public class WebSocketSystemStatusUpdateControllerTest {
         Message<byte[]> message = MessageBuilder.createMessage(payload, headers.getMessageHeaders());
         // mock
         String mockError = "Healthcheck service not available";
-        Map<String, Collection<String>> mockHeaders = new HashMap<String, Collection<String>>() {{
+        Map<String, Collection<String>> mockHeaders = new HashMap<>() {{
             put("Content-type", Collections.singletonList("application/json"));
         }};
         FeignClientException expectedException = new FeignClientException(500, mockError, Request.HttpMethod.POST,

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,17 +18,15 @@ package org.qubership.atp.environments.db;
 
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.qubership.atp.environments.model.impl.Context;
 import org.qubership.atp.environments.repo.impl.ContextRepository;
 import org.qubership.atp.environments.service.direct.impl.MetricService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -41,7 +39,6 @@ ContextInterceptor implements HandlerInterceptor {
 
     private static final String X_FORWARDED_FOR = "X-Forwarded-For";
 
-    @Autowired
     public ContextInterceptor(ContextRepository repo, MetricService metricService) {
         this.repo = repo;
         this.metricService = metricService;
@@ -112,12 +109,12 @@ ContextInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler, ModelAndView modelAndView) throws Exception {
+                           Object handler, ModelAndView modelAndView) {
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
-                                Object handler, Exception ex) throws Exception {
+                                Object handler, Exception ex) {
     }
 
 }

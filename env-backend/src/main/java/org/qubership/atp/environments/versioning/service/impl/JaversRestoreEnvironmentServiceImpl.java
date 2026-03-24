@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import static org.qubership.atp.environments.repo.impl.AbstractRepository.ENVIRO
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import javax.validation.Validator;
-
 import org.javers.core.Javers;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
@@ -31,10 +29,10 @@ import org.qubership.atp.environments.repo.impl.EnvironmentRepositoryImpl;
 import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.qubership.atp.environments.versioning.model.entities.EnvironmentJ;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.sql.SQLQueryFactory;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,7 +45,6 @@ public class JaversRestoreEnvironmentServiceImpl extends AbstractJaversRestoreSe
     /**
      * Constructor.
      */
-    @Autowired
     public JaversRestoreEnvironmentServiceImpl(Javers javers,
                                                Validator validator,
                                                CommitEntityService<Environment> commitEntityService,

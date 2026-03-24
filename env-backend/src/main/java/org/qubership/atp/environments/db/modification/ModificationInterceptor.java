@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -27,8 +27,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
 import org.aopalliance.intercept.Joinpoint;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -50,10 +48,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import com.google.common.collect.Iterators;
+import jakarta.annotation.Nonnull;
 
 public class ModificationInterceptor implements MethodInterceptor {
 
-    private static Logger LOG = LoggerFactory.getLogger(ModificationInterceptor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ModificationInterceptor.class);
     private final Map<Class, Handler> handlers = new ConcurrentHashMap<>();
     @Autowired
     @Lazy
@@ -83,7 +82,7 @@ public class ModificationInterceptor implements MethodInterceptor {
         AllRefsIterator<Class> allClasses = new ClassHierarchy(clazz);
         Optional<Class> targetServiceOpt = Iterators.tryFind(allClasses,
                 someClass -> someClass.getSimpleName().endsWith("Service")).toJavaUtil();
-        if (!targetServiceOpt.isPresent()) {
+        if (targetServiceOpt.isEmpty()) {
             return Joinpoint::proceed;
         }
         Class targetService = targetServiceOpt.get();
@@ -109,7 +108,7 @@ public class ModificationInterceptor implements MethodInterceptor {
         }
 
         @Override
-        public Runnable prepareNotification(UUID projectId, ModificationInterceptor interceptor) throws Exception {
+        public Runnable prepareNotification(UUID projectId, ModificationInterceptor interceptor) {
             List<UUID> listIdSubscriptionsForProject = subscriptionService.getListIdSubscriptionsForProject(projectId);
             return () -> {
                 LOG.info("{} object with id {} {}", type, projectId, method.getName());
@@ -134,7 +133,7 @@ public class ModificationInterceptor implements MethodInterceptor {
         }
 
         @Override
-        public Runnable prepareNotification(UUID environmentId, ModificationInterceptor interceptor) throws Exception {
+        public Runnable prepareNotification(UUID environmentId, ModificationInterceptor interceptor) {
             UUID projectId = interceptor.environmentService.get(environmentId).getProjectId();
             List<UUID> listIdSubscriptionsForEnvironment =
                     subscriptionService.getListIdSubscriptionsForEnvironment(environmentId);
@@ -174,8 +173,8 @@ public class ModificationInterceptor implements MethodInterceptor {
             List<Environment> listEnvironment = interceptor.systemService.get(systemId).getEnvironments();
             return () -> {
                 LOG.info("{} object with id {} {}", TrackedType.SYSTEM, systemId, method.getName());
-                List<UUID> listIdCascadeSubscriptionsForProject = new ArrayList<UUID>();
-                List<UUID> listIdCascadeSubscriptionsForEnvironment = new ArrayList<UUID>();
+                List<UUID> listIdCascadeSubscriptionsForProject = new ArrayList<>();
+                List<UUID> listIdCascadeSubscriptionsForEnvironment = new ArrayList<>();
                 for (Environment environment : listEnvironment) {
                     UUID environmentId = environment.getId();
                     UUID projectId = environment.getProjectId();
@@ -216,9 +215,9 @@ public class ModificationInterceptor implements MethodInterceptor {
             return () -> {
                 LOG.info("{} object with id {} {}", TrackedType.CONNECTION, connectionId,
                         method.getName());
-                List<UUID> listIdCascadeSubscriptionsForEnvironment = new ArrayList<UUID>();
-                List<UUID> listIdSubscriptionsForSystem = new ArrayList<UUID>();
-                List<UUID> listIdCascadeSubscriptionsForProject = new ArrayList<UUID>();
+                List<UUID> listIdCascadeSubscriptionsForEnvironment;
+                List<UUID> listIdSubscriptionsForSystem;
+                List<UUID> listIdCascadeSubscriptionsForProject;
                 for (Environment environment : listEnvironment) {
                     UUID environmentId = environment.getId();
                     UUID projectId = environment.getProjectId();
@@ -271,7 +270,7 @@ public class ModificationInterceptor implements MethodInterceptor {
             EntityTypeStrategy entityStrategy;
             TrackedMethodStrategy strategy;
             Optional<TrackedMethod> trackedMethodOpt = TrackedMethod.getByName(methodInvocation.getMethod().getName());
-            if (!trackedMethodOpt.isPresent()) {
+            if (trackedMethodOpt.isEmpty()) {
                 return methodInvocation.proceed();
             }
             TrackedMethod trackedMethod = trackedMethodOpt.get();

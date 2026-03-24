@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package org.qubership.atp.environments.validating.factories;
 import java.util.Map;
 
 import org.qubership.atp.environments.validating.strategies.ValidationStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +28,6 @@ public class ValidationStrategyFactory {
 
     private final Map<String, ValidationStrategy> strategyMap;
 
-    @Autowired
     public ValidationStrategyFactory(Map<String, ValidationStrategy> strategyMap) {
         this.strategyMap = strategyMap;
     }
@@ -43,7 +41,7 @@ public class ValidationStrategyFactory {
     public ValidationStrategy createStrategy(String strategyType) {
         ValidationStrategy strategy = strategyMap.get(strategyType);
         if (strategy == null) {
-            throw new IllegalArgumentException(String.format("Invalid validation strategy type %s", strategyType));
+            throw new IllegalArgumentException("Invalid validation strategy type %s".formatted(strategyType));
         }
         return strategy;
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@
 
 package org.qubership.atp.environments.repo.projections;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
@@ -36,7 +37,7 @@ public class IdConnectionProjectionTest extends AbstractProjectionTest {
     IdConnectionProjection idConnectionProjection;
     ConnectionRepositoryImpl repo;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repo = mock(ConnectionRepositoryImpl.class);
         idConnectionProjection = new IdConnectionProjection(repo);
@@ -50,8 +51,8 @@ public class IdConnectionProjectionTest extends AbstractProjectionTest {
         connection.setSystemId(UUID.randomUUID());
         Tuple tuple = mockTupleForConnection(connection);
         Connection resultConnection = idConnectionProjection.map(tuple);
-        Assert.assertEquals(connection.getId(), resultConnection.getId());
-        Assert.assertEquals(connection.getName(), resultConnection.getName());
+        Assertions.assertEquals(connection.getId(), resultConnection.getId());
+        Assertions.assertEquals(connection.getName(), resultConnection.getName());
         assertNull(resultConnection.getParameters());
     }
 }

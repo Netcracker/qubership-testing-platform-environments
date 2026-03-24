@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public class EnvironmentMapper implements QueryMapper<Environment> {
      */
     public BooleanExpression filterQuery(String fieldName, Expression<?> fieldValue,
                                          List<String> filterValue) {
-        if (fieldValue instanceof SimplePath && ((SimplePath) fieldValue).getType() == UUID.class) {
+        if (fieldValue instanceof SimplePath path && path.getType() == UUID.class) {
             return ((SimplePath<UUID>) fieldValue).in(filterValue.stream()
                     .map(UUID::fromString).collect(Collectors.toList()));
         }
@@ -96,11 +96,10 @@ public class EnvironmentMapper implements QueryMapper<Environment> {
             return ((DateTimePath<Timestamp>) fieldValue).in(filterValue.stream()
                     .map(Timestamp::valueOf).collect(Collectors.toList()));
         }
-        if (fieldValue instanceof StringExpression) {
-            return ((StringExpression) fieldValue).in(filterValue);
+        if (fieldValue instanceof StringExpression expression) {
+            return expression.in(filterValue);
         }
-        throw new EnvironmentsWithFilterRequestException(String.format("Incorrect field name: %s",
-                fieldName));
+        throw new EnvironmentsWithFilterRequestException("Incorrect field name: %s".formatted(fieldName));
     }
 
     /**
@@ -111,8 +110,7 @@ public class EnvironmentMapper implements QueryMapper<Environment> {
             Field field = table.getClass().getField(fieldName);
             return (Expression<?>) field.get(table);
         } catch (NoSuchFieldException | IllegalAccessException exception) {
-            String message = String.format("Incorrect field name: %s",
-                    fieldName);
+            String message = "Incorrect field name: %s".formatted(fieldName);
             log.error(message, exception);
             throw new EnvironmentsWithFilterRequestException(message);
         }

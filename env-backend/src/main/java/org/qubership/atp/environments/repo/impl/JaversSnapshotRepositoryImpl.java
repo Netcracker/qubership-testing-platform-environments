@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.util.List;
 import org.javers.core.metamodel.object.SnapshotType;
 import org.qubership.atp.environments.model.response.JaversCountResponse;
 import org.qubership.atp.environments.model.response.JaversVersionResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
@@ -38,7 +37,6 @@ public class JaversSnapshotRepositoryImpl extends AbstractRepository {
 
     private final SQLQueryFactory queryFactory;
 
-    @Autowired
     public JaversSnapshotRepositoryImpl(SQLQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }

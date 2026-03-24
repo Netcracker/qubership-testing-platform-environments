@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,22 +18,20 @@ package org.qubership.atp.environments.versioning.service.impl;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.javers.repository.jql.InstanceIdDTO;
 import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.versioning.model.entities.SystemJ;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
 import org.qubership.atp.environments.versioning.service.JaversService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.Nonnull;
 
 @Service
 public class CommitSystemServiceImpl implements CommitEntityService<System> {
 
     private final JaversService javersService;
 
-    @Autowired
     public CommitSystemServiceImpl(JaversService javersService) {
         this.javersService = javersService;
     }

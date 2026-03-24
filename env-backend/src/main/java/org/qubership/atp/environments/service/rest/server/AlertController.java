@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.qubership.atp.environments.model.Alert;
 import org.qubership.atp.environments.model.impl.AlertImpl;
 import org.qubership.atp.environments.service.direct.AlertService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +42,6 @@ public class AlertController /*implements AlertControllerApi*/ {
 
     private final AlertService alertService;
 
-    @Autowired
     public AlertController(AlertService service) {
         this.alertService = service;
     }

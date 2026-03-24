@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -50,11 +51,11 @@ public class JaversEntitiesGenerator {
     }
 
     public static Long generateLong() {
-        return 1 + (long) (Math.random() * 9);
+        return 1 + (long) (ThreadLocalRandom.current().nextDouble() * 9);
     }
 
     public static Long generateGlobalId() {
-        return 100 + (long) (Math.random() * 900);
+        return 100 + (long) (ThreadLocalRandom.current().nextDouble() * 900);
     }
 
     public static CommitMetadata generateCommitMetaData(String author, CommitId commitId){

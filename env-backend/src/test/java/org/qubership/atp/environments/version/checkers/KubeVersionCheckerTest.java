@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -48,11 +48,13 @@ public class KubeVersionCheckerTest {
                     .thenReturn(kubeClient);
             mock.when(() -> kubeClient.getConfigMap(any(String.class))).thenReturn(v1ConfigMap);
             String result = kubeVersionChecker.getVersion();
-            String configMapVersionExpectedResult = "{\n"
-                    + "  \"cloudbss-bsscs\": \"release-2020\",\n"
-                    + "  \"cloud-core\": \"release-6-19\",\n"
-                    + "  \"cloud-core-ext\": \"release-7-3-0\"\n"
-                    + "}";
+            String configMapVersionExpectedResult = """
+                    {
+                      "cloudbss-bsscs": "release-2020",
+                      "cloud-core": "release-6-19",
+                      "cloud-core-ext": "release-7-3-0"
+                    }\
+                    """;
             Assertions.assertEquals(configMapVersionExpectedResult, result);
         }
     }
@@ -87,14 +89,12 @@ public class KubeVersionCheckerTest {
         images.add("c");
         images.add("b");
         images.add("a");
-        images.add("a");
         images.add("A");
         images.add("C");
         images.add("B");
         images.add("3");
         images.add("2");
         images.add("1");
-        images.add("2");
         images.add(".");
         images.add("#");
         images.add(":");
