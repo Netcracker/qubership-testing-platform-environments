@@ -58,7 +58,7 @@ import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 
 @Provider("atp-environments")
-@PactUrl(urls = {"src/test/resources/pacts/atp-mia-atp-environments.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-mia-atp-environments.json"})
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = {ProjectController.class, EnvironmentController.class})
 @SpringJUnitConfig(classes = {PactConfiguration.TestApp.class})

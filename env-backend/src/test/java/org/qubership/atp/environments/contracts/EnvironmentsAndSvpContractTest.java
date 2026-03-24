@@ -65,7 +65,7 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import lombok.extern.slf4j.Slf4j;
 
 @Provider("atp-environments")
-@PactUrl(urls = {"src/test/resources/pacts/atp-svp-atp-environments.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-svp-atp-environments.json"})
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = {ProjectController.class, EnvironmentController.class})
 @SpringJUnitConfig(classes = {PactConfiguration.TestApp.class})
