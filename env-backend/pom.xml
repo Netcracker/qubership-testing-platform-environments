@@ -331,9 +331,53 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
+            <artifactId>junit5</artifactId>
+            <version>4.6.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.validator</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections4</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>iterators</artifactId>
+                    <groupId>org.dmfs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>antlr-runtime</artifactId>
+                    <groupId>org.antlr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>classgraph</artifactId>
+                    <groupId>io.github.classgraph</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius.pact.provider</groupId>
             <artifactId>junit5spring</artifactId>
-            <version>4.1.0</version>
-            <scope>test</scope>
+            <version>4.6.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.validator</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <!--https://stackoverflow.com/questions/62001663/exception-in-thread-thread-2-java-lang-nosuchmethoderror-kotlin-io-bytestream-->

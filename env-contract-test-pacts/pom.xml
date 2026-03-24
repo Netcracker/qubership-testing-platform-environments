@@ -103,9 +103,31 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.1.23</version>
+            <artifactId>junit5</artifactId>
+            <version>4.6.15</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.ktor</groupId>
+                    <artifactId>ktor-server-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.json</groupId>
+                    <artifactId>json</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec-http2</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <!--https://stackoverflow.com/questions/62001663/exception-in-thread-thread-2-java-lang-nosuchmethoderror-kotlin-io-bytestream-->
