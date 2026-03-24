@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.auth.springbootstarter.entities.Operation;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -53,7 +54,6 @@ import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.google.common.base.Preconditions;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -170,7 +170,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Project replicate(@Nonnull UUID projectId, @Nonnull String name, String shortName, String description,
                              Long created) throws AtpException {
         projectRepository.getContext().setFullDbFetching(true);
-        if (!StringUtils.hasLength(name)) {
+        if (StringUtils.isEmpty(name)) {
             log.error("Found illegal null or empty project name parameter");
             throw new AtpIllegalNullableArgumentException("project name", "method argument");
         }

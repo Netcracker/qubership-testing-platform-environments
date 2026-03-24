@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -45,8 +45,8 @@ public class SpringLiquibaseConfig {
     @Value("${service.entities.migration.enabled:false}")
     private String migrationEnabled;
 
-    private DataSource dataSource;
-    private LiquibaseProperties properties;
+    private final DataSource dataSource;
+    private final LiquibaseProperties properties;
 
     public SpringLiquibaseConfig(DataSource dataSource, LiquibaseProperties properties) {
         this.dataSource = dataSource;
@@ -67,7 +67,6 @@ public class SpringLiquibaseConfig {
         liquibase.setDefaultSchema(this.properties.getDefaultSchema());
         liquibase.setDropFirst(this.properties.isDropFirst());
         liquibase.setShouldRun(this.properties.isEnabled());
-        liquibase.setLabels(this.properties.getLabels());
         Map<String, String> props = this.properties.getParameters();
         if (props == null) {
             props = new HashMap<>();

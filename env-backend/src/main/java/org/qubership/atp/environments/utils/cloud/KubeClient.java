@@ -18,7 +18,6 @@ package org.qubership.atp.environments.utils.cloud;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.errorhandling.clients.EnvironmentKubeClientEntityFetchException;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.System;
@@ -84,7 +84,7 @@ public class KubeClient extends ExternalCloudClient {
         String password = connectionParameters.get("password");
         String token = connectionParameters.get("token");
         this.namespace = connectionParameters.get("namespace");
-        if (!isEmpty(token)) {
+        if (!StringUtils.isEmpty(token)) {
             configure(Config.fromToken(serverUrl, token, false), serverUrl, namespace);
         } else {
             configure(Config.fromUserPassword(serverUrl, login, password, false), serverUrl, namespace);
@@ -122,8 +122,7 @@ public class KubeClient extends ExternalCloudClient {
             });
             return imageList;
         } catch (ApiException e) {
-            LOGGER.error("Failed to get pods from namespace {} , server {}", namespace,
-                    this.serverUrl, e);
+            LOGGER.error("Failed to get pods from namespace {} , server {}", namespace, this.serverUrl, e);
             throw new EnvironmentKubeClientEntityFetchException("images");
         }
     }
@@ -145,8 +144,7 @@ public class KubeClient extends ExternalCloudClient {
     public V1ConfigMap getConfigMap(String mapName) {
         V1ConfigMap v1ConfigMap;
         try {
-            v1ConfigMap = coreApi.readNamespacedConfigMap(mapName,
-                    namespace, null);
+            v1ConfigMap = coreApi.readNamespacedConfigMap(mapName, namespace, null);
         } catch (ApiException e) {
             LOGGER.error("Failed to get config map with name {}, namespace {} from server {}", mapName, namespace,
                     this.serverUrl, e);
@@ -207,8 +205,7 @@ public class KubeClient extends ExternalCloudClient {
                     && nonNull(service.getMetadata().getUid()))
                     .collect(Collectors.toList());
         } catch (ApiException e) {
-            LOGGER.error("Failed to get service list with namespace {} from server {}", namespace,
-                    this.serverUrl, e);
+            LOGGER.error("Failed to get service list with namespace {} from server {}", namespace, this.serverUrl, e);
             throw new EnvironmentKubeClientEntityFetchException("service list");
         }
     }
@@ -229,8 +226,7 @@ public class KubeClient extends ExternalCloudClient {
                     null,
                     null, null);
         } catch (ApiException e) {
-            LOGGER.error("Failed to get ingress list with namespace {} from server {}", namespace,
-                    this.serverUrl, e);
+            LOGGER.error("Failed to get ingress list with namespace {} from server {}", namespace, this.serverUrl, e);
             throw new EnvironmentKubeClientEntityFetchException("ingress list");
         }
     }
@@ -244,7 +240,9 @@ public class KubeClient extends ExternalCloudClient {
      */
     public V1Service findServiceById(List<V1Service> serviceList, String id) {
         for (V1Service service: serviceList) {
-            if (service.getMetadata().getUid().equals(id)) {
+            if (service.getMetadata() != null
+                    && service.getMetadata().getUid() != null
+                    && service.getMetadata().getUid().equals(id)) {
                 return service;
             }
         }
@@ -261,7 +259,9 @@ public class KubeClient extends ExternalCloudClient {
      */
     public V1Service findServiceByName(List<V1Service> serviceList, String name) {
         for (V1Service service: serviceList) {
-            if (service.getMetadata().getName().equals(name)) {
+            if (service.getMetadata() != null
+                    && service.getMetadata().getName() != null
+                    && service.getMetadata().getName().equals(name)) {
                 return service;
             }
         }
@@ -293,7 +293,7 @@ public class KubeClient extends ExternalCloudClient {
                                               String login,
                                               String password,
                                               String namespace) {
-        if (isEmpty(accessToken)) {
+        if (StringUtils.isEmpty(accessToken)) {
             return new KubeClient(serverUrl, login, password, namespace);
         } else {
             return new KubeClient(serverUrl, accessToken, namespace);
@@ -324,7 +324,7 @@ public class KubeClient extends ExternalCloudClient {
         CloudService service = new CloudService();
         String serviceName = serviceFromKubernetes.getMetadata().getName();
         service.setId(UUID.fromString(serviceFromKubernetes.getMetadata().getUid()));
-        if (!isEmpty(serviceName)) {
+        if (!StringUtils.isEmpty(serviceName)) {
             service.setName(serviceName);
         } else {
             LOGGER.error("Service with name {} has invalid configuration", serviceName);
