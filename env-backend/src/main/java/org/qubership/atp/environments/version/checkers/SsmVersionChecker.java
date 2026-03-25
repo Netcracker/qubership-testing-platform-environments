@@ -20,13 +20,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ParseException;
-import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.qubership.atp.environments.model.Connection;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -84,15 +83,9 @@ public class SsmVersionChecker implements VersionChecker {
             setAuthHeaders(httpRequest);
             httpRequest.addHeader("x-client-application-name", "NCECARE");
 
-            HttpClientResponseHandler<String> responseHandler = (ClassicHttpResponse response) -> {
-                try {
-                    return EntityUtils.toString(response.getEntity());
-                } catch (IOException | ParseException e) {
-                    log.error(e.getMessage());
-                    return StringUtils.EMPTY;
-                }
-            };
-            String content = httpClient.execute(httpRequest, responseHandler);
+            ClassicHttpResponse response = httpClient.execute(httpRequest);
+            HttpEntity entity = response.getEntity();
+            String content = EntityUtils.toString(entity);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode microservicesArrayNode = mapper.readTree(content);
             if (microservicesArrayNode.isArray()) {
@@ -111,7 +104,7 @@ public class SsmVersionChecker implements VersionChecker {
             } else {
                 log.warn("Not valid response from SSM server");
             }
-        } catch (IOException | PathNotFoundException e) {
+        } catch (IOException | PathNotFoundException | ParseException e) {
             log.error(e.getMessage());
         }
         return version.isEmpty() ? "Unknown" : version;

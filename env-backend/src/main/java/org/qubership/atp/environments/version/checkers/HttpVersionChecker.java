@@ -33,7 +33,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -107,31 +107,21 @@ public class HttpVersionChecker implements VersionChecker {
                     httpRequest.addHeader("x-client-application-name", "NCECARE");
                 }
             }
-
-            // Define how to handle the response
-            HttpClientResponseHandler<String> responseHandler = (ClassicHttpResponse response) -> {
-                int status = response.getCode();
-                if (status >= 200 && status < 300) {
-                    return EntityUtils.toString(response.getEntity());
-                } else {
-                    log.error("getVersion: Unexpected response status: {}", status);
-                    return StringUtils.EMPTY;
-                }
-            };
-
-            String responseEntity = httpClient.execute(httpRequest, responseHandler);
-            if (!responseEntity.contains("<!DOCTYPE html")) {
+            ClassicHttpResponse response = httpClient.execute(httpRequest);
+            HttpEntity entity = response.getEntity();
+            String content = EntityUtils.toString(entity);
+            if (!content.contains("<!DOCTYPE html")) {
                 if ("/version_history.txt".equals(parameters)
                         || "/version.txt".equals(parameters)) {
-                    version.addAll(parseVersions(responseEntity, BUILD_VERSION_PATTERN));
+                    version.addAll(parseVersions(content, BUILD_VERSION_PATTERN));
                 } else if (parameters.matches(".*portal-info.jsp")) {
-                    version.addAll(parseVersions(responseEntity, BUILD_VERSION_PORTAL));
+                    version.addAll(parseVersions(content, BUILD_VERSION_PORTAL));
                 } else {
-                    version.add(responseEntity);
+                    version.add(content);
                 }
             }
             return !version.isEmpty() ? version.getFirst() : "Unknown";
-        } catch (IOException | PathNotFoundException | ParseException e) {
+        } catch (IOException | PathNotFoundException | ParseException | org.apache.hc.core5.http.ParseException e) {
             log.error(e.getMessage());
         }
         return !version.isEmpty() ? version.toString() : "Unknown";
@@ -152,8 +142,7 @@ public class HttpVersionChecker implements VersionChecker {
 
     private void setAuthHeaders(HttpGet httpRequest) {
         String auth = this.login + ":" + this.password;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.UTF_8));
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth, StandardCharsets.UTF_8);
         httpRequest.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
     }
