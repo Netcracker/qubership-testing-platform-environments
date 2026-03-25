@@ -40,11 +40,16 @@ public class GracefulUndertowShutdown
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
+        if (this.handler == null) {
+            LOGGER.debug("GracefulShutdownHandler not initialized, skipping graceful shutdown");
+            return;
+        }
         try {
             this.handler.shutdown();
             this.handler.awaitShutdown(waitTime);
         } catch (InterruptedException ex) {
             LOGGER.error(ex.getMessage());
+            Thread.currentThread().interrupt(); // Restore interrupted status
         }
     }
 
