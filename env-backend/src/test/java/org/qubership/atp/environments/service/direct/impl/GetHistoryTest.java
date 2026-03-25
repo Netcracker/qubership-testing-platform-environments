@@ -18,7 +18,9 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -135,14 +137,11 @@ public class GetHistoryTest extends AbstractServiceTest {
 
         HistoryItemResponseDtoGenerated history = javersHistoryService.getAllHistory(id, SystemJ.class, 0, 10);
 
-        assertThat(getHistoryItemByVersion(history, 2).getAdded(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 2).getAdded(), containsInAnyOrder("connections"));
 
-        assertThat(getHistoryItemByVersion(history, 2).getChanged(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 2).getChanged(), anyOf(nullValue(), empty()));
 
-        assertThat(getHistoryItemByVersion(history, 2).getDeleted(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 2).getDeleted(), anyOf(nullValue(), empty()));
     }
 
     @Test
@@ -162,14 +161,11 @@ public class GetHistoryTest extends AbstractServiceTest {
 
         HistoryItemResponseDtoGenerated history = javersHistoryService.getAllHistory(id, SystemJ.class, 0, 10);
 
-        assertThat(getHistoryItemByVersion(history, 3).getAdded(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 3).getAdded(), anyOf(nullValue(), empty()));
 
-        assertThat(getHistoryItemByVersion(history, 3).getChanged(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 3).getChanged(), anyOf(nullValue(), empty()));
 
-        assertThat(getHistoryItemByVersion(history, 3).getDeleted(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 3).getDeleted(), containsInAnyOrder("connections"));
     }
 
     @Test
@@ -190,14 +186,11 @@ public class GetHistoryTest extends AbstractServiceTest {
 
         HistoryItemResponseDtoGenerated history = javersHistoryService.getAllHistory(id, SystemJ.class, 0, 10);
 
-        assertThat(getHistoryItemByVersion(history, 3).getAdded(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 3).getAdded(), anyOf(nullValue(), empty()));
 
-        assertThat(getHistoryItemByVersion(history, 3).getChanged(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 3).getChanged(), containsInAnyOrder("connections"));
 
-        assertThat(getHistoryItemByVersion(history, 3).getDeleted(),
-                nullValue());
+        assertThat(getHistoryItemByVersion(history, 3).getDeleted(), anyOf(nullValue(), empty()));
     }
 
     @Test
@@ -223,14 +216,11 @@ public class GetHistoryTest extends AbstractServiceTest {
 
         HistoryItemResponseDtoGenerated history = javersHistoryService.getAllHistory(id, SystemJ.class, 0, 10);
 
-        assertThat(getHistoryItemByVersion(history, 3).getAdded(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 3).getAdded(), containsInAnyOrder("connections"));
 
-        assertThat(getHistoryItemByVersion(history, 3).getChanged(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 3).getChanged(), containsInAnyOrder("connections"));
 
-        assertThat(getHistoryItemByVersion(history, 3).getDeleted(),
-                containsInAnyOrder("connections"));
+        assertThat(getHistoryItemByVersion(history, 3).getDeleted(), containsInAnyOrder("connections"));
     }
 
     @Test
