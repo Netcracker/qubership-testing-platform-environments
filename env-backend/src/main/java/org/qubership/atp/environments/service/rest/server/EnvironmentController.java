@@ -102,8 +102,7 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     @PostMapping("/environments/search")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Get environments by search request projectId in search request: "
-            + "{{#searchRequest"
-            + ".projectId.toString()}} ")
+            + "{{#searchRequest.projectId.toString()}} ")
     public List<Environment> findBySearchRequest(@RequestBody BaseSearchRequestDto searchRequest) throws Exception {
         return environmentService.findBySearchRequest(searchRequest);
     }
@@ -160,7 +159,6 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     ) {
         return ResponseEntity.ok(environmentService.getEnvironmentsByFilterRequest(request, page, size));
     }
-
 
     /**
      * Method returns systems list.
@@ -245,7 +243,6 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
         }
     }
 
-
      /**
      * Method returns systems data as a ZIP archive containing two YAML files:
      * - deployment-parameters.yaml: all connection parameters except encrypted credentials
@@ -254,10 +251,11 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
             + "@environmentService.getProjectIdByEnvironmentId(#environmentId),'READ')")
-    @GetMapping("/v2/environments/{environmentId}/yaml/envgene")
+    @GetMapping(value = "/v2/environments/{environmentId}/yaml/envgene",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @AuditAction(auditAction = "Get systems stored in zip archive with two YAML files: "
-                + "deployment-parameters.yaml and credentials.yaml in envgene format by environment uuid {{#environmentId.toString()}} "
-                + "and system type {{#systemType}}")
+            + "deployment-parameters.yaml and credentials.yaml in envgene format by environment uuid "
+            + "{{#environmentId.toString()}} and system type {{#systemType}}")
     public ResponseEntity<Resource> getSystemsYamlZipArchive(
             @PathVariable("environmentId") UUID environmentId,
             @RequestParam(value = "system_type", required = false) String systemType) {
