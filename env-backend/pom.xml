@@ -250,7 +250,6 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
-            <version>1.0.12</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -314,7 +313,6 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
