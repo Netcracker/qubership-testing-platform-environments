@@ -20,33 +20,36 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.migrationsupport.rules.ExternalResourceSupport;
 import org.qubership.atp.auth.springbootstarter.config.FeignConfiguration;
 import org.qubership.atp.environments.service.rest.client.CatalogFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import au.com.dius.pact.consumer.dsl.PactDslResponse;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.consumer.junit.PactProviderRule;
-import au.com.dius.pact.consumer.junit.PactVerification;
+import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
+import au.com.dius.pact.consumer.junit5.PactTestFor;
+import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import configuration.TestAppConfiguration;
 
 @EnableFeignClients(clients = {CatalogFeignClient.class})
-@ExtendWith(ExternalResourceSupport.class)
+@ExtendWith(PactConsumerTestExt.class)
+@SpringBootTest
+@ActiveProfiles("disable-security")
 @SpringJUnitConfig(classes = {TestAppConfiguration.class})
 @Import({FeignConfiguration.class, FeignAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         JacksonAutoConfiguration.class})
@@ -55,18 +58,16 @@ import configuration.TestAppConfiguration;
                 "feign.atp.catalogue.route=",
                 "feign.atp.catalogue.url=http://localhost:8888"
         })
-
+@PactTestFor(providerName = "atp-catalogue", port = "8888", pactVersion = PactSpecVersion.V3)
 public class ActionsEnvironmentsToCataloguePactUnitTest {
 
     @Autowired
     CatalogFeignClient catalogFeignClient;
 
-    @Rule
-    public PactProviderRule mockProvider = new PactProviderRule("atp-catalogue", "localhost", 8888, this);
     private final UUID actionUUID = UUID.randomUUID();
 
     @Test
-    @PactVerification()
+    @PactTestFor(pactMethod = "createPact")
     public void allPass() {
         ResponseEntity<Void> result1 = catalogFeignClient.updateActions(actionUUID);
         Assertions.assertEquals(200, result1.getStatusCode().value());

@@ -130,6 +130,10 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
             <!--https://stackoverflow.com/questions/62001663/exception-in-thread-thread-2-java-lang-nosuchmethoderror-kotlin-io-bytestream-->
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
