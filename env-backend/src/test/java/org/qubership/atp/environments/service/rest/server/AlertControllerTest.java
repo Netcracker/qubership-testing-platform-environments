@@ -102,7 +102,7 @@ public class AlertControllerTest {
         List<Alert> alerts = Collections.singletonList(alert);
         when(alertService.getAll()).thenReturn(alerts);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/alerts/")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/alerts")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(alert.getId().toString()))
@@ -140,7 +140,7 @@ public class AlertControllerTest {
         doNothing().when(alertService).update(any(AlertImpl.class));
         String requestJson = objectMapper.writer().writeValueAsString(alert);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/create")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isNoContent());
@@ -152,12 +152,13 @@ public class AlertControllerTest {
         doNothing().when(alertService).update(any(AlertImpl.class));
         String requestJson = objectMapper.writer().writeValueAsString(alert);
 
-        Exception exception = mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/create")
+        Exception exception = mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Alert id can't be empty"));
     }
 
@@ -168,12 +169,13 @@ public class AlertControllerTest {
         doNothing().when(alertService).update(any(AlertImpl.class));
         String requestJson = objectMapper.writer().writeValueAsString(alert);
 
-        Exception exception = mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/create")
+        Exception exception = mockMvc.perform(MockMvcRequestBuilders.put("/api/alerts/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Subscriber id can't be empty"));
     }
 

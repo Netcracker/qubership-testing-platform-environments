@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.model.Identified;
 import org.qubership.atp.environments.repo.impl.ContextRepository;
 import org.qubership.atp.environments.service.direct.impl.MetricService;
@@ -78,11 +79,11 @@ public class AppConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * Add path to static recources.
+     * Add path to static resources.
      * Enable version strategy got resources
      * Set cache period for resources in seconds
      *
-     * @param registry for registration resources
+     * @param registry for registration resources.
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -95,11 +96,16 @@ public class AppConfiguration implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(@Nonnull String resourcePath, Resource location) throws IOException {
+                        if (StringUtils.isEmpty(resourcePath)) {
+                            return null;
+                        }
                         Resource requestedResource = location.createRelative(resourcePath);
-                        if (requestedResource.exists()
-                                && requestedResource.isReadable()) {
+                        if (requestedResource.exists() && requestedResource.isReadable()) {
                             return location.createRelative(resourcePath);
                         } else {
+                            if (StringUtils.isEmpty(rootPage)) {
+                                return null;
+                            }
                             return new FileSystemResource(rootPage);
                         }
                     }
@@ -126,7 +132,7 @@ public class AppConfiguration implements WebMvcConfigurer {
         objectMapper.enable(SerializationFeature.USE_EQUALITY_FOR_OBJECT_ID);
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         jsonConverter.setObjectMapper(objectMapper);
-        converters.add(0, jsonConverter);
+        converters.addFirst(jsonConverter);
     }
 
     static class OffsetDateTimeSerializer extends JsonSerializer<OffsetDateTime> {

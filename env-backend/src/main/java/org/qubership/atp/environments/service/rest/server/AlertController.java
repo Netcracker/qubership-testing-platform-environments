@@ -78,7 +78,7 @@ public class AlertController /*implements AlertControllerApi*/ {
      *
      * @param alert TODO
      */
-    @PutMapping(value = "/create")
+    @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @AuditAction(auditAction = "Update alert {{#alert.shortDescription}}")
     public void update(@RequestBody AlertImpl alert) {
