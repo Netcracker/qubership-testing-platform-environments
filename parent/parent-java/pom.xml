@@ -41,33 +41,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <!--Transforms xml output of spotbugs plugin into readable html-->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>xml-maven-plugin</artifactId>

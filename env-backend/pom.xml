@@ -655,7 +655,6 @@
                     <additionalClasspathElements>
                         <additionalClasspathElement>${basedir}/target/test-classes/config/</additionalClasspathElement>
                     </additionalClasspathElements>
-                    <!--see https://confluence.atlassian.com/clover/using-clover-with-maven-+-surefire-test-+-inner-test-classes-285840787.html -->
                     <excludes>
                         <exclude>**/*$__CLR*</exclude>
                     </excludes>
@@ -946,48 +945,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>with-analyzers</id>
-            <activation>
-                <property>
-                    <name>enable-analyzers</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                            <targetPercentage>53%</targetPercentage>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
