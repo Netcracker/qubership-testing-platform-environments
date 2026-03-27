@@ -20,7 +20,7 @@ KEYCLOAK_REALM: ""
 # IP of db
 PG_DB_ADDR: "my-postgres-postgresql"
 # Spring profile for security
-SPRING_PROFILES: "disable-security"
+ACTIVE_PROFILES_SPRING: "disable-security"
 keepHookLogs: true
 HELPER_IMAGE: "ghcr.io/netcracker/qubership-testing-platform-helm-hook-helper:v1.0.1"
 CONTENT_SECURITY_POLICY: "*"
