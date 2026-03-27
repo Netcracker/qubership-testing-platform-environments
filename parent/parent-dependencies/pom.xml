@@ -35,6 +35,7 @@
         <httpclient5.version>5.4.4</httpclient5.version>
         <httpcore5.version>5.3.4</httpcore5.version>
         <micrometer-tracing.version>1.4.3</micrometer-tracing.version>
+        <netty.version>4.1.125.Final</netty.version>
 
         <atp.common.version>1.0.0-SNAPSHOT</atp.common.version>
         <atp.auth.version>2.0.2-SNAPSHOT</atp.auth.version>
@@ -407,7 +408,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
-                <version>4.1.118.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
@@ -458,17 +459,17 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http2</artifactId>
-                <version>4.1.124.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bitbucket.b_c</groupId>
