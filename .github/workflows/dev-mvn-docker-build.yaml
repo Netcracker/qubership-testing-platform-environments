@@ -152,12 +152,13 @@ jobs:
   run-tests:
     needs: [ build-and-push ]
     if: |
-      needs.build-and-push.result == 'success' &&
+      github.event_name == 'workflow_dispatch' ||
+      (needs.build-and-push.result == 'success' &&
       (
         github.event_name == 'pull_request' ||
         (github.event_name == 'push' && github.ref == 'refs/heads/main')
-      )
-    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@e1cd991e40882890c89d400b837b4e40e8467200 # v1.0.1
+      ))
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
       repository_name: 'qubership-testing-platform-environments'
       service_name: 'atp-environments'
