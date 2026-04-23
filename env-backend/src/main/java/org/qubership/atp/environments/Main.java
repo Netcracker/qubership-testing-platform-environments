@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -29,6 +29,9 @@ import org.qubership.atp.environments.db.AppConfiguration;
 import org.qubership.atp.environments.db.DbConfiguration;
 import org.qubership.atp.environments.db.ModificationInterceptorConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
@@ -56,9 +59,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         SchedulerConfig.class,
         LocaleResolverConfiguration.class
 })
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {
+        MongoAutoConfiguration.class,
+        MongoDataAutoConfiguration.class,
+        MongoRepositoriesAutoConfiguration.class
+})
 @EnableTokenRelayWebClient
-@EnableFeignClients(basePackages = {"org.qubership.atp.integration.configuration.feign",
+@EnableFeignClients(basePackages = {
+        "org.qubership.atp.integration.configuration.feign",
         "org.qubership.atp.environments.service.rest.client"})
 @EnableOauth2FeignClientInterceptor
 @EnableScheduling
