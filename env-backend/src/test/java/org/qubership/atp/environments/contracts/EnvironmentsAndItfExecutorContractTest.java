@@ -42,10 +42,10 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConf
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -72,13 +72,13 @@ public class EnvironmentsAndItfExecutorContractTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private SystemController systemController;
-    @MockBean
+    @MockitoBean
     private ProjectController projectController;
-    @MockBean
+    @MockitoBean
     private EnvironmentController environmentController;
-    @MockBean
+    @MockitoBean
     private ConnectionController connectionController;
 
     public void beforeAll() throws Exception {

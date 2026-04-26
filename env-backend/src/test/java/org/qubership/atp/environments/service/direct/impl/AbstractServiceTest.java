@@ -40,9 +40,9 @@ import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.querydsl.core.QueryException;
 
@@ -70,9 +70,9 @@ public abstract class AbstractServiceTest {
     protected DateTimeUtil dateTimeUtil;
     @Autowired
     protected ContextRepository contextRepo;
-    @MockBean
+    @MockitoBean
     protected Provider<UserInfo> userInfoProvider;
-    @MockBean
+    @MockitoBean
     protected PolicyEnforcement policyEnforcement;
 
     private UUID projectId = null;

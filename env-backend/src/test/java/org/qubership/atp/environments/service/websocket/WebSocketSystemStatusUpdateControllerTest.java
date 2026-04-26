@@ -36,13 +36,13 @@ import org.qubership.atp.integration.configuration.configuration.LoggingHelpersC
 import org.qubership.atp.integration.configuration.configuration.MdcInterceptorsHelperConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.AbstractSubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +56,7 @@ import feign.Request;
 @Isolated
 public class WebSocketSystemStatusUpdateControllerTest {
 
-    @MockBean
+    @MockitoBean
     private WebSocketSystemStatusService socketService;
 
     @Autowired

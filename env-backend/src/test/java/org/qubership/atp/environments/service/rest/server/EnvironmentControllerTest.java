@@ -48,10 +48,10 @@ import org.qubership.atp.environments.service.rest.server.dto.SystemTemporaryDto
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -70,17 +70,17 @@ public class EnvironmentControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @MockBean
+    @MockitoBean
     private EnvironmentController environmentController;
-    @MockBean
+    @MockitoBean
     private CatalogFeignClient catalogFeignClient;
-    @MockBean
+    @MockitoBean
     private HealthcheckFeignClient healthcheckFeignClient;
-    @MockBean
+    @MockitoBean
     private ExportImportFeignClient exportImportFeignClient;
-    @MockBean
+    @MockitoBean
     private RestTemplateLogInterceptor restTemplateLogInterceptor;
-    @MockBean
+    @MockitoBean
     private MetricService metricService;
 
     private Environment envTest;
