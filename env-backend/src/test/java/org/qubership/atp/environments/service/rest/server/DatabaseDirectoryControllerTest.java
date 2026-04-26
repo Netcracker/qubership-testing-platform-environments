@@ -57,7 +57,7 @@ public class DatabaseDirectoryControllerTest {
 
     @Test
     public void onDatabaseDirectoryController_GetDirectory_Directory() throws Exception {
-        Mockito.when(databaseDirectoryService.getName(eq("oracle"))).thenReturn(directoryList.get(0));
+        Mockito.when(databaseDirectoryService.getName(eq("oracle"))).thenReturn(directoryList.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/database-directory/oracle")
                 .accept(MediaType.APPLICATION_JSON))

@@ -198,6 +198,7 @@ public class AlertEventControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Entity id can't be empty"));
     }
 
@@ -217,6 +218,7 @@ public class AlertEventControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Alert id can't be empty"));
     }
 

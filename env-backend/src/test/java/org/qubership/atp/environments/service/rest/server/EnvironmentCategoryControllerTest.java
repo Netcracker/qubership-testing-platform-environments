@@ -70,7 +70,7 @@ public class EnvironmentCategoryControllerTest {
 
     @Test
     public void onEnvironmentCategoryController_GetById_EnvironmentCategory() throws Exception {
-        Mockito.when(environmentCategoryService.get(any(UUID.class))).thenReturn(categories.get(0));
+        Mockito.when(environmentCategoryService.get(any(UUID.class))).thenReturn(categories.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/environment-categories/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))

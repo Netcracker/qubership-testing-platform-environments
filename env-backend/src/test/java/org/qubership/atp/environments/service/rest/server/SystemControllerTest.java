@@ -209,7 +209,7 @@ public class SystemControllerTest {
                 .andExpect(jsonPath("$[0].description").value(connection.getDescription()))
                 .andExpect(jsonPath("$[0].sourceTemplateId").value(connection.getSourceTemplateId().toString()))
                 .andExpect(jsonPath("$[0].connectionType").value(connection.getConnectionType()))
-                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().get(0)))
+                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().getFirst()))
                 .andExpect(jsonPath("$[0].systemId").value(connection.getSystemId().toString()));
     }
 
@@ -269,6 +269,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be null"));
     }
 
@@ -286,6 +287,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be empty"));
     }
 
@@ -302,6 +304,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Environment ID can't be empty"));
     }
 
@@ -343,6 +346,7 @@ public class SystemControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be null"));
     }
 
@@ -361,6 +365,7 @@ public class SystemControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be empty"));
     }
 
@@ -378,6 +383,7 @@ public class SystemControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Environment ID can't be empty"));
     }
 
@@ -427,6 +433,7 @@ public class SystemControllerTest {
                         .andExpect(status().is(500))
                         .andReturn()
                         .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Environment ID can't be empty"));
     }
 
@@ -447,7 +454,7 @@ public class SystemControllerTest {
                 .andExpect(jsonPath("$[0].description").value(connection.getDescription()))
                 .andExpect(jsonPath("$[0].sourceTemplateId").value(connection.getSourceTemplateId().toString()))
                 .andExpect(jsonPath("$[0].connectionType").value(connection.getConnectionType()))
-                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().get(0)))
+                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().getFirst()))
                 .andExpect(jsonPath("$[0].systemId").value(connection.getSystemId().toString()));
     }
 
@@ -467,7 +474,7 @@ public class SystemControllerTest {
                 .andExpect(jsonPath("$[0].description").value(connection.getDescription()))
                 .andExpect(jsonPath("$[0].sourceTemplateId").value(connection.getSourceTemplateId().toString()))
                 .andExpect(jsonPath("$[0].connectionType").value(connection.getConnectionType()))
-                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().get(0)))
+                .andExpect(jsonPath("$[0].services[0]").value(connection.getServices().getFirst()))
                 .andExpect(jsonPath("$[0].systemId").value(connection.getSystemId().toString()));
     }
 
@@ -484,6 +491,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Environment ID can't be empty"));
     }
 
@@ -536,6 +544,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System id can't be empty"));
     }
 
@@ -558,6 +567,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be null"));
     }
 
@@ -581,6 +591,7 @@ public class SystemControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("System name can't be empty"));
     }
 

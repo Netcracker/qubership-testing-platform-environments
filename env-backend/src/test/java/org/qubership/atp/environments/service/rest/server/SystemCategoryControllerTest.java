@@ -75,8 +75,8 @@ public class SystemCategoryControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").value(systemCategories.get(0).getCreated()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.get(0).getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").value(systemCategories.getFirst().getCreated()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.getFirst().getName()));
     }
 
     @Test
@@ -87,49 +87,49 @@ public class SystemCategoryControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.get(0).getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.getFirst().getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").doesNotExist());
     }
 
     @Test
     public void getCategory_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(systemCategoriesService.get(any(UUID.class))).thenReturn(systemCategories.get(0));
+        Mockito.when(systemCategoriesService.get(any(UUID.class))).thenReturn(systemCategories.getFirst());
         mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/system-categories/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
     @Test
     public void createCategory_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(systemCategoriesService.create(any(),any())).thenReturn(systemCategories.get(0));
+        Mockito.when(systemCategoriesService.create(any(),any())).thenReturn(systemCategories.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/system-categories")
-                .content(objectMapper.writeValueAsString(systemCategories.get(0)))
+                .content(objectMapper.writeValueAsString(systemCategories.getFirst()))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
     @Test
     public void updateCategory_PassedRequest_GoodRequest() throws Exception {
         Mockito.when(systemCategoriesService.update(any(UUID.class),
-                any(),any())).thenReturn(systemCategories.get(0));
+                any(),any())).thenReturn(systemCategories.getFirst());
         mockMvc.perform(MockMvcRequestBuilders.
                 put("/api/system-categories")
-                .content(objectMapper.writeValueAsString(systemCategories.get(0)))
+                .content(objectMapper.writeValueAsString(systemCategories.getFirst()))
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
 }

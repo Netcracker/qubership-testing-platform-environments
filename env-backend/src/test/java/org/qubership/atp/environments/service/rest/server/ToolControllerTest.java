@@ -266,6 +266,7 @@ public class ToolControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Tool group id can't be empty"));
     }
 
@@ -285,6 +286,7 @@ public class ToolControllerTest {
                 .andExpect(status().is(500))
                 .andReturn()
                 .getResolvedException();
+        Assertions.assertNotNull(exception);
         Assertions.assertTrue(exception.getMessage().contains("Tool group name can't be empty"));
     }
 

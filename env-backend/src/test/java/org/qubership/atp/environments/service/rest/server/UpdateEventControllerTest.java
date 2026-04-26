@@ -69,20 +69,20 @@ public class UpdateEventControllerTest {
 
     @Test
     public void getEventByEntityIdAndSubscriptionId_PassedRequest_GoodRequest() throws Exception {
-        when(updateEventService.get(any(UUID.class), any(UUID.class))).thenReturn(updateEventList.get(0));
+        when(updateEventService.get(any(UUID.class), any(UUID.class))).thenReturn(updateEventList.getFirst());
         mockMvcPerformGet("$", "/api/updateEvents/subscription/" + UUID.randomUUID() + "/entity/"
                 + UUID.randomUUID());
     }
 
     @Test
     public void getEventBySubscriptionId_PassedRequest_GoodRequest() throws Exception {
-        when(updateEventService.getSubscriptionUpdateEvents(any(UUID.class))).thenReturn(updateEventList.get(0));
+        when(updateEventService.getSubscriptionUpdateEvents(any(UUID.class))).thenReturn(updateEventList.getFirst());
         mockMvcPerformGet("$", "/api/updateEvents/subscription/" + UUID.randomUUID());
     }
 
     @Test
     public void getEventByEntityId_PassedRequest_GoodRequest() throws Exception {
-        when(updateEventService.getEntityUpdateEvents(any(UUID.class))).thenReturn(updateEventList.get(0));
+        when(updateEventService.getEntityUpdateEvents(any(UUID.class))).thenReturn(updateEventList.getFirst());
         mockMvcPerformGet("$", "/api/updateEvents/entity/" + UUID.randomUUID());
     }
 
@@ -91,9 +91,9 @@ public class UpdateEventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(jsonPath).exists())
                 .andExpect(jsonPath(jsonPath + ".entityId").value(
-                        updateEventList.get(0).getEntityId().toString().trim()))
+                        updateEventList.getFirst().getEntityId().toString().trim()))
                 .andExpect(jsonPath(jsonPath + ".subscription.id").value(
-                        updateEventList.get(0).getSubscriptionId().toString().trim()));
+                        updateEventList.getFirst().getSubscriptionId().toString().trim()));
     }
 
     @Test
@@ -105,11 +105,11 @@ public class UpdateEventControllerTest {
     @Test
     public void createEvent_PassedRequest_GoodRequest() throws Exception {
         when(updateEventService.create(any(UUID.class), any(UUID.class),
-                anyString(), anyInt(), anyString())).thenReturn(updateEventList.get(0));
-        ((UpdateEventImpl)updateEventList.get(0)).setSubscription(null);
+                anyString(), anyInt(), anyString())).thenReturn(updateEventList.getFirst());
+        ((UpdateEventImpl)updateEventList.getFirst()).setSubscription(null);
         mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/updateEvents")
-                .content(objectMapper.writeValueAsString(updateEventList.get(0)))
+                .content(objectMapper.writeValueAsString(updateEventList.getFirst()))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -118,10 +118,10 @@ public class UpdateEventControllerTest {
 
     @Test
     public void updateEvent_PassedRequest_GoodRequest() throws Exception {
-        ((UpdateEventImpl)updateEventList.get(0)).setSubscription(null);
+        ((UpdateEventImpl)updateEventList.getFirst()).setSubscription(null);
         mockMvc.perform(MockMvcRequestBuilders.
                 put("/api/updateEvents/subscription/" + UUID.randomUUID() + "/entity/" + UUID.randomUUID())
-                .content(objectMapper.writeValueAsString(updateEventList.get(0)))
+                .content(objectMapper.writeValueAsString(updateEventList.getFirst()))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

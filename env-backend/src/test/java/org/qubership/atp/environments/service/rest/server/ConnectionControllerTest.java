@@ -91,7 +91,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void onConnectionController_GetAllBy_ArrayConnections(TestInfo testInfo) throws Exception {
-        Mockito.when(connectionService.getAll(anyList(), any(UUID.class))).thenReturn(Collections.singletonList(connectionList.get(0)));
+        Mockito.when(connectionService.getAll(anyList(), any(UUID.class))).thenReturn(Collections.singletonList(connectionList.getFirst()));
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/connections/getAllBy")
                 .content(resourceAccessor.readStringFromFilePath(testInfo.getTestMethod().get().getName()))
@@ -105,7 +105,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void onConnectionController_GetById_Connection() throws Exception {
-        Mockito.when(connectionService.get(any(UUID.class))).thenReturn(connectionList.get(0));
+        Mockito.when(connectionService.get(any(UUID.class))).thenReturn(connectionList.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/connections/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
@@ -123,7 +123,7 @@ public class ConnectionControllerTest {
                 any(),
                 any(UUID.class),
                 any(UUID.class),
-                anyList())).thenReturn(connectionList.get(0));
+                anyList())).thenReturn(connectionList.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/connections")
                 .content(resourceAccessor.readStringFromFilePath(testInfo.getTestMethod().get().getName()))
@@ -145,7 +145,7 @@ public class ConnectionControllerTest {
                 any(),
                 any(UUID.class),
                 any(UUID.class),
-                anyList())).thenReturn(connectionList.get(0));
+                anyList())).thenReturn(connectionList.getFirst());
         Mockito.when(concurrentModificationService
                 .getConcurrentModificationHttpStatus(any(UUID.class), any(), eq(connectionService))).thenReturn(HttpStatus.OK);
         this.mockMvc.perform(MockMvcRequestBuilders.
