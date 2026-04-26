@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
     <name>env-backend</name>
@@ -243,10 +243,10 @@
             <groupId>org.qubership.atp.ei</groupId>
             <artifactId>qubership-atp-export-import-lib-ntt-converter</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-reporter-brave</artifactId>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
