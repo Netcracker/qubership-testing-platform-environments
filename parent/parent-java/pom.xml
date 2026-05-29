@@ -17,7 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <console.encoding>UTF-8</console.encoding>
-        <targetJdk>1.8</targetJdk>
         <svn.revision>local_build</svn.revision>
         <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
         <pmd.version>7.0.0</pmd.version>
@@ -171,7 +170,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.5.5</version>
                     <configuration>
                         <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
                         <systemPropertyVariables>

@@ -168,7 +168,7 @@
                                     <directory>src/main/scripts</directory>
                                     <excludes>
                                         <!--
-                                        v* - cumulative scripts path.
+                                        v* - cumulative script path.
                                         It will exclude all jars recursively from directory v*
                                         For example: all jars from directory scripts/v000/TICKET704/ would be excluded.
                                         -->
@@ -214,18 +214,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
-                        <additionalClasspathElement>
-                            ${basedir}/src/test/resources/test-data/org-qubership-environments-q-classes
-                            -generation-pg.jar
-                        </additionalClasspathElement>
-                    </additionalClasspathElements>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>

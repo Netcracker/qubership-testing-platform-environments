@@ -150,7 +150,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
+            <version>5.12.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -243,10 +243,6 @@
             <groupId>org.qubership.atp.ei</groupId>
             <artifactId>qubership-atp-export-import-lib-ntt-converter</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-reporter-brave</artifactId>
-        </dependency> -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
@@ -649,7 +645,7 @@
             -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.5.5</version>
                 <configuration>
                     <argLine>${tests.argLine}</argLine>
                     <additionalClasspathElements>
