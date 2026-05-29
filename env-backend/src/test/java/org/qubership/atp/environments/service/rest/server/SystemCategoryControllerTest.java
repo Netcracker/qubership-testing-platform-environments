@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
 import org.qubership.atp.environments.Main;
@@ -34,11 +33,10 @@ import org.qubership.atp.environments.utils.ResourceAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -46,7 +44,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest()
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
@@ -57,7 +54,7 @@ public class SystemCategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private SystemCategoriesService systemCategoriesService;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -78,8 +75,8 @@ public class SystemCategoryControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").value(systemCategories.get(0).getCreated()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.get(0).getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").value(systemCategories.getFirst().getCreated()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.getFirst().getName()));
     }
 
     @Test
@@ -90,49 +87,49 @@ public class SystemCategoryControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.get(0).getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(systemCategories.getFirst().getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].created").doesNotExist());
     }
 
     @Test
     public void getCategory_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(systemCategoriesService.get(any(UUID.class))).thenReturn(systemCategories.get(0));
+        Mockito.when(systemCategoriesService.get(any(UUID.class))).thenReturn(systemCategories.getFirst());
         mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/system-categories/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
     @Test
     public void createCategory_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(systemCategoriesService.create(any(),any())).thenReturn(systemCategories.get(0));
+        Mockito.when(systemCategoriesService.create(any(),any())).thenReturn(systemCategories.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/system-categories")
-                .content(objectMapper.writeValueAsString(systemCategories.get(0)))
+                .content(objectMapper.writeValueAsString(systemCategories.getFirst()))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
     @Test
     public void updateCategory_PassedRequest_GoodRequest() throws Exception {
         Mockito.when(systemCategoriesService.update(any(UUID.class),
-                any(),any())).thenReturn(systemCategories.get(0));
+                any(),any())).thenReturn(systemCategories.getFirst());
         mockMvc.perform(MockMvcRequestBuilders.
                 put("/api/system-categories")
-                .content(objectMapper.writeValueAsString(systemCategories.get(0)))
+                .content(objectMapper.writeValueAsString(systemCategories.getFirst()))
                 .accept("application/json")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.get(0).getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.get(0).getCreated()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(systemCategories.getFirst().getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.created").value(systemCategories.getFirst().getCreated()));
     }
 
 }

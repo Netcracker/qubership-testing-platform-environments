@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateStrategy implements TrackedMethodStrategy {
 
-    private static Logger LOG = LoggerFactory.getLogger(CreateStrategy.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CreateStrategy.class);
 
     private final ModificationInterceptor interceptor;
     private final EntityTypeStrategy idsStrategy;
@@ -46,10 +46,10 @@ public class CreateStrategy implements TrackedMethodStrategy {
         Object result = invocation.proceed();
         try {
             UUID id;
-            if (result instanceof Identified) {
-                id = ((Identified) result).getId();
-            } else if (result instanceof UUID) {
-                id = (UUID) result;
+            if (result instanceof Identified identified) {
+                id = identified.getId();
+            } else if (result instanceof UUID iD) {
+                id = iD;
             } else {
                 log.error("Returned object expected to be Identified or UUID, but was: {}", result.getClass());
                 throw new EnvironmentNotIdentifiableObjectException();

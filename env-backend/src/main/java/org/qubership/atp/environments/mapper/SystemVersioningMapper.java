@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import org.qubership.atp.environments.versioning.model.entities.SystemJ;
 import org.qubership.atp.environments.versioning.model.mapper.ConnectionVersioning;
 import org.qubership.atp.environments.versioning.model.mapper.SystemVersioning;
 import org.qubership.atp.environments.versioning.model.values.ConnectionJ;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,7 +40,6 @@ public class SystemVersioningMapper extends AbstractVersioningMapper<SystemJ, Sy
      * @param systemCategoriesService    systemCategoriesService
      * @param connectionVersioningMapper connectionVersioningMapper
      */
-    @Autowired
     public SystemVersioningMapper(SystemCategoriesService systemCategoriesService,
                                   ConnectionVersioningMapper connectionVersioningMapper) {
         super(SystemJ.class, SystemVersioning.class);

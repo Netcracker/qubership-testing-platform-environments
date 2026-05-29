@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -28,9 +28,6 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -93,6 +90,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.openshift.restclient.model.route.IRoute;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -124,7 +123,6 @@ public class SystemServiceImpl implements SystemService {
     /**
      * TODO Make javadoc documentation for this method.
      */
-    @Autowired
     public SystemServiceImpl(SystemRepositoryImpl systemRepository, ConnectionRepositoryImpl connectionRepository,
                              ConnectionService connectionService,
                              SystemCategoriesService systemCategoriesService, DateTimeUtil dateTimeUtil,
@@ -381,7 +379,7 @@ public class SystemServiceImpl implements SystemService {
             List<String> projectIds = Stream.of(etalonProject, project)
                     .filter(str -> !Strings.isNullOrEmpty(str))
                     .distinct()
-                    .collect(Collectors.toList());
+                    .toList();
             OpenshiftClient osClient = (OpenshiftClient) ExternalCloudClient
                     .createClient(openShiftProject.getParameters(),
                             OpenshiftClient.class);
@@ -818,11 +816,11 @@ public class SystemServiceImpl implements SystemService {
         systemRepository.getContext().setFullDbFetching(true);
         List<System> listSystems = systemRepository.getAllByParentId(id).stream()
                 .filter(e -> e.getParametersGettingVersion() != null)
-                .collect(Collectors.toList());
+                .toList();
         List<System> listSystemsWithUpdatedVersions = new ArrayList<>();
         for (System system : listSystems) {
             MDC.put(MdcField.SYSTEM_ID.toString(), system.getId().toString());
-            String version = "";
+            String version;
             System updatedSystem = null;
             try {
                 version = getSystemVersionByTypeCheck(system);
@@ -833,12 +831,9 @@ public class SystemServiceImpl implements SystemService {
                     throw new NullPointerException("Version is null");
                 }
             } catch (Exception e) {
-                log.error("An error occurred while getting version of system"
-                                + " (systemName: {} , systemId: {} )",
-                        system.getName(),
-                        system.getId().toString(), e);
-                updatedSystem = ref.saveVersionAndDateOfLastCheck(system,
-                        "Unknown");
+                log.error("An error occurred while getting version of system (systemName: {} , systemId: {} )",
+                        system.getName(), system.getId(), e);
+                updatedSystem = ref.saveVersionAndDateOfLastCheck(system, "Unknown");
                 updatedSystem.setCheckVersionError(e.getMessage());
                 updatedSystem.setVersion("ERROR");
             } finally {
@@ -920,7 +915,7 @@ public class SystemServiceImpl implements SystemService {
                 foundServices = cloudServices.stream()
                         .filter(cloudService -> nonNull(existingService.getExternalName())
                                 && existingService.getExternalName().equals(cloudService.getName()))
-                        .collect(Collectors.toList());
+                        .toList();
             }
             if (!foundServices.isEmpty()) {
                 CloudService serviceFromCloudServer = foundServices.get(0);

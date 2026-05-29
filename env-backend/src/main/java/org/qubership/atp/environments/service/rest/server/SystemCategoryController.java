@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.qubership.atp.environments.model.impl.SystemCategoryImpl;
 import org.qubership.atp.environments.model.utils.View;
 import org.qubership.atp.environments.service.direct.SystemCategoriesService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +43,6 @@ public class SystemCategoryController /*implements SystemCategoryControllerApi*/
 
     private final SystemCategoriesService systemCategoriesService;
 
-    @Autowired
     public SystemCategoryController(SystemCategoriesService systemCategoriesService) {
         this.systemCategoriesService = systemCategoriesService;
     }

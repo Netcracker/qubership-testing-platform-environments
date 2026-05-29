@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
 import org.qubership.atp.environments.Main;
@@ -43,19 +42,17 @@ import org.qubership.atp.environments.utils.TestEntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest()
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
@@ -65,9 +62,9 @@ public class ConnectionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private ConnectionService connectionService;
-    @MockBean
+    @MockitoBean
     private ConcurrentModificationService concurrentModificationService;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -94,7 +91,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void onConnectionController_GetAllBy_ArrayConnections(TestInfo testInfo) throws Exception {
-        Mockito.when(connectionService.getAll(anyList(), any(UUID.class))).thenReturn(Collections.singletonList(connectionList.get(0)));
+        Mockito.when(connectionService.getAll(anyList(), any(UUID.class))).thenReturn(Collections.singletonList(connectionList.getFirst()));
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/connections/getAllBy")
                 .content(resourceAccessor.readStringFromFilePath(testInfo.getTestMethod().get().getName()))
@@ -108,7 +105,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void onConnectionController_GetById_Connection() throws Exception {
-        Mockito.when(connectionService.get(any(UUID.class))).thenReturn(connectionList.get(0));
+        Mockito.when(connectionService.get(any(UUID.class))).thenReturn(connectionList.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/connections/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
@@ -126,7 +123,7 @@ public class ConnectionControllerTest {
                 any(),
                 any(UUID.class),
                 any(UUID.class),
-                anyList())).thenReturn(connectionList.get(0));
+                anyList())).thenReturn(connectionList.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/connections")
                 .content(resourceAccessor.readStringFromFilePath(testInfo.getTestMethod().get().getName()))
@@ -148,7 +145,7 @@ public class ConnectionControllerTest {
                 any(),
                 any(UUID.class),
                 any(UUID.class),
-                anyList())).thenReturn(connectionList.get(0));
+                anyList())).thenReturn(connectionList.getFirst());
         Mockito.when(concurrentModificationService
                 .getConcurrentModificationHttpStatus(any(UUID.class), any(), eq(connectionService))).thenReturn(HttpStatus.OK);
         this.mockMvc.perform(MockMvcRequestBuilders.

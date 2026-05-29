@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,10 +18,9 @@ package org.qubership.atp.environments.model;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +51,7 @@ public interface UserSetting {
                     return type;
                 }
             }
-            throw new RuntimeException(String.format("There is no %s type of environments view", name));
+            throw new RuntimeException("There is no %s type of environments view".formatted(name));
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.qubership.atp.environments.service.rest.server;
 
 import org.qubership.atp.environments.service.direct.TimestampService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,12 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class PingController /*implements PingControllerApi*/ {
 
-    private TimestampService service;
+    private final TimestampService service;
 
     /**
      * Constructor for initializing PingController.
      */
-    @Autowired
     public PingController(TimestampService service) {
         this.service = service;
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ public class EnvironmentsExportExecutor implements ExportExecutor {
                 .filter(environment -> environment.getSystems() != null)
                 .forEach(env -> {
                     PostmanEnvironment postmanEnvironment =
-                            new PostmanEnvironment(env.getId(), env.getName(), new ArrayList<PostmanValue>());
+                            new PostmanEnvironment(env.getId(), env.getName(), new ArrayList<>());
                     List<PostmanValue> postmanValueList = postmanEnvironment.getValues();
                     env.getSystems().stream()
                             .filter(system -> system.getConnections() != null)
@@ -120,7 +120,7 @@ public class EnvironmentsExportExecutor implements ExportExecutor {
                                         .forEach(connection -> {
                                             connection.getParameters().forEach((key, value) -> {
                                                 PostmanValue postmanValue = new PostmanValue();
-                                                postmanValue.setKey(String.format(POSTMAN_KEY_TEMPLATE,
+                                                postmanValue.setKey(POSTMAN_KEY_TEMPLATE.formatted(
                                                         system.getName(), connection.getName(), key));
                                                 if (decryptor.isEncrypted(value)) {
                                                     postmanValue.setValue("");

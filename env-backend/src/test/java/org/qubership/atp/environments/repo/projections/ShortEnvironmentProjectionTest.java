@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,9 +24,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.mocks.EntitiesGenerator;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.Project;
@@ -45,9 +46,7 @@ public class ShortEnvironmentProjectionTest extends AbstractProjectionTest{
     ProjectRepositoryImpl projectRepo;
     SystemRepositoryImpl systemRepository;
 
-
-
-    @Before
+    @BeforeEach
     public void setUp() {
         repo = mock(EnvironmentRepositoryImpl.class);
         shortEnvironmentProjection = new ShortEnvironmentProjection(repo);
@@ -73,9 +72,9 @@ public class ShortEnvironmentProjectionTest extends AbstractProjectionTest{
                 environment.getCreatedBy(), new Timestamp(0L),
                 environment.getModifiedBy(), environment.getProjectId(), environment.getCategoryId(),
                 environment.getSourceId(), environment.getTags());
-        Assert.assertEquals(environment.getId(), resultEnvironment.getId());
-        Assert.assertEquals(environment.getName(), resultEnvironment.getName());
-        Assert.assertEquals(environment.getSystems().size(), 1);
+        Assertions.assertEquals(environment.getId(), resultEnvironment.getId());
+        Assertions.assertEquals(environment.getName(), resultEnvironment.getName());
+        Assertions.assertEquals(1, environment.getSystems().size());
 
     }
 
@@ -88,8 +87,8 @@ public class ShortEnvironmentProjectionTest extends AbstractProjectionTest{
         environment.setSystems(systems);
         Tuple tuple = mockTupleForEnvironment(environment);
         Environment resultEnvironment = shortEnvironmentProjection.map(tuple);
-        Assert.assertEquals(resultEnvironment.getId(), environment.getId());
-        Assert.assertEquals(resultEnvironment.getName(), environment.getName());
-        Assert.assertNull(resultEnvironment.getSystems());
+        Assertions.assertEquals(resultEnvironment.getId(), environment.getId());
+        Assertions.assertEquals(resultEnvironment.getName(), environment.getName());
+        Assertions.assertNull(resultEnvironment.getSystems());
     }
 }

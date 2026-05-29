@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package org.qubership.atp.environments.service.rest.server;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,11 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.enums.MdcField;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
@@ -49,11 +43,13 @@ import org.qubership.atp.environments.service.rest.server.request.EnvironmentsWi
 import org.qubership.atp.environments.service.rest.server.response.SystemVersionResponse;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
 import org.qubership.atp.integration.configuration.mdc.MdcUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,7 +82,6 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     /**
      * Constructor.
      */
-    @Autowired
     public EnvironmentController(EnvironmentService service,
                                  SystemService systemService,
                                  ConcurrentModificationService concurrentModificationService,
@@ -107,8 +102,7 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     @PostMapping("/environments/search")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Get environments by search request projectId in search request: "
-            + "{{#searchRequest"
-            + ".projectId.toString()}} ")
+            + "{{#searchRequest.projectId.toString()}} ")
     public List<Environment> findBySearchRequest(@RequestBody BaseSearchRequestDto searchRequest) throws Exception {
         return environmentService.findBySearchRequest(searchRequest);
     }
@@ -166,7 +160,6 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
         return ResponseEntity.ok(environmentService.getEnvironmentsByFilterRequest(request, page, size));
     }
 
-
     /**
      * Method returns systems list.
      */
@@ -206,8 +199,7 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     /**
      * Method returns html-tables with system versions.
      */
-    @RequestMapping(value = "/public/v1/environments/{environmentIds}/systems/htmlVersions",
-            method = GET, produces = "text/plain")
+    @GetMapping(value = "/public/v1/environments/{environmentIds}/systems/htmlVersions", produces = "text/plain")
     @AuditAction(auditAction = "Get html of system versions by environment list")
     public ResponseEntity<String> getPublicHtmlVersion(@PathVariable("environmentIds") List<UUID> environmentIds) {
         String htmlResponse = environmentService.getHtmlVersionByEnvironments(environmentIds);
@@ -251,7 +243,6 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
         }
     }
 
-
      /**
      * Method returns systems data as a ZIP archive containing two YAML files:
      * - deployment-parameters.yaml: all connection parameters except encrypted credentials
@@ -260,10 +251,11 @@ public class EnvironmentController /*implements EnvironmentControllerApi*/ {
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
             + "@environmentService.getProjectIdByEnvironmentId(#environmentId),'READ')")
-    @GetMapping("/v2/environments/{environmentId}/yaml/envgene")
+    @GetMapping(value = "/v2/environments/{environmentId}/yaml/envgene",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @AuditAction(auditAction = "Get systems stored in zip archive with two YAML files: "
-                + "deployment-parameters.yaml and credentials.yaml in envgene format by environment uuid {{#environmentId.toString()}} "
-                + "and system type {{#systemType}}")
+            + "deployment-parameters.yaml and credentials.yaml in envgene format by environment uuid "
+            + "{{#environmentId.toString()}} and system type {{#systemType}}")
     public ResponseEntity<Resource> getSystemsYamlZipArchive(
             @PathVariable("environmentId") UUID environmentId,
             @RequestParam(value = "system_type", required = false) String systemType) {

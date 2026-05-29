@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor;
 import org.qubership.atp.ei.node.clients.ExportImportFeignClient;
@@ -43,16 +42,14 @@ import org.qubership.atp.environments.service.rest.client.HealthcheckFeignClient
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest()
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
@@ -62,24 +59,24 @@ public class ProjectControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private ProjectController projectController;
-    @MockBean
+    @MockitoBean
     private CatalogFeignClient catalogFeignClient;
-    @MockBean
+    @MockitoBean
     private HealthcheckFeignClient healthcheckFeignClient;
-    @MockBean
+    @MockitoBean
     private ExportImportFeignClient exportImportFeignClient;
-    @MockBean
+    @MockitoBean
     private RestTemplateLogInterceptor restTemplateLogInterceptor;
-    @MockBean
+    @MockitoBean
     private MetricService metricService;
 
     private Project project;
     private Environment environment;
     private Environment taToolGroup;
-    private List<Environment> listEnv = new ArrayList<>();
-    private List<System> listSys = new ArrayList<>();
+    private final List<Environment> listEnv = new ArrayList<>();
+    private final List<System> listSys = new ArrayList<>();
 
     @BeforeEach
     public void setUp() throws Exception {

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,39 +18,43 @@ package api;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.qubership.atp.auth.springbootstarter.config.FeignConfiguration;
 import org.qubership.atp.environments.clients.api.healthcheck.dto.SystemStatusDto;
 import org.qubership.atp.environments.service.rest.client.HealthcheckFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslResponse;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.consumer.junit.PactProviderRule;
-import au.com.dius.pact.consumer.junit.PactVerification;
+import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
+import au.com.dius.pact.consumer.junit5.PactTestFor;
+import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import configuration.TestAppConfiguration;
 
-@RunWith(SpringRunner.class)
 @EnableFeignClients(clients = {HealthcheckFeignClient.class})
-@ContextConfiguration(classes = {TestAppConfiguration.class})
+@ExtendWith(PactConsumerTestExt.class)
+@SpringBootTest
+@ActiveProfiles("disable-security")
+@SpringJUnitConfig(classes = {TestAppConfiguration.class})
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,
         FeignConfiguration.class,
@@ -60,14 +64,14 @@ import configuration.TestAppConfiguration;
                 "feign.atp.healthcheck.route=",
                 "feign.atp.healthcheck.url=http://localhost:8888"
         })
+@PactTestFor(providerName = "atp-healthcheck", port = "8888", pactVersion = PactSpecVersion.V3)
 public class HealthcheckStatusFeignClientPactUnitTest {
-    @Rule
-    public PactProviderRule mockProvider = new PactProviderRule("atp-healthcheck", "localhost", 8888, this);
+
     @Autowired
     HealthcheckFeignClient healthcheckFeignClient;
 
     @Test
-    @PactVerification()
+    @PactTestFor(pactMethod = "createPact")
     public void allPass() {
         UUID projectId = UUID.fromString("c2737427-05e4-4c17-8032-455539deaa01");
         UUID environmentId = UUID.fromString("c2737427-05e4-4c17-8032-455539deaa02");
@@ -75,11 +79,12 @@ public class HealthcheckStatusFeignClientPactUnitTest {
 
         ResponseEntity<SystemStatusDto> expectedSystemStatusDto = healthcheckFeignClient
                 .checkSystem(projectId.toString(), environmentId.toString(), systemId.toString(), null, null, null);
-        Assert.assertEquals(200, expectedSystemStatusDto.getStatusCode().value());
-        Assert.assertTrue(expectedSystemStatusDto.getHeaders().get("Content-Type").contains("application/json"));
+        Assertions.assertEquals(200, expectedSystemStatusDto.getStatusCode().value());
+        Assertions.assertTrue(Objects.requireNonNull(expectedSystemStatusDto.getHeaders().get("Content-Type"))
+                .contains("application/json"));
     }
 
-    @Pact(consumer = "atp-enviroments")
+    @Pact(consumer = "atp-environments")
     public RequestResponsePact createPact(PactDslWithProvider builder) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");

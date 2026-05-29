@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.validation.Valid;
-
 import org.qubership.atp.environments.errorhandling.history.EnvironmentIllegalHistoryEntityTypeArgumentException;
 import org.qubership.atp.environments.service.rest.server.dto.generated.CompareEntityResponseDtoGenerated;
 import org.qubership.atp.environments.service.rest.server.dto.generated.HistoryItemResponseDtoGenerated;
@@ -36,7 +34,6 @@ import org.qubership.atp.environments.versioning.service.JaversHistoryService;
 import org.qubership.atp.environments.versioning.service.JaversRestoreServiceFactory;
 import org.qubership.atp.environments.versioning.service.VersionHistoryService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -52,7 +50,7 @@ public class HistoryController implements HistoryControllerApi {
 
     private final JaversHistoryService javersHistoryService;
     private final JaversRestoreServiceFactory javersRestoreServiceFactory;
-    private HistoryServiceFactory historyServiceFactory;
+    private final HistoryServiceFactory historyServiceFactory;
     private final Map<String, Class<? extends AbstractJaversEntity>> javersClasses = ImmutableMap.of(
             HistoryItemTypeDtoGenerated.ENVIRONMENT.toString(), EnvironmentJ.class,
             HistoryItemTypeDtoGenerated.TATOOL.toString(), EnvironmentJ.class,
@@ -62,7 +60,6 @@ public class HistoryController implements HistoryControllerApi {
     /**
      * Constructor.
      */
-    @Autowired
     public HistoryController(JaversHistoryService javersHistoryService,
                              JaversRestoreServiceFactory javersRestoreServiceFactory,
                              HistoryServiceFactory historyServiceFactory) {

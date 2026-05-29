@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package org.qubership.atp.environments.service.direct;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.Alert;
+
+import jakarta.annotation.Nonnull;
 
 public interface AlertService extends IdentifiedService<Alert> {
 
@@ -32,5 +32,4 @@ public interface AlertService extends IdentifiedService<Alert> {
     void update(Alert alert);
 
     void delete(UUID alertId);
-    //List<AlertEvent> getAlertEvents(UUID alertId);
 }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConf
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -53,10 +53,10 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import lombok.extern.slf4j.Slf4j;
 
 @Provider("atp-environments")
-@PactUrl(urls = {"src/test/resources/pacts/atp-ocs-diagnostic-tool-atp-environments.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-ocs-diagnostic-tool-atp-environments.json"})
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = {EnvironmentController.class})
-@ContextConfiguration(classes = {EnviromentsAndOcsContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {EnviromentsAndOcsContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,
@@ -71,15 +71,15 @@ public class EnviromentsAndOcsContractTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private EnvironmentService environmentService;
-    @MockBean
+    @MockitoBean
     private SystemService systemService;
-    @MockBean
+    @MockitoBean
     private ConcurrentModificationService concurrentModificationService;
-    @MockBean
+    @MockitoBean
     private ContextRepository contextRepository;
-    @MockBean
+    @MockitoBean
     Context context;
 
     public void beforeAll() {

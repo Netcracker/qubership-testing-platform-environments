@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -147,7 +146,7 @@ public class EnvironmentsImportExecutorTest {
         when(connectionService.get().getByIds(any())).thenReturn(Collections.singletonList(connection));
         when(systemCategoriesService.get().get(any())).thenReturn(null);
 
-        Path workDir = Paths.get("src/test/resources/ei/import/atp-environments");
+        Path workDir = Path.of("src/test/resources/ei/import/atp-environments");
         ExportImportData importData = mock(ExportImportData.class);
         environmentsImportExecutor.get().importData(importData, workDir);
 
@@ -160,7 +159,7 @@ public class EnvironmentsImportExecutorTest {
 
     @Test
     public void validateData_shouldReturnEmptyValidationMessagesList_whenPassValidation() {
-        Path workDir = Paths.get("src/test/resources/ei/import/atp-environments");
+        Path workDir = Path.of("src/test/resources/ei/import/atp-environments");
         List<String> messages = environmentsImporter.get().validateEnvironments(workDir,
                 false, new HashMap<>());
         Assertions.assertTrue(messages.isEmpty(), "There must be no validation messages.");
@@ -168,8 +167,8 @@ public class EnvironmentsImportExecutorTest {
 
 
     @Test
-    public void validateData_shouldReturnEmptyValidationMessagesList_whenNewProject() throws Exception {
-        Path workDir = Paths.get("src/test/resources/ei/import/atp-environments");
+    public void validateData_shouldReturnEmptyValidationMessagesList_whenNewProject() {
+        Path workDir = Path.of("src/test/resources/ei/import/atp-environments");
         ExportImportData exportImportData = new ExportImportData(null, null, null, true, true, null, new HashMap<>(), new HashMap<>(),
                 ValidationType.VALIDATE, false);
 
@@ -177,12 +176,12 @@ public class EnvironmentsImportExecutorTest {
 
 
         Assertions.assertTrue(validationResult.getDetails().isEmpty(), "There must be no validation messages.");
-        Assertions.assertEquals(3, validationResult.getReplacementMap().keySet().size(), "Replacement map has all keys.");
+        Assertions.assertEquals(3, validationResult.getReplacementMap().size(), "Replacement map has all keys.");
     }
 
     @Test
-    public void validateData_shouldReturnEmptyValidationMessagesList_whenInterProjectFirtsTime() throws Exception {
-        Path workDir = Paths.get("src/test/resources/ei/import/atp-environments");
+    public void validateData_shouldReturnEmptyValidationMessagesList_whenInterProjectFirtsTime() {
+        Path workDir = Path.of("src/test/resources/ei/import/atp-environments");
         ExportImportData exportImportData = new ExportImportData(null, null, null, false, true, null, new HashMap<>(), new HashMap<>(),
                 ValidationType.VALIDATE, false);
 
@@ -191,7 +190,7 @@ public class EnvironmentsImportExecutorTest {
         ValidationResult validationResult = environmentsImportExecutor.get().validateData(exportImportData, workDir);
 
         Assertions.assertTrue(validationResult.getDetails().isEmpty(), "There must be no validation messages.");
-        Assertions.assertEquals(3, validationResult.getReplacementMap().keySet().size(), "Replacement map has all keys.");
+        Assertions.assertEquals(3, validationResult.getReplacementMap().size(), "Replacement map has all keys.");
 
     }
 }

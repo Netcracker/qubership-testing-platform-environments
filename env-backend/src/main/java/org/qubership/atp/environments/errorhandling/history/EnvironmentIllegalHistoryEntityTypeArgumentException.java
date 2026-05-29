@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,6 +26,6 @@ public class EnvironmentIllegalHistoryEntityTypeArgumentException extends AtpEnv
     public static final String DEFAULT_MESSAGE = "History for Entity type '%s' is not supported";
 
     public EnvironmentIllegalHistoryEntityTypeArgumentException(String entityType) {
-        super(String.format(DEFAULT_MESSAGE, entityType));
+        super(DEFAULT_MESSAGE.formatted(entityType));
     }
 }

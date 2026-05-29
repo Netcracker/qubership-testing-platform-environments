@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -35,9 +35,6 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -71,7 +68,6 @@ import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.qubership.atp.environments.validating.factories.ValidationStrategyFactory;
 import org.qubership.atp.environments.validating.strategies.ValidationStrategy;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCache;
@@ -81,6 +77,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Preconditions;
 import j2html.TagCreator;
 import j2html.tags.ContainerTag;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import joptsimple.internal.Strings;
 import lombok.extern.slf4j.Slf4j;
 
@@ -107,7 +105,6 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     /**
      * Class constructor.
      */
-    @Autowired
     public EnvironmentServiceImpl(EnvironmentRepositoryImpl environmentRepository,
                                   SystemRepositoryImpl systemRepository,
                                   ConnectionRepositoryImpl connectionRepository,
@@ -557,7 +554,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
                         String version = systemService.getCachedVersionBySystem(system).getVersion();
                         tableLine.with(TagCreator.td(version).withStyle(tdStyle));
                     } catch (Exception e) {
-                        String message = String.format("Error occurred while getting version of %s", system.getName());
+                        String message = "Error occurred while getting version of %s".formatted(system.getName());
                         log.error(message, e);
                         tableLine.with(TagCreator.td(message).withStyle(tdStyle));
                     }
@@ -577,7 +574,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         ValidationStrategy strategy = validationStrategyFactory.createStrategy(ValidationStrategyFactory.ITF_LITE);
         if (!CollectionUtils.isEmpty(request.getToolIds())) {
             List<Environment> taTools = environmentRepository.getByIds(request.getToolIds());
-            toolResponses.addAll(taTools.stream().map(strategy::validate).collect(toList()));
+            toolResponses.addAll(taTools.stream().map(strategy::validate).toList());
         }
         return new ValidateTaToolsResponse(toolResponses);
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,11 +21,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.SystemCategory;
 import org.qubership.atp.environments.model.impl.SystemCategoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -33,6 +30,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import com.querydsl.sql.SQLQueryFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 @Repository
 public class SystemCategoryRepositoryImpl extends AbstractRepository {
@@ -41,7 +39,6 @@ public class SystemCategoryRepositoryImpl extends AbstractRepository {
 
     private final SystemCategoriesProjection projection = new SystemCategoriesProjection(this);
 
-    @Autowired
     public SystemCategoryRepositoryImpl(SQLQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }

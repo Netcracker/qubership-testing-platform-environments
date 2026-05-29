@@ -68,7 +68,8 @@ import lombok.extern.slf4j.Slf4j;
      private void checkController(Class apiClass, List<String> errors) {
          String classNameWithApi = apiClass.getSimpleName();
          List<Class<?>> controllersList =
-                 controllersPackage.stream().map(s -> findControllerByClassName(s, removeApiPostfix(classNameWithApi)))
+                 controllersPackage.stream().map(s ->
+                                 findControllerByClassName(s, removeApiPostfix(classNameWithApi)))
                          .filter(Objects::nonNull)
                          .collect(Collectors.toList());
 
@@ -82,8 +83,9 @@ import lombok.extern.slf4j.Slf4j;
              errors.add("There are two controllers for api " + apiClass.getCanonicalName());
          }
 
-         List<Method> listOfControllerMethods = Arrays.stream(controllersList.get(0).getDeclaredMethods()).filter(this::isRestMethod)
-                 .collect(Collectors.toList());
+         List<Method> listOfControllerMethods = Arrays.stream(controllersList.getFirst().getDeclaredMethods())
+                 .filter(this::isRestMethod)
+                 .toList();
 
          listOfControllerMethods.stream().filter(method -> Modifier.isPublic(method.getModifiers()))
                  .forEach(method -> checkMethodInController(method, apiClass, errors));
@@ -101,8 +103,8 @@ import lombok.extern.slf4j.Slf4j;
      private void checkMethodInController(Method ctrlMethod, Class<?> apiClass, List<String> errors) {
          List<Method> listOfApiMethods = Arrays.asList(apiClass.getDeclaredMethods());
          List<Method> apiMethods =
-                 listOfApiMethods.stream().filter(apiMethod -> apiMethod.getName().equals(ctrlMethod.getName()))
-                         .collect(Collectors.toList());
+                 listOfApiMethods.stream().filter(apiMethod ->
+                                 apiMethod.getName().equals(ctrlMethod.getName())).toList();
          if (apiMethods.isEmpty() && (ctrlMethodsToSkip.get(apiClass) == null
                  || !ctrlMethodsToSkip.get(apiClass).contains(ctrlMethod.getName()))) {
              // checking for new method in controller

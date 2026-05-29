@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,10 +25,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.junit.Assert;
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 
 public class FileUtils {
 
@@ -75,7 +74,7 @@ public class FileUtils {
     public static void assertObjectsSerializedToBytes(Object expected, Object actual) {
         byte[] expectedSerializedBytes = serializeObjectToBytes(expected);
         byte[] actualSerializedBytes = serializeObjectToBytes(actual);
-        Assert.assertArrayEquals(expectedSerializedBytes, actualSerializedBytes);
+        Assertions.assertArrayEquals(expectedSerializedBytes, actualSerializedBytes);
     }
 
     public static byte[] serializeObjectToBytes(Object object) {

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 package org.qubership.atp.environments.repo.projections;
 
+import java.io.Serial;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 import org.qubership.atp.environments.db.Proxies;
 import org.qubership.atp.environments.model.Environment;
@@ -37,10 +36,12 @@ import com.google.gson.Gson;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("CPD-START")
 public class ShortSystemProjection extends MappingProjection<System> {
 
+    @Serial
     private static final long serialVersionUID = 42L;
     @SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     protected final transient SystemRepositoryImpl repo;

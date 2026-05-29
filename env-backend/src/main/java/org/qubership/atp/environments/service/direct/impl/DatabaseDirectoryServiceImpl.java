@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,21 +18,19 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.environments.model.DatabaseDirectory;
 import org.qubership.atp.environments.repo.impl.DatabaseDirectoryRepositoryImpl;
 import org.qubership.atp.environments.service.direct.DatabaseDirectoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Service("databaseDirectoryService")
 public class DatabaseDirectoryServiceImpl implements DatabaseDirectoryService {
 
     private final DatabaseDirectoryRepositoryImpl databaseDirectoryRepository;
 
-    @Autowired
     public DatabaseDirectoryServiceImpl(DatabaseDirectoryRepositoryImpl databaseDirectoryRepository) {
         this.databaseDirectoryRepository = databaseDirectoryRepository;
     }

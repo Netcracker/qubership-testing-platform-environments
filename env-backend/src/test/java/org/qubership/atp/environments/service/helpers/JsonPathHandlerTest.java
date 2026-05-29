@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,22 +25,24 @@ import com.jayway.jsonpath.InvalidJsonException;
 public class JsonPathHandlerTest {
 
     JsonPathHandler jsonPathHandler = new JsonPathHandler();
-    private final String inputJsonString = "{\n"
-            + "  \"version\": {\n"
-            + "    \"version\": \"v0.50.0-rc5\",\n"
-            + "    \"param1\": \"unknown\"\n"
-            + "  },\n"
-            + "  \"version2\": \"v1.50.1-rc6\",\n"
-            + "  \"param2\": \"4324\"\n"
-            + "}";
-    private final String inputWrongJsonString = "{\n"
-            + "  \"version\": {\n"
-            + "    \"version\": \"v0.50.0-rc5\",\n"
-            + "    \"param1\": \"unknown\",\n"
-            //            + "  },\n"
-            + "  \"version2\": \"v1.50.1-rc6\",\n"
-            + "  \"param2\": \"4324\"\n"
-            + "}";
+    private final String inputJsonString = """
+            {
+              "version": {
+                "version": "v0.50.0-rc5",
+                "param1": "unknown"
+              },
+              "version2": "v1.50.1-rc6",
+              "param2": "4324"
+            }\
+            """;
+    private final String inputWrongJsonString = """
+            {
+              "version": {
+                "version": "v0.50.0-rc5",
+                "param1": "unknown",
+              "version2": "v1.50.1-rc6",
+              "param2": "4324"
+            }""";
 
     @Test
     public void getByJsonpath_specifiedKey_gotSimpleString() {
@@ -52,13 +54,14 @@ public class JsonPathHandlerTest {
     @Test
     public void getByJsonpath_recursiveDescentOperator_gotJsonArray() {
         String jsonpath = "$..version";
-        String expectedComplexJson = "[\n"
-                + "  {\n"
-                + "    \"version\": \"v0.50.0-rc5\",\n"
-                + "    \"param1\": \"unknown\"\n"
-                + "  },\n"
-                + "  \"v0.50.0-rc5\"\n"
-                + "]";
+        String expectedComplexJson = """
+                [
+                  {
+                    "version": "v0.50.0-rc5",
+                    "param1": "unknown"
+                  },
+                  "v0.50.0-rc5"
+                ]""";
         Assertions.assertEquals(expectedComplexJson, jsonPathHandler.getByJsonpath(inputJsonString, jsonpath));
     }
 

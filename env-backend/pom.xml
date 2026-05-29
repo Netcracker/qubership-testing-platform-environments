@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db</artifactId>
-        <version>1.5.105-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
     <name>env-backend</name>
@@ -20,6 +20,11 @@
         </tests.argLine>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>6.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.qubership.atp.common</groupId>
             <artifactId>qubership-atp-common-probes</artifactId>
@@ -106,12 +111,12 @@
             <artifactId>spring-tx</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -139,13 +144,13 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-inline</artifactId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
+            <version>5.12.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -185,8 +190,8 @@
             <artifactId>querydsl-sql</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -203,6 +208,12 @@
         <dependency>
             <groupId>org.qubership.atp</groupId>
             <artifactId>atp-integration-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.qubership.atp.environments</groupId>
@@ -233,12 +244,8 @@
             <artifactId>qubership-atp-export-import-lib-ntt-converter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -287,18 +294,21 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
-            <version>6.2.1</version>
+            <version>7.9.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-ext</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -315,9 +325,53 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
+            <artifactId>junit5</artifactId>
+            <version>4.6.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hibernate.validator</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-collections4</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>iterators</artifactId>
+                    <groupId>org.dmfs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>antlr-runtime</artifactId>
+                    <groupId>org.antlr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>classgraph</artifactId>
+                    <groupId>io.github.classgraph</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius.pact.provider</groupId>
             <artifactId>junit5spring</artifactId>
-            <version>4.1.0</version>
-            <scope>test</scope>
+            <version>4.6.15</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.validator</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <!--https://stackoverflow.com/questions/62001663/exception-in-thread-thread-2-java-lang-nosuchmethoderror-kotlin-io-bytestream-->
@@ -430,8 +484,13 @@
         -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
             <version>2.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <!-- Relating bv-contract-test-pacts dependency:
             Need to fix FileNotFoundException for class
@@ -442,15 +501,9 @@
             <artifactId>qubership-atp-common-monitoring-undertow</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.14.17</version>
+            <version>1.17.8</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -592,13 +645,12 @@
             -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>3.5.5</version>
                 <configuration>
                     <argLine>${tests.argLine}</argLine>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${basedir}/target/test-classes/config/</additionalClasspathElement>
                     </additionalClasspathElements>
-                    <!--see https://confluence.atlassian.com/clover/using-clover-with-maven-+-surefire-test-+-inner-test-classes-285840787.html -->
                     <excludes>
                         <exclude>**/*$__CLR*</exclude>
                     </excludes>
@@ -625,7 +677,22 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.2.1</version>
+                <version>7.9.0</version>
+                <configuration>
+                    <generatorName>spring</generatorName>
+                    <output>${project.build.directory}/generated-sources</output>
+                    <modelNameSuffix>DtoGenerated</modelNameSuffix>
+                    <skipOverwrite>false</skipOverwrite>
+                    <generateModelTests>false</generateModelTests>
+                    <configOptions>
+                        <useSpringBoot3>true</useSpringBoot3>
+                        <useJakartaEe>true</useJakartaEe>
+                        <java8>true</java8>
+                        <interfaceOnly>true</interfaceOnly>
+                        <useTags>true</useTags>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                    </configOptions>
+                </configuration>
                 <executions>
                     <execution>
                         <id>HistoryApi</id>
@@ -634,19 +701,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-history-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -656,19 +713,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-alert-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -678,19 +725,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-alert-event-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -700,19 +737,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-catalog-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -722,19 +749,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-connection-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -744,19 +761,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-database-directory-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -766,19 +773,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-environments-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -788,19 +785,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-environment-category-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -810,19 +797,10 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-ping-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -832,19 +810,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-project-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -854,19 +822,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-subscribers-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -876,19 +834,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-subscription-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -898,19 +846,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-system-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -920,19 +858,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-system-category-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -942,19 +870,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-tool-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -964,19 +882,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-update-event-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -986,19 +894,9 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${project.parent.parent.parent.parent.parent.basedir}/env-rest-openapi-specifications/v1/openapi-version-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.service.rest.server.dto.generated</modelPackage>
-                            <modelNameSuffix>DtoGenerated</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
 
@@ -1010,21 +908,12 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${basedir}/src/main/resources/apispecs/api/healthcheck/v1/openapi-status-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.clients.api.healthcheck</apiPackage>
                             <modelPackage>org.qubership.atp.environments.clients.api.healthcheck.dto</modelPackage>
                             <invokerPackage>org.qubership.atp.environments.clients</invokerPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
                             <generateSupportingFiles>false</generateSupportingFiles>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                     <execution>
@@ -1034,19 +923,10 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <generatorName>spring</generatorName>
                             <inputSpec>${basedir}/src/main/resources/apispecs/catalogue/api/catalogue/v1/project-controller-v1.yaml</inputSpec>
                             <apiPackage>org.qubership.atp.environments.service.rest.server.catalogue.generated</apiPackage>
                             <modelPackage>org.qubership.atp.environments.clients.api.catalogue.generated</modelPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
-                            <skipOverwrite>false</skipOverwrite>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <java8>true</java8>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useTags>true</useTags>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
                         </configuration>
                     </execution>
                 </executions>
@@ -1061,48 +941,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>with-analyzers</id>
-            <activation>
-                <property>
-                    <name>enable-analyzers</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                            <targetPercentage>53%</targetPercentage>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

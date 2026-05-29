@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.util.Optional;
 import org.qubership.atp.environments.model.DatabaseDirectory;
 import org.qubership.atp.environments.service.direct.DatabaseDirectoryService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +35,6 @@ public class DatabaseDirectoryController /*implements DatabaseDirectoryControlle
 
     private final DatabaseDirectoryService databaseDirectoryService;
 
-    @Autowired
     public DatabaseDirectoryController(DatabaseDirectoryService databaseDirectoryService) {
         this.databaseDirectoryService = databaseDirectoryService;
     }

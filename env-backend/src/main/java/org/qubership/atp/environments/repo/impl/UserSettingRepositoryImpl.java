@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,13 +18,9 @@ package org.qubership.atp.environments.repo.impl;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.environments.errorhandling.database.UserSettingsAlreadyExistsException;
 import org.qubership.atp.environments.model.UserSetting;
 import org.qubership.atp.environments.model.impl.UserSettingImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +29,8 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.MappingProjection;
 import com.querydsl.sql.SQLQueryFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -44,7 +42,6 @@ public class UserSettingRepositoryImpl extends AbstractRepository {
 
     private final UserSettingProjection projection = new UserSettingProjection(this);
 
-    @Autowired
     public UserSettingRepositoryImpl(SQLQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }

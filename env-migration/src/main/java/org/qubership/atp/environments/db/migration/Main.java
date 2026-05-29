@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.environments.db.migration;
 
+import java.net.URL;
 import java.sql.SQLException;
 
 import org.qubership.atp.environments.db.migration.classloader.ParentLastClassloader;
@@ -58,7 +59,19 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException, LiquibaseException {
         ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(Main.class, args);
-        String sourcePath = System.getProperty("lb.libs.path", "env-scripts/src/main/scripts");
+
+        String sourcePath = System.getProperty("lb.libs.path");
+        if (sourcePath == null) {
+            // Load from classpath - the scripts are packaged in the JAR
+            URL scriptUrl = Main.class.getClassLoader().getResource("scripts");
+            if (scriptUrl != null) {
+                sourcePath = scriptUrl.getPath();
+            } else {
+                // Fallback for IDE execution
+                sourcePath = "../env-scripts/src/main/scripts";
+            }
+        }
+
         String jdbcType = System.getProperty("jdbc_type");
         if (Strings.isNullOrEmpty(jdbcType)) {
             throw new IllegalStateException("You haven't specified system property 'jdbc_type'");

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -34,8 +34,9 @@ import org.qubership.atp.environments.utils.cloud.OpenshiftClient;
 
 public class OpenshiftVersionCheckerTest {
 
-    protected String expectedResult = "type_1/image_20210324-110636\n" +
-            "type_2/image_20200602-062319";
+    protected String expectedResult = """
+            type_1/image_20210324-110636
+            type_2/image_20200602-062319""";
 
     @Test
     public void getVersion() {

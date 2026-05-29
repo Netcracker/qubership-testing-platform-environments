@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
 import org.qubership.atp.environments.Main;
@@ -37,11 +36,10 @@ import org.qubership.atp.environments.utils.ResourceAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -49,7 +47,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest()
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
@@ -60,7 +57,7 @@ public class SubscriptionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private SubscriptionService subscriptionService;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -78,33 +75,33 @@ public class SubscriptionControllerTest {
         subscriptionImpls = resourceAccessor.readObjectsFromFilePath(SubscriptionImpl.class, "allSubscriptions");
         subscriptionDtoList = resourceAccessor.readObjectsFromFilePath(SubscriptionDto.class, "allSubscriptionDtoList");
         subscriptions = new ArrayList<>();
-        subscriptions.add(subscriptionImpls.get(0));
+        subscriptions.add(subscriptionImpls.getFirst());
     }
 
     @Test
     public void getSubscription_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(subscriptionService.get(any(UUID.class))).thenReturn(subscriptionImpls.get(0));
+        Mockito.when(subscriptionService.get(any(UUID.class))).thenReturn(subscriptionImpls.getFirst());
         mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/subscriptions/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
     public void createSubscription_PassedRequest_GoodRequest() throws Exception {
-        Mockito.when(subscriptionService.create(any(),any(),any(),any(),any(),any(),any())).thenReturn(subscriptionImpls.get(0));
+        Mockito.when(subscriptionService.create(any(),any(),any(),any(),any(),any(),any())).thenReturn(subscriptionImpls.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 post("/api/subscriptions")
-                .content(objectMapper.writeValueAsString(subscriptionDtoList.get(0)))
+                .content(objectMapper.writeValueAsString(subscriptionDtoList.getFirst()))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
@@ -118,8 +115,8 @@ public class SubscriptionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
@@ -130,8 +127,8 @@ public class SubscriptionControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
@@ -142,8 +139,8 @@ public class SubscriptionControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
@@ -154,8 +151,8 @@ public class SubscriptionControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
     @Test
@@ -166,8 +163,8 @@ public class SubscriptionControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.get(0).getStatus()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.get(0).getSubscriptionType()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value(subscriptionImpls.getFirst().getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].subscriptionType").value(subscriptionImpls.getFirst().getSubscriptionType()));
     }
 
 }

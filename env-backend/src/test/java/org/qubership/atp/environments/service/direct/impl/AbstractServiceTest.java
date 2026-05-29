@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,10 +18,9 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import java.util.UUID;
 
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -41,15 +40,13 @@ import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.querydsl.core.QueryException;
 
 @SpringBootTest(properties = {"spring.cloud.vault.enabled=false", "spring.cloud.consul.config.enabled=false"})
-@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = Main.class)
 @TestPropertySource("classpath:application-test-rest-api.properties")
 @Isolated
@@ -73,9 +70,9 @@ public abstract class AbstractServiceTest {
     protected DateTimeUtil dateTimeUtil;
     @Autowired
     protected ContextRepository contextRepo;
-    @MockBean
+    @MockitoBean
     protected Provider<UserInfo> userInfoProvider;
-    @MockBean
+    @MockitoBean
     protected PolicyEnforcement policyEnforcement;
 
     private UUID projectId = null;

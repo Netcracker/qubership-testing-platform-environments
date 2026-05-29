@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -107,7 +107,7 @@ public class HttpVersionChecker implements VersionChecker {
                     httpRequest.addHeader("x-client-application-name", "NCECARE");
                 }
             }
-            HttpResponse response = httpClient.execute(httpRequest);
+            ClassicHttpResponse response = httpClient.execute(httpRequest);
             HttpEntity entity = response.getEntity();
             String content = EntityUtils.toString(entity);
             if (!content.contains("<!DOCTYPE html")) {
@@ -120,8 +120,8 @@ public class HttpVersionChecker implements VersionChecker {
                     version.add(content);
                 }
             }
-            return !version.isEmpty() ? version.get(0) : "Unknown";
-        } catch (IOException | PathNotFoundException | ParseException e) {
+            return !version.isEmpty() ? version.getFirst() : "Unknown";
+        } catch (IOException | PathNotFoundException | ParseException | org.apache.hc.core5.http.ParseException e) {
             log.error(e.getMessage());
         }
         return !version.isEmpty() ? version.toString() : "Unknown";
@@ -142,8 +142,7 @@ public class HttpVersionChecker implements VersionChecker {
 
     private void setAuthHeaders(HttpGet httpRequest) {
         String auth = this.login + ":" + this.password;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.UTF_8));
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
         String authHeader = "Basic " + new String(encodedAuth, StandardCharsets.UTF_8);
         httpRequest.setHeader(HttpHeaders.AUTHORIZATION, authHeader);
     }

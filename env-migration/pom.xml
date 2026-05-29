@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qubership.atp.environments</groupId>
         <artifactId>parent-db-properties</artifactId>
-        <version>1.5.105-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
     <name>env-migration</name>
@@ -39,12 +39,12 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -81,10 +81,6 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -172,7 +168,7 @@
                                     <directory>src/main/scripts</directory>
                                     <excludes>
                                         <!--
-                                        v* - cumulative scripts path.
+                                        v* - cumulative script path.
                                         It will exclude all jars recursively from directory v*
                                         For example: all jars from directory scripts/v000/TICKET704/ would be excluded.
                                         -->
@@ -218,18 +214,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
-                        <additionalClasspathElement>
-                            ${basedir}/src/test/resources/test-data/org-qubership-environments-q-classes
-                            -generation-pg.jar
-                        </additionalClasspathElement>
-                    </additionalClasspathElements>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.model.Identified;
 import org.qubership.atp.environments.repo.impl.ContextRepository;
 import org.qubership.atp.environments.service.direct.impl.MetricService;
@@ -59,6 +58,7 @@ import com.fasterxml.jackson.databind.ser.impl.WritableObjectId;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 @Configuration
 public class AppConfiguration implements WebMvcConfigurer {
@@ -66,11 +66,11 @@ public class AppConfiguration implements WebMvcConfigurer {
     private final ContextRepository repo;
     private final MetricService metricService;
 
-    @Value("${spring.resources.static-locations}")
+    @Value("${spring.web.resources.static-locations}")
     private String webLocation;
     @Value("${application.web.root-page}")
     private String rootPage;
-    @Value("${spring.resources.cache.period}")
+    @Value("${spring.web.resources.cache.period}")
     private Integer cachePeriodInSec;
 
     public AppConfiguration(ContextRepository repo, MetricService metricService) {
@@ -79,11 +79,11 @@ public class AppConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * Add path to static recources.
+     * Add path to static resources.
      * Enable version strategy got resources
      * Set cache period for resources in seconds
      *
-     * @param registry for registration resources
+     * @param registry for registration resources.
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -96,11 +96,16 @@ public class AppConfiguration implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(@Nonnull String resourcePath, Resource location) throws IOException {
+                        if (StringUtils.isEmpty(resourcePath)) {
+                            return null;
+                        }
                         Resource requestedResource = location.createRelative(resourcePath);
-                        if (requestedResource.exists()
-                                && requestedResource.isReadable()) {
+                        if (requestedResource.exists() && requestedResource.isReadable()) {
                             return location.createRelative(resourcePath);
                         } else {
+                            if (StringUtils.isEmpty(rootPage)) {
+                                return null;
+                            }
                             return new FileSystemResource(rootPage);
                         }
                     }
@@ -127,7 +132,7 @@ public class AppConfiguration implements WebMvcConfigurer {
         objectMapper.enable(SerializationFeature.USE_EQUALITY_FOR_OBJECT_ID);
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
         jsonConverter.setObjectMapper(objectMapper);
-        converters.add(0, jsonConverter);
+        converters.addFirst(jsonConverter);
     }
 
     static class OffsetDateTimeSerializer extends JsonSerializer<OffsetDateTime> {
@@ -153,8 +158,8 @@ public class AppConfiguration implements WebMvcConfigurer {
         public JsonSerializer<?> modifySerializer(
                 SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
             if (Identified.class.isAssignableFrom(beanDesc.getBeanClass())
-                    && serializer instanceof BeanSerializerBase) {
-                return new FlatSerializer(contextRepo, (BeanSerializerBase) serializer);
+                    && serializer instanceof BeanSerializerBase base) {
+                return new FlatSerializer(contextRepo, base);
             }
             return serializer;
         }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,17 +19,16 @@ package org.qubership.atp.environments.service.direct.impl;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.qubership.atp.environments.model.Subscriber;
 import org.qubership.atp.environments.model.Subscription;
 import org.qubership.atp.environments.repo.impl.SubscriberRepositoryImpl;
 import org.qubership.atp.environments.repo.impl.SubscriptionRepositoryImpl;
 import org.qubership.atp.environments.service.direct.SubscriberService;
 import org.qubership.atp.environments.utils.DateTimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Service("subscriberService")
 @SuppressWarnings("CPD-START")
@@ -42,7 +41,6 @@ public class SubscriberServiceImpl implements SubscriberService {
     /**
      * Constructor.
      */
-    @Autowired
     public SubscriberServiceImpl(SubscriberRepositoryImpl subscriberRepository,
                                  SubscriptionRepositoryImpl subscriptionRepository, DateTimeUtil dateTimeUtil) {
         this.subscriberRepository = subscriberRepository;

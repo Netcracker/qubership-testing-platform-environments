@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
 import org.qubership.atp.environments.Main;
@@ -34,16 +33,14 @@ import org.qubership.atp.environments.service.direct.EnvironmentCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest()
 @AutoConfigureMockMvc(addFilters = false)
 @ContextConfiguration(classes = Main.class)
@@ -52,7 +49,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class EnvironmentCategoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private EnvironmentCategoryService environmentCategoryService;
 
     List<EnvironmentCategory> categories = Arrays
@@ -73,7 +70,7 @@ public class EnvironmentCategoryControllerTest {
 
     @Test
     public void onEnvironmentCategoryController_GetById_EnvironmentCategory() throws Exception {
-        Mockito.when(environmentCategoryService.get(any(UUID.class))).thenReturn(categories.get(0));
+        Mockito.when(environmentCategoryService.get(any(UUID.class))).thenReturn(categories.getFirst());
         this.mockMvc.perform(MockMvcRequestBuilders.
                 get("/api/environment-categories/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))

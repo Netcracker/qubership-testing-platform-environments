@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,10 +26,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
-
 import org.postgresql.util.PGobject;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.impl.Context;
@@ -46,7 +42,6 @@ import org.qubership.atp.environments.service.rest.server.dto.BaseSearchRequestD
 import org.qubership.atp.environments.service.rest.server.dto.EventType;
 import org.qubership.atp.environments.service.rest.server.request.EnvironmentsWithFilterRequest;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -59,6 +54,9 @@ import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -83,7 +81,6 @@ public class EnvironmentRepositoryImpl extends AbstractRepository implements Pro
     /**
      * Constructor.
      */
-    @Autowired
     public EnvironmentRepositoryImpl(SQLQueryFactory queryFactory,
                                      Provider<ProjectRepositoryImpl> projectRepo,
                                      Provider<SystemRepositoryImpl> systemRepo,

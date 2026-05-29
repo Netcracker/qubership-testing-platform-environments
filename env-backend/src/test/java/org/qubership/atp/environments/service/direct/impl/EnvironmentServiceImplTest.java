@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -427,7 +428,7 @@ public class EnvironmentServiceImplTest {
                 .map(Identified::getId).collect(Collectors.toList());
         environmentIds.add(UUID.randomUUID());
         String htmlVersion = environmentService.get().getHtmlVersionByEnvironments(environmentIds);
-        Assertions.assertEquals(htmlVersion, "");
+        Assertions.assertEquals("", htmlVersion);
     }
 
     @Test
@@ -474,8 +475,7 @@ public class EnvironmentServiceImplTest {
         Environment envTest2 = new EnvironmentImpl(UUID.randomUUID(), "Test environment 2", "",
                 null, "", "", "", null, null, null, null,
                 projectId, null, null, null, Collections.emptyList());
-        List<Environment> listEnv = Arrays.asList(envTest1, envTest2);
-        return listEnv;
+        return Arrays.asList(envTest1, envTest2);
     }
 
     @Test
@@ -595,13 +595,15 @@ public class EnvironmentServiceImplTest {
         params.put("port", "8080");
 
         String deploymentParamsYaml =
-                "ATP_ENVGENE_CONFIGURATION:\n" +
-                        "  systems:\n" +
-                        "  - TestSystem:\n" +
-                        "      connections:\n" +
-                        "      - TestConnection:\n" +
-                        "          host: localhost\n" +
-                        "          port: \"8080\"\n";
+                """
+                ATP_ENVGENE_CONFIGURATION:
+                  systems:
+                  - TestSystem:
+                      connections:
+                      - TestConnection:
+                          host: localhost
+                          port: "8080"
+                """;
         Collection<System> systems = Collections.singletonList(testSystem);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
         when(systemService.get().generateSystemsYaml(any()))
@@ -633,15 +635,16 @@ public class EnvironmentServiceImplTest {
         String decryptedValue = "decrypted_value";
         params.put("encrypted_param", encryptedValue);
 
-        String credentialsYaml = String.format(
-                "ATP_ENVGENE_CONFIGURATION:\n" +
-                        "  systems:\n" +
-                        "  - TestSystem:\n" +
-                        "      connections:\n" +
-                        "      - TestConnection:\n" +
-                        "          password: secret123\n" +
-                        "          token: token123\n" +
-                        "          encrypted_param: %s\n",
+        String credentialsYaml = """
+                ATP_ENVGENE_CONFIGURATION:
+                  systems:
+                  - TestSystem:
+                      connections:
+                      - TestConnection:
+                          password: secret123
+                          token: token123
+                          encrypted_param: %s
+                """.formatted(
                 decryptedValue
         );
         Collection<System> systems = Collections.singletonList(testSystem);
@@ -677,16 +680,18 @@ public class EnvironmentServiceImplTest {
         Collection<System> systems = Arrays.asList(system1, system2);
 
         String deploymentParamsYaml =
-                "ATP_ENVGENE_CONFIGURATION:\n" +
-                        "  systems:\n" +
-                        "  - System1:\n" +
-                        "      connections:\n" +
-                        "      - Conn1:\n" +
-                        "          key1: value1\n" +
-                        "  - System2:\n" +
-                        "      connections:\n" +
-                        "      - Conn2:\n" +
-                        "          key1: value1\n";
+                """
+                ATP_ENVGENE_CONFIGURATION:
+                  systems:
+                  - System1:
+                      connections:
+                      - Conn1:
+                          key1: value1
+                  - System2:
+                      connections:
+                      - Conn2:
+                          key1: value1
+                """;
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
         when(systemService.get().generateSystemsYaml(any()))
                 .thenReturn(new String[]{deploymentParamsYaml, "credentials-yaml"});
@@ -711,8 +716,10 @@ public class EnvironmentServiceImplTest {
         systemWithoutConnections.setName("SystemWithoutConnections");
         systemWithoutConnections.setConnections(Collections.emptyList());
 
-        String deploymentParamsYaml = "ATP_ENVGENE_CONFIGURATION:\n" +
-                "  systems: []\n";
+        String deploymentParamsYaml = """
+                ATP_ENVGENE_CONFIGURATION:
+                  systems: []
+                """;
         Collection<System> systems = Collections.singletonList(systemWithoutConnections);
         when(systemRepository.get().getAllByParentIdV2(eq(environmentId))).thenReturn(systems);
         when(systemService.get().generateSystemsYaml(any()))
@@ -779,7 +786,7 @@ public class EnvironmentServiceImplTest {
                     StringBuilder content = new StringBuilder();
                     int len;
                     while ((len = zis.read(buffer)) > 0) {
-                        content.append(new String(buffer, 0, len, "UTF-8"));
+                        content.append(new String(buffer, 0, len, StandardCharsets.UTF_8));
                     }
                     zis.closeEntry();
                     return content.toString();

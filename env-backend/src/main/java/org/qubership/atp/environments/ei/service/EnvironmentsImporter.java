@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ public class EnvironmentsImporter {
      *
      * @param workDir directory where environment's files store.
      */
-    public void importEnvironments(Path workDir, ExportImportData importData) throws Exception {
+    public void importEnvironments(Path workDir, ExportImportData importData) {
         log.info("Starts importEnvironments(workDir: {})", workDir);
         Map<UUID, Path> environmentsFiles = objectLoaderFromDiskService.getListOfObjects(workDir,
                 Environment.class);
@@ -103,7 +103,7 @@ public class EnvironmentsImporter {
             checkCategoryCompatibility(environmentObject);
             Optional<org.qubership.atp.environments.model.Environment> environmentOpt =
                     environmentService.getOrElse(environmentObject.getId());
-            if (!environmentOpt.isPresent()) {
+            if (environmentOpt.isEmpty()) {
                 environmentObject.setSourceId(environmentId);
                 createWithCheckName(environmentObject);
             } else {
@@ -179,10 +179,10 @@ public class EnvironmentsImporter {
                         "Exported VA " + simpleDateFormat.format(new Date()),
                         null,
                         java.lang.System.currentTimeMillis());
-                // there is no such important a name of project as its' id.
+                // there is no such important a name of project as its id.
             }
         } catch (AtpException e) {
-            String message = String.format("Cannot create project with id %s", projectId);
+            String message = "Cannot create project with id %s".formatted(projectId);
             throw new ExportException(message, e);
         }
     }
@@ -391,7 +391,7 @@ public class EnvironmentsImporter {
             Map<UUID, org.qubership.atp.environments.model.System> originalSystems = getOriginalSystemMap(object);
             log.debug("importing object {}", object);
             if (object == null) {
-                String message = String.format("Cannot load file by path %s", path.toString());
+                String message = "Cannot load file by path %s".formatted(path.toString());
                 log.error(message);
                 result.add(message);
                 return;
@@ -432,7 +432,7 @@ public class EnvironmentsImporter {
             object.getSystems().forEach(system -> {
                 objectIds.add(system.getId());
                 objectIds.addAll(system.getConnections().stream()
-                        .map(Connection::getId).collect(Collectors.toList()));
+                        .map(Connection::getId).toList());
             });
         });
         return objectIds;

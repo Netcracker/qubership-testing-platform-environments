@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
@@ -38,13 +38,13 @@ import org.qubership.atp.environments.utils.TestEntityUtils;
 
 public class VersionCheckerFactoryTest {
     protected CloseableHttpClient httpClient = Mockito.mock(CloseableHttpClient.class);
-    private DecryptorService decryptorService = Mockito.mock(DecryptorService.class);
+    private final DecryptorService decryptorService = Mockito.mock(DecryptorService.class);
     private VersionCheckerFactory versionCheckerFactory;
     private System system;
     private ParametersGettingVersion parametersGettingVersion;
     private ConnectionParameters connectionParameters;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         versionCheckerFactory = new VersionCheckerFactory(decryptorService, httpClient, mock(SystemRepositoryImpl.class));
         system = new SystemImpl();
@@ -62,10 +62,10 @@ public class VersionCheckerFactoryTest {
         parametersGettingVersion.setType(TypeGettingVersion.BY_HTTP_ENDPOINT);
         system.setParametersGettingVersion(parametersGettingVersion);
         VersionChecker versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof HttpVersionChecker);
+        Assertions.assertInstanceOf(HttpVersionChecker.class, versionChecker);
         parametersGettingVersion.setType(TypeGettingVersion.BY_HTTP_ENDPOINT_BASIC_AUTH);
         versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof HttpVersionChecker);
+        Assertions.assertInstanceOf(HttpVersionChecker.class, versionChecker);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class VersionCheckerFactoryTest {
         parametersGettingVersion.setType(TypeGettingVersion.BY_SHELL_SCRIPT);
         system.setParametersGettingVersion(parametersGettingVersion);
         VersionChecker versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof SshVersionChecker);
+        Assertions.assertInstanceOf(SshVersionChecker.class, versionChecker);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class VersionCheckerFactoryTest {
         parametersGettingVersion.setType(TypeGettingVersion.BY_SQL_QUERY);
         system.setParametersGettingVersion(parametersGettingVersion);
         VersionChecker versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof DbVersionChecker);
+        Assertions.assertInstanceOf(DbVersionChecker.class, versionChecker);
     }
 
     @Test
@@ -102,10 +102,10 @@ public class VersionCheckerFactoryTest {
         parametersGettingVersion.setType(TypeGettingVersion.BY_KUBERNETES_CONFIGMAP);
         system.setParametersGettingVersion(parametersGettingVersion);
         VersionChecker versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof KubeVersionChecker);
+        Assertions.assertInstanceOf(KubeVersionChecker.class, versionChecker);
         parametersGettingVersion.setType(TypeGettingVersion.BY_KUBERNETES_IMAGES);
         versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof KubeVersionChecker);
+        Assertions.assertInstanceOf(KubeVersionChecker.class, versionChecker);
 
     }
 
@@ -118,9 +118,8 @@ public class VersionCheckerFactoryTest {
         parametersGettingVersion.setType(TypeGettingVersion.BY_OPENSHIFT_CONFIGURATION);
         system.setParametersGettingVersion(parametersGettingVersion);
         VersionChecker versionChecker = versionCheckerFactory.createChecker(system);
-        Assert.assertTrue(versionChecker instanceof OpenshiftVersionChecker);
+        Assertions.assertInstanceOf(OpenshiftVersionChecker.class, versionChecker);
 
     }
-
 
 }

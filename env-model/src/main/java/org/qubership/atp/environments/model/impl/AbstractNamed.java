@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 package org.qubership.atp.environments.model.impl;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.Named;
 
 import com.google.common.base.MoreObjects;
+import jakarta.annotation.Nonnull;
 
 public abstract class AbstractNamed extends AbstractIdentified implements Named {
 

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.environments.errorhandling.clients.EnvironmentOpenshiftDeploymentConfigsFetchException;
 import org.qubership.atp.environments.errorhandling.clients.EnvironmentOpenshiftProjectFetchException;
 import org.qubership.atp.environments.model.ConnectionParameters;
@@ -34,7 +35,6 @@ import org.qubership.atp.environments.model.System;
 import org.qubership.atp.environments.service.rest.server.response.ShortExternalService;
 import org.qubership.atp.environments.utils.cloud.model.CloudService;
 import org.qubership.atp.environments.version.checkers.OpenshiftVersionChecker.OpenShiftCredentialsNames;
-import org.springframework.util.StringUtils;
 
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
@@ -132,7 +132,7 @@ public class OpenshiftClient extends ExternalCloudClient {
         return routes.stream().map(route -> {
             if (route.getServiceName().equals(serviceName)) {
                 String scheme = route.getTLSConfig() == null ? "http" : "https";
-                return String.format("%s://%s", scheme, route.getHost());
+                return "%s://%s".formatted(scheme, route.getHost());
             }
             return "";
         }).collect(Collectors.joining());

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -75,7 +75,7 @@ public class SsmVersionCheckerTest {
 
         httpEntity.set(httpEntityMock);
         httpClient.set(httpClientMock);
-        inputStream.set(new FileInputStream(Paths.get("src/test/resources/ssmVersionCheckerResponse.json").toFile()));
+        inputStream.set(new FileInputStream(Path.of("src/test/resources/ssmVersionCheckerResponse.json").toFile()));
         versionChecker.set(versionCheckerThread);
     }
 
@@ -85,15 +85,14 @@ public class SsmVersionCheckerTest {
     }
 
     @Test
-    public void getVersion() throws IOException {
+    public void getVersion() throws IOException, URISyntaxException {
         versionChecker.get().setSystemName("access-control");
         when(httpEntity.get().getContent()).thenReturn(inputStream.get());
         Assertions.assertEquals("0.0.1", versionChecker.get().getVersion());
         ArgumentCaptor<HttpUriRequest> argument = ArgumentCaptor.forClass(HttpUriRequest.class);
         verify(httpClient.get()).execute(argument.capture());
-        assertEquals("/ssm-backend/api/v1/solution/" + solutionAlias + "/instance/"
-                        + instanceAlias + "/microservice",
-                argument.getValue().getURI().getPath());
+        assertEquals("/ssm-backend/api/v1/solution/" + solutionAlias + "/instance/" + instanceAlias + "/microservice",
+                argument.getValue().getUri().getPath());
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 
 package org.qubership.atp.environments.service.rest.server;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +39,6 @@ import org.qubership.atp.environments.utils.cloud.KubeClient;
 import org.qubership.atp.environments.utils.cloud.OpenshiftClient;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
 import org.qubership.atp.integration.configuration.mdc.MdcUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -72,7 +69,6 @@ public class SystemController /*implements SystemControllerApi*/ {
     /**
      * Constructor.
      */
-    @Autowired
     public SystemController(SystemService systemService,
                             ConcurrentModificationService concurrentModificationService,
                             ContextRepository contextRepository) {
@@ -334,7 +330,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     @PreAuthorize("@entityAccess.checkAccess("
             + "T(org.qubership.atp.environments.enums.UserManagementEntities).SYSTEM.getName(),"
             + "@environmentService.getProjectIdBySystemId(#id),'UPDATE')")
-    @RequestMapping(value = "/systems/{systemId}/htmlVersion", method = GET, produces = "text/plain")
+    @GetMapping(value = "/systems/{systemId}/htmlVersion", produces = "text/plain")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "Check system version and convert to html by system id {{#systemId.toString()}}")
     public ResponseEntity<String> getHtmlVersion(@PathVariable("systemId") UUID id) {
@@ -348,7 +344,7 @@ public class SystemController /*implements SystemControllerApi*/ {
     /**
      * Get version with HTML-marking without authorization.
      */
-    @RequestMapping(value = "/public/v1/systems/{systemId}/htmlVersion", method = GET, produces = "text/plain")
+    @GetMapping(value = "/public/v1/systems/{systemId}/htmlVersion", produces = "text/plain")
     @JsonView({View.FullVer1.class})
     @AuditAction(auditAction = "(Public V1 API) Check system version and convert to html"
             + " by system id {{#systemId.toString()}}")

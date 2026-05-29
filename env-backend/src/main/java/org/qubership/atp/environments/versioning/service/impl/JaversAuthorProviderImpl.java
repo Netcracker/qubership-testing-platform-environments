@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 import org.qubership.atp.environments.versioning.service.JaversAuthorProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +32,6 @@ public class JaversAuthorProviderImpl implements JaversAuthorProvider {
 
     private final Provider<UserInfo> userInfoProvider;
 
-    @Autowired
     public JaversAuthorProviderImpl(Provider<UserInfo> userInfoProvider) {
         this.userInfoProvider = userInfoProvider;
     }

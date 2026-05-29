@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -19,24 +19,18 @@ package org.qubership.atp.environments.service.direct;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.Subscriber;
 import org.qubership.atp.environments.model.Subscription;
+
+import jakarta.annotation.Nonnull;
 
 public interface SubscriberService extends IdentifiedService<Subscriber> {
 
     @Nonnull
     Subscriber create(Subscriber subscriber);
-    /*@Nonnull
-    Subscriber create(String name, String host, Integer subscriberType, String signature,
-                      String tagList, Integer hostStatus, String notificationURL, Date registrationDate);*/
 
     @Nonnull
     void update(Subscriber subscriber);
-    /*@Nonnull
-    void update(UUID uuid, String name, String host, Integer subscriberType, String signature,
-                String tagList, Integer hostStatus, String notificationURL, Date registrationDate);*/
 
     void delete(UUID subscriberId);
 

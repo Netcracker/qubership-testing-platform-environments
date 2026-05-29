@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,9 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.qubership.atp.auth.springbootstarter.entities.Operation;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -53,14 +51,14 @@ import org.qubership.atp.environments.service.direct.SystemService;
 import org.qubership.atp.environments.service.rest.server.dto.EnvironmentDto;
 import org.qubership.atp.environments.service.rest.server.request.ProjectSearchRequest;
 import org.qubership.atp.environments.utils.DateTimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.google.common.base.Preconditions;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
@@ -82,7 +80,6 @@ public class ProjectServiceImpl implements ProjectService {
     /**
      * Constructor.
      */
-    @Autowired
     public ProjectServiceImpl(ProjectRepositoryImpl projectRepository,
                               EnvironmentRepositoryImpl environmentRepository,
                               EnvironmentService environmentService,
@@ -173,7 +170,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Project replicate(@Nonnull UUID projectId, @Nonnull String name, String shortName, String description,
                              Long created) throws AtpException {
         projectRepository.getContext().setFullDbFetching(true);
-        if (!StringUtils.hasLength(name)) {
+        if (StringUtils.isEmpty(name)) {
             log.error("Found illegal null or empty project name parameter");
             throw new AtpIllegalNullableArgumentException("project name", "method argument");
         }

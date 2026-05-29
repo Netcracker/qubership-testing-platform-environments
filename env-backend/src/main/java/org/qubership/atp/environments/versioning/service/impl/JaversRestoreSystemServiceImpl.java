@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Validator;
-
 import org.javers.core.Javers;
 import org.javers.core.diff.changetype.container.SetChange;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -36,12 +34,12 @@ import org.qubership.atp.environments.utils.DateTimeUtil;
 import org.qubership.atp.environments.versioning.model.entities.SystemJ;
 import org.qubership.atp.environments.versioning.model.values.ConnectionJ;
 import org.qubership.atp.environments.versioning.service.CommitEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.google.gson.Gson;
 import com.querydsl.sql.SQLQueryFactory;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,7 +54,6 @@ public class JaversRestoreSystemServiceImpl extends AbstractJaversRestoreService
     /**
      * Constructor.
      */
-    @Autowired
     public JaversRestoreSystemServiceImpl(Javers javers,
                                           Validator validator,
                                           CommitEntityService<System> commitEntityService,

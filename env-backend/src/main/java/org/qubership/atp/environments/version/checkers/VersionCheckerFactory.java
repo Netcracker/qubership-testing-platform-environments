@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.Environment;
 import org.qubership.atp.environments.model.ParametersGettingVersion;
@@ -34,7 +35,6 @@ import org.qubership.atp.environments.repo.impl.SystemRepositoryImpl;
 import org.qubership.atp.environments.service.direct.DecryptorService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
@@ -143,7 +143,7 @@ public class VersionCheckerFactory {
                         && connection.getSourceTemplateId().equals(connectionType))
                 .findFirst()
                 .orElseThrow(() ->
-                        new RuntimeException(String.format("Connection with type [ID:%s] not found", connectionType)));
+                        new RuntimeException("Connection with type [ID:%s] not found".formatted(connectionType)));
     }
 
     private List<Connection> getAllConnectionsByType(System system, UUID connectionType) {

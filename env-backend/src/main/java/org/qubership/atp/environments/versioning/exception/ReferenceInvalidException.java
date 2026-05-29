@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,15 +18,15 @@ package org.qubership.atp.environments.versioning.exception;
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import jakarta.validation.ConstraintViolation;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class ReferenceInvalidException extends RuntimeException {
 
-    private Set<ConstraintViolation<Object>> violations;
+    private final Set<ConstraintViolation<Object>> violations;
 
     public ReferenceInvalidException(Set<ConstraintViolation<Object>> violations) {
         this.violations = violations;
@@ -35,9 +35,7 @@ public class ReferenceInvalidException extends RuntimeException {
     @Override
     public String getMessage() {
         StringBuilder sb = new StringBuilder("Revision was not restored. Reference to the ");
-        violations.forEach(violation -> {
-            sb.append(violation.getMessage()).append(" ");
-        });
+        violations.forEach(violation -> sb.append(violation.getMessage()).append(" "));
         String verb = "is";
         if (violations.size() > 1) {
             verb = "are";

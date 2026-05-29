@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.System;
@@ -44,9 +45,9 @@ public class ItlLiteTaToolStrategyTest {
     public void test_whenTaToolDoesNotHaveItfLiteSystem_validationFailed() {
         ValidateTaToolResponse result = strategy.validate(taTool.build());
         Assertions.assertFalse(result.isValidated());
-        Assertions.assertEquals(result.getMessage(), "A Tool entity has to contain system with category "
+        Assertions.assertEquals("A Tool entity has to contain system with category "
                 + "'ITF Lite' and this system has to contain 'HTTP' connection"
-                + " and 'HTTP' connection has to contain 'URL' property");
+                + " and 'HTTP' connection has to contain 'URL' property", result.getMessage());
     }
 
     @Test
@@ -54,8 +55,8 @@ public class ItlLiteTaToolStrategyTest {
         List<System> systemList = Collections.singletonList(itfLiteSystem.build());
         ValidateTaToolResponse result = strategy.validate(taTool.systemsList(systemList).build());
         Assertions.assertFalse(result.isValidated());
-        Assertions.assertEquals(result.getMessage(), "'ITF Lite' System has to contain 'HTTP' connection"
-                + " and 'HTTP' connection has to contain 'URL' property");
+        Assertions.assertEquals("'ITF Lite' System has to contain 'HTTP' connection"
+                + " and 'HTTP' connection has to contain 'URL' property", result.getMessage());
     }
 
     @Test
@@ -64,7 +65,7 @@ public class ItlLiteTaToolStrategyTest {
         List<System> systemList = Collections.singletonList(itfLiteSystem.connectionsList(connectionList).build());
         ValidateTaToolResponse result = strategy.validate(taTool.systemsList(systemList).build());
         Assertions.assertFalse(result.isValidated());
-        Assertions.assertEquals(result.getMessage(), "'HTTP' connection has to contain 'URL' property");
+        Assertions.assertEquals("'HTTP' connection has to contain 'URL' property", result.getMessage());
 
     }
 

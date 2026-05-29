@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.qubership.atp.environments.model.EnvironmentCategory;
 import org.qubership.atp.environments.model.impl.EnvironmentCategoryImpl;
 import org.qubership.atp.environments.service.direct.EnvironmentCategoryService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +42,6 @@ public class EnvironmentCategoryController /*implements EnvironmentCategoryContr
 
     private final EnvironmentCategoryService environmentCategoryService;
 
-    @Autowired
     public EnvironmentCategoryController(EnvironmentCategoryService environmentCategoryService) {
         this.environmentCategoryService = environmentCategoryService;
     }

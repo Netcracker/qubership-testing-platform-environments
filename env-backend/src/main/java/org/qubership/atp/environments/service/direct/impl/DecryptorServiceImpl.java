@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,17 +18,15 @@ package org.qubership.atp.environments.service.direct.impl;
 
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.exception.AtpDecryptException;
 import org.qubership.atp.environments.model.Connection;
 import org.qubership.atp.environments.model.ConnectionParameters;
 import org.qubership.atp.environments.model.impl.ConnectionImpl;
 import org.qubership.atp.environments.service.direct.DecryptorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -37,7 +35,6 @@ public class DecryptorServiceImpl implements DecryptorService {
 
     protected Decryptor decryptor;
 
-    @Autowired
     public DecryptorServiceImpl(@Nonnull Decryptor decryptor) {
         this.decryptor = decryptor;
     }

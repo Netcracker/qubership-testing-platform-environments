@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.qubership.atp.environments.version.checkers;
 
-import static java.lang.String.format;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -80,12 +79,12 @@ public class DbVersionCheckerTest {
                     .thenReturn(connectionSql.get());
             ExecutorService executorService = Mockito.mock(ExecutorService.class);
             when(executorService.submit(any(Callable.class))).thenAnswer(invocation -> {
-                    final Callable<?> callable = invocation.getArgument(0);
-                    Object value = callable.call();
-                    return CompletableFuture.completedFuture(value);
+                final Callable<?> callable = invocation.getArgument(0);
+                Object value = callable.call();
+                return CompletableFuture.completedFuture(value);
             });
             executor.when(Executors::newSingleThreadExecutor).thenReturn(executorService);
-            when(DriverManager.getConnection(any(String.class), any(String.class), any(String.class)))
+            dmMock.when(() -> DriverManager.getConnection(any(String.class), any(String.class), any(String.class)))
                     .thenReturn(connectionSql.get());
             String version = dbVersionChecker.get().getVersion();
             Assertions.assertEquals(test_version, version);
@@ -172,7 +171,7 @@ public class DbVersionCheckerTest {
                     Assertions.assertThrows(EnvironmentUnsupportedDatabaseConnectionFetchException.class,
                             () -> dbVersionChecker.get().getVersion());
             String expectedErrorMessage =
-                    format(EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE, "cassandra");
+                    EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE.formatted("cassandra");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -190,7 +189,7 @@ public class DbVersionCheckerTest {
                     Assertions.assertThrows(EnvironmentUnsupportedDatabaseConnectionFetchException.class,
                             () -> dbVersionChecker.get().getVersion());
             String expectedErrorMessage =
-                    format(EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE, "hive2");
+                    EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE.formatted("hive2");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -208,7 +207,7 @@ public class DbVersionCheckerTest {
                     Assertions.assertThrows(EnvironmentUnsupportedDatabaseConnectionFetchException.class,
                             () -> dbVersionChecker.get().getVersion());
             String expectedErrorMessage =
-                    format(EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE, "mongo");
+                    EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE.formatted("mongo");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -226,7 +225,7 @@ public class DbVersionCheckerTest {
                     Assertions.assertThrows(EnvironmentUnsupportedDatabaseConnectionFetchException.class,
                             () -> dbVersionChecker.get().getVersion());
             String expectedErrorMessage =
-                    format(EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE, "mysql");
+                    EnvironmentUnsupportedDatabaseConnectionFetchException.DEFAULT_MESSAGE.formatted("mysql");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -244,7 +243,7 @@ public class DbVersionCheckerTest {
             EnvironmentIllegalConnectionTypeException exception =
                     Assertions.assertThrows(EnvironmentIllegalConnectionTypeException.class,
                             () -> dbVersionChecker.get().getVersion());
-            String expectedErrorMessage = String.format(EnvironmentIllegalConnectionTypeException.DEFAULT_MESSAGE, "testType");
+            String expectedErrorMessage = EnvironmentIllegalConnectionTypeException.DEFAULT_MESSAGE.formatted("testType");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -260,7 +259,7 @@ public class DbVersionCheckerTest {
             EnvironmentConnectionJdbcUrlFormatException exception =
                     Assertions.assertThrows(EnvironmentConnectionJdbcUrlFormatException.class,
                             () -> dbVersionChecker.get().setConnectionParameters(connectionModel));
-            String expectedErrorMessage = String.format(EnvironmentConnectionJdbcUrlFormatException.DEFAULT_MESSAGE, "test type");
+            String expectedErrorMessage = EnvironmentConnectionJdbcUrlFormatException.DEFAULT_MESSAGE.formatted("test type");
             Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
         }
     }
@@ -270,12 +269,12 @@ public class DbVersionCheckerTest {
         connectionModel.setParameters(new ConnectionParameters());
         connectionModel.getParameters().putAll(
                 Stream.of(new String[][]{
-                                {"db_host", "db_host_example"},
-                                {"db_port", "5432"},
-                                {"db_login", "login"},
-                                {"db_password", "password"},
-                                {"db_name", "name"}
-                        })
+                        {"db_host", "db_host_example"},
+                        {"db_port", "5432"},
+                        {"db_login", "login"},
+                        {"db_password", "password"},
+                        {"db_name", "name"}
+                })
                         .collect(HashMap::new, (m, v) -> m.put(v[0], v[1]), HashMap::putAll));
         return connectionModel;
     }

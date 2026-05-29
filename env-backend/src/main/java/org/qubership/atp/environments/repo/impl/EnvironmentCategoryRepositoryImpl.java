@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,11 +20,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.environments.model.EnvironmentCategory;
 import org.qubership.atp.environments.model.impl.EnvironmentCategoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -34,6 +31,7 @@ import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQueryFactory;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.Nonnull;
 
 @Repository
 @SuppressWarnings("CPD-START")
@@ -43,7 +41,6 @@ public class EnvironmentCategoryRepositoryImpl extends AbstractRepository {
 
     private final EnvironmentCategoryProjection projection = new EnvironmentCategoryProjection(this);
 
-    @Autowired
     public EnvironmentCategoryRepositoryImpl(SQLQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -26,12 +26,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.PostConstruct;
-
 import org.qubership.atp.environments.model.Identified;
 import org.qubership.atp.environments.model.Named;
 import org.qubership.atp.environments.service.direct.IdentifiedService;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
