@@ -43,7 +43,10 @@ public class AtpSwaggerConfig {
                         .addSecuritySchemes("Bearer Authentication", createApiKeyScheme()))
                 .info(new Info()
                         .title("ATP-Environments")
-                        .license(new License().name("(C) Copyright Our Company Technologies")));
+                        .license(new License()
+                                .name("Apache-2.0")
+                                .url("https://www.apache.org/licenses/LICENSE-2.0")
+                        ));
     }
 
     /**
