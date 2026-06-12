@@ -198,7 +198,7 @@ components:
         version:
           type: integer
           minimum: 1
-          description: commit nubmer of current changes
+          description: commit number of current changes
         modifiedWhen:
           type: string
           format: 'date-time'
