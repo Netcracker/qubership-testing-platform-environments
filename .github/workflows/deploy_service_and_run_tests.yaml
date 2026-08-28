@@ -32,4 +32,4 @@ jobs:
       pipeline_branch: ${{ github.ref }}
       docker_tag: ${{ inputs.docker_tag }}
       postgres: enable
-      enable_test: enabler
+      enable_test: enable
