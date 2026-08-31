@@ -17,6 +17,11 @@ on:
         required: true
         default: ''
         type: string
+      transfer_image:
+        description: 'Put nesseccary transfer image'
+        required: true
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -31,5 +36,6 @@ jobs:
       namespace: 'env'
       pipeline_branch: ${{ github.ref }}
       docker_tag: ${{ inputs.docker_tag }}
+      transfer_image: ${{ inputs.transfer_image }}
       postgres: enable
       enable_test: enable
