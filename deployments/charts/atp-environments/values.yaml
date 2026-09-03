@@ -47,7 +47,7 @@ FEIGN_ATP_USERS_NAME: "ATP-USERS-BACKEND"
 FEIGN_ATP_USERS_ROUTE: "api/atp-users-backend/v1"
 FEIGN_ATP_USERS_URL: '' # TO_BE_REPLACED
 # Host of graylog
-GRAYLOG_HOST: "tcp:graylog"
+GRAYLOG_HOST: "tcp:graylog-machine-address"
 # This option turns on or off logging in graylog
 GRAYLOG_ON: "true"
 # Port of graylog
