@@ -1,5 +1,5 @@
 ---
-# The workflow to deploy snapshot artifact versions to Github packages
+# The workflow to deploy snapshot artifact versions to GitHub packages
 # Fill free to adjust java version and additional mvn command-line parameters
 # The workflow will trigger on pushes into branches different from main and release
 # Please make sure that the version in the pom.xml file has the SNAPSHOT postfix
@@ -13,12 +13,12 @@ on:
   workflow_dispatch:
     inputs:
       docker_tag:
-        description: 'Put nesseccary docker image for rollout this docker image on kuber'
+        description: '[Mandatory] Docker image to rollout it on kuber'
         required: true
         default: ''
         type: string
       transfer_image:
-        description: 'Put nesseccary transfer image'
+        description: '[Mandatory] Transfer image'
         required: true
         default: ''
         type: string
