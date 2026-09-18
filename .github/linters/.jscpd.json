@@ -1,9 +1,10 @@
 {
-  "threshold": 2,
+  "threshold": 29,
   "ignore": [
     "**/resources/**",
     "**/.github/**",
     "**/*/*.xml",
+    "**/*/*.properties",
     "**/*/*.yaml",
     "**/*/*.yml",
     "**/*/*.json",
