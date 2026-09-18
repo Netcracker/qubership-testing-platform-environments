@@ -11,7 +11,7 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.23/community/" >/etc/apk/repo
     echo "https://dl-cdn.alpinelinux.org/alpine/v3.23/main/" >>/etc/apk/repositories && \
     apk add --update --no-cache --no-check-certificate \
         bash=5.3.3-r1 \
-        curl=8.20.0-r0 \
+        curl=8.22.0-r0 \
         font-dejavu=2.37-r6 \
         fontconfig=2.17.1-r0 \
         gcompat=1.1.0-r4 \
@@ -33,7 +33,7 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.23/community/" >/etc/apk/repo
         sysstat=12.7.8-r0 \
         tcpdump=4.99.5-r1 \
         wget=1.25.0-r2 \
-        xz-libs=5.8.3-r0 \
+        xz-libs=5.8.4-r0 \
         zip=3.0-r13 \
         zlib=1.3.2-r0 && \
     rm -rf /var/cache/apk/*
