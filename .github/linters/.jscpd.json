@@ -1,5 +1,6 @@
 {
-  "threshold": 29,
+  "threshold": 10,
+  "mode": "weak",
   "ignore": [
     "**/resources/**",
     "**/.github/**",
